@@ -20,15 +20,15 @@ using namespace std;
 
 #include <QMainWindow>
 #include <QMessageBox>
-#include <QToolButton>
 
 /*
 ** -- Local Includes --
 */
 
 #include "ui_maxit.h"
+#include "gui_board.h"
 
-class maxit: public QMainWindow
+class maxit: public QMainWindow, private Ui::maxit_window
 {
   Q_OBJECT
 
@@ -39,19 +39,14 @@ class maxit: public QMainWindow
 
  private:
   int board[NROWS][NCOLS];
-  QToolButton *buttons[NROWS][NCOLS];
-  Ui_MaxitMainWindow maxit_board;
-  bool isGameOver(const int, const int);
+  gui_board *glboard;
+  bool isGameOver(void);
   void easyMove(const int, const int);
   void computerTurn(const int, const int);
-  void selectButton(QToolButton *);
-  void addToolButtons(void);
-  QToolButton *selectRandom(void);
 
  private slots:
   void slotAbout(void);
   void slotNewGame(void);
-  void slotButtonPressed(void);
 };
 
 #endif

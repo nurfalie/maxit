@@ -1,5 +1,5 @@
 /*
-** Copyright (c) 2007 Alexis Megas
+** Copyright (c) 2007, 2008 Alexis Megas
 ** All rights reserved.
 **
 ** Redistribution and use in source and binary forms, with or without
@@ -46,8 +46,6 @@
 using namespace std;
 maxit *maxitptr = NULL;
 QApplication *qapp = NULL;
-
-void addToolButtons(void);
 
 int main(int argc, char *argv[])
 {
