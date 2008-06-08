@@ -1,4 +1,4 @@
-purge.commands = rm -f *~ && rm -f include.d/*~
+purge.commands = rm -f *~ && rm -f include.d/*~ && rm -f ui.d/*~
 
 TEMPLATE	= app
 LANGUAGE	= C++
@@ -11,12 +11,12 @@ QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CFLAGS_RELEASE += -Werror
 QMAKE_CXXFLAGS_RELEASE += -Werror
 QMAKE_EXTRA_UNIX_TARGETS = purge
-INCPATH		+= /usr/local/include
+INCPATH		+= /usr/local/include include.d
 
-FORMS           += maxit.ui
+FORMS           += ui.d/maxit.ui
 
-HEADERS		= maxit.h \
-		  gui_board.h
+HEADERS		= include.d/maxit.h \
+		  include.d/gui_board.h
 
 SOURCES		= maxit.cc \
 		  gui_board.cc \

@@ -64,4 +64,5 @@ int main(int argc, char *argv[])
     }
 
   qapp->exec();
+  cout << "Exiting Maximus." << endl;
 }

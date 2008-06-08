@@ -18,7 +18,7 @@ void gui_board::paintGL(void)
 void gui_board::initializeGL(void)
 {
   /*
-  ** Initiaze OpenGL "stuff".
+  ** Initiaze OpenGL.
   */
 
   glClearColor(1.0, 1.0, 1.0, 1.0);
