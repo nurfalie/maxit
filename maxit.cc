@@ -5,21 +5,12 @@ extern QApplication *qapp;
 maxit::maxit(void):QMainWindow()
 {
   setupUi(this);
-  connect((QObject *) action_Exit, SIGNAL(activated(void)),
+  connect((QObject *) action_Exit, SIGNAL(triggered(void)),
 	  qapp, SLOT(quit(void)));
-  connect((QObject *) action_About, SIGNAL(activated(void)),
+  connect((QObject *) action_About, SIGNAL(triggered(void)),
 	  this, SLOT(slotAbout(void)));
-  connect((QObject *) action_New_Game, SIGNAL(activated(void)),
+  connect((QObject *) action_New_Game, SIGNAL(triggered(void)),
 	  this, SLOT(slotNewGame(void)));
-
-  if((glboard = new gui_board(mainframe)) == NULL)
-    {
-      cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
-      exit(EXIT_FAILURE);
-    }
-
-  glboard->resize(800, 800);
-  mainframe->setFixedSize(glboard->size());
   show();
 }
 

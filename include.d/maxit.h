@@ -25,8 +25,8 @@ using namespace std;
 ** -- Local Includes --
 */
 
+#include "glpiece.h"
 #include "ui_maxit.h"
-#include "gui_board.h"
 
 class maxit: public QMainWindow, private Ui::maxit_window
 {
@@ -39,7 +39,6 @@ class maxit: public QMainWindow, private Ui::maxit_window
 
  private:
   int board[NROWS][NCOLS];
-  gui_board *glboard;
   bool isGameOver(void);
   void easyMove(const int, const int);
   void computerTurn(const int, const int);
