@@ -17,9 +17,10 @@ glpiece::glpiece(QWidget *parent, glpiece *other,
   xRot = 0;
   yRot = 0;
   zRot = 0;
+  side = 150;
   value = valueArg;
   bgColor = bgColorOrig = bgColorArg;
-  deleted = false;
+  consumed = false;
   setMouseTracking(true);
 }
 
@@ -37,7 +38,7 @@ void glpiece::paintGL(void)
   glRotated(yRot / 64.0, 0.0, 1.0, 0.0);
   glRotated(zRot / 64.0, 0.0, 0.0, 1.0);
 
-  if(!deleted)
+  if(!consumed)
     glCallList(createPiece());
 }
 
@@ -54,8 +55,6 @@ void glpiece::initializeGL(void)
 
 void glpiece::resizeGL(int w, int h)
 {
-  int side = 128;
-
   glViewport((w - side) / 2, (h - side) / 2, side, side);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -69,6 +68,12 @@ void glpiece::rotateBy(const int xAngle, const int yAngle, const int zAngle)
   yRot += yAngle;
   zRot += zAngle;
   updateGL();
+}
+
+void glpiece::shrinkBy(const int percentage)
+{
+  side = side - (side * percentage) / 100.0;
+  resizeGL(width(), height());
 }
 
 GLuint glpiece::createPiece(void)
@@ -116,16 +121,16 @@ void glpiece::enterEvent(QEvent *e)
 {
   (void) e;
 
-  if(deleted)
+  if(consumed)
     return;
 
   /*
   ** Highlight the piece.
   */
 
-  bgColor = QColor(bgColor.red() + bgColor.red() * 0.20,
-		   bgColor.green() + bgColor.green() * 0.20,
-		   bgColor.blue() + bgColor.blue() * 0.20);
+  bgColor = QColor(bgColor.red() + bgColor.red() * 0.08,
+		   bgColor.green() + bgColor.green() * 0.08,
+		   bgColor.blue() + bgColor.blue() * 0.08);
   updateGL();
 }
 
@@ -133,7 +138,7 @@ void glpiece::leaveEvent(QEvent *e)
 {
   (void) e;
 
-  if(deleted)
+  if(consumed)
     return;
 
   bgColor = bgColorOrig;
@@ -143,20 +148,26 @@ void glpiece::leaveEvent(QEvent *e)
 void glpiece::mousePressEvent(QMouseEvent *e)
 {
   int i = 0;
-
   (void) e;
 
-  if(deleted)
+  if(consumed)
     return;
 
   /*
-  ** Spin the piece.
+  ** Shrink and spin the piece.
   */
 
-  for(i = 0; i < 720; i++)
-    rotateBy(2 * 10, 2 * 10, -1 * 10);
+  while(side > 0)
+    {
+      i += 1;
 
-  deleted = true;
+      if(i % 10 == 0)
+	shrinkBy(5);
+
+      rotateBy(-5 * 10, 25 * 10, -5 * 10);
+    }
+
+  consumed = true;
   bgColor = bgColorOrig;
   updateGL();
 }

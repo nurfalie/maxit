@@ -11,7 +11,7 @@ QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CFLAGS_RELEASE += -Werror
 QMAKE_CXXFLAGS_RELEASE += -Werror
 QMAKE_EXTRA_UNIX_TARGETS = purge
-INCPATH		+= /usr/local/include include.d
+INCPATH		+= include.d
 
 FORMS           += ui.d/maxit.ui
 

@@ -22,6 +22,8 @@ using namespace std;
 
 class glpiece: public QGLWidget
 {
+  Q_OBJECT
+
  public:
 
   /*
@@ -40,13 +42,15 @@ class glpiece: public QGLWidget
   void initializeGL(void);
 
  private:
+  int side;
   int xRot;
   int yRot;
   int zRot;
   int value;
-  bool deleted;
+  bool consumed;
   QColor bgColor;
   QColor bgColorOrig;
+  void shrinkBy(const int);
   void enterEvent(QEvent *);
   void leaveEvent(QEvent *);
   void mousePressEvent(QMouseEvent *);

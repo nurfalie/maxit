@@ -42,18 +42,22 @@ maxit::maxit(void):QMainWindow()
 	  value = value / 2;
 
 	if((i + j ) % 2 == 0)
-	  color = QColor(205, 197, 191);
+	  color = QColor(100, 149, 237);
 	else
-	  color = QColor(139, 121, 94);
+	  color = QColor(176, 196, 222);
 
 	glpieces[i][j] = new glpiece(NULL, glpieces[0][0], value, color);
-	glpieces[i][j]->rotateBy(45 * 64, 45 * 64, -25 * 64);
+
+	if((i + j) % 2 == 0)
+	  glpieces[i][j]->rotateBy(45 * 64, 45 * 64, -25 * 64);
+	else
+	  glpieces[i][j]->rotateBy(-45 * 64, 45 * 64, 25 * 64);
+
 	qgl->addWidget(glpieces[i][j], i, j);
       }
 
   boardframe->setLayout(qgl);
-  resize(850, 850);
-  show();
+  showMaximized();
 }
 
 void maxit::slotNewGame(void)
