@@ -4,6 +4,12 @@ extern QApplication *qapp;
 
 maxit::maxit(void):QMainWindow()
 {
+  int i = 0;
+  int j = 0;
+  int value = 1;
+  QColor color;
+  QGridLayout *qgl = NULL;
+
   setupUi(this);
   connect((QObject *) action_Exit, SIGNAL(triggered(void)),
 	  qapp, SLOT(quit(void)));
@@ -11,6 +17,42 @@ maxit::maxit(void):QMainWindow()
 	  this, SLOT(slotAbout(void)));
   connect((QObject *) action_New_Game, SIGNAL(triggered(void)),
 	  this, SLOT(slotNewGame(void)));
+
+  /*
+  ** Create the board.
+  */
+
+  if((qgl = new QGridLayout()) == NULL)
+    {
+      cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
+      exit(EXIT_FAILURE);
+    }
+
+  qgl->setSpacing(1);
+  glpieces[0][0] = NULL;
+
+  for(i = 0; i < NROWS; i++)
+    for(j = 0; j < NCOLS; j++)
+      {
+	value = qrand() % (NROWS * NROWS);
+
+	if(value == 0)
+	  value += 1;
+	else if(value > 64)
+	  value = value / 2;
+
+	if((i + j ) % 2 == 0)
+	  color = QColor(205, 197, 191);
+	else
+	  color = QColor(139, 121, 94);
+
+	glpieces[i][j] = new glpiece(NULL, glpieces[0][0], value, color);
+	glpieces[i][j]->rotateBy(45 * 64, 45 * 64, -25 * 64);
+	qgl->addWidget(glpieces[i][j], i, j);
+      }
+
+  boardframe->setLayout(qgl);
+  resize(850, 850);
   show();
 }
 

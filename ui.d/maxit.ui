@@ -151,20 +151,7 @@
     <item>
      <layout class="QHBoxLayout" >
       <item>
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QFrame" name="mainframe" >
+       <widget class="QFrame" name="boardframe" >
         <property name="font" >
          <font>
           <family>Times</family>
@@ -177,21 +164,7 @@
         <property name="frameShadow" >
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QGridLayout" />
        </widget>
-      </item>
-      <item>
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </item>

@@ -5,7 +5,7 @@ LANGUAGE	= C++
 CONFIG		+= qt release warn_on
 QT		+= network opengl
 QMAKE_CXXFLAGS	+= -Wall -Werror
-QMAKE_CLEAN	+= Maxit
+QMAKE_CLEAN	+= Maximus
 QMAKE_CFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CFLAGS_RELEASE += -Werror
@@ -22,5 +22,5 @@ SOURCES		= maxit.cc \
 		  glpiece.cc \
 		  maxit_main.cc
 
-TARGET		= Maxit
-PROJECTNAME	= Maxit
+TARGET		= Maximus
+PROJECTNAME	= Maximus

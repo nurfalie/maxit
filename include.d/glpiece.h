@@ -32,19 +32,25 @@ class glpiece: public QGLWidget
   ** -- Methods --
   */
 
-  glpiece(QWidget *);
+  glpiece(QWidget *, glpiece *, const int, const QColor &);
+  ~glpiece();
   void paintGL(void);
   void resizeGL(int, int);
+  void rotateBy(const int, const int, const int);
   void initializeGL(void);
-  void mousePressEvent(QMouseEvent *);
 
  private:
   int xRot;
   int yRot;
   int zRot;
-  GLuint board;
-  QColor clearColor;
-  void createPiece(void);
+  int value;
+  bool deleted;
+  QColor bgColor;
+  QColor bgColorOrig;
+  void enterEvent(QEvent *);
+  void leaveEvent(QEvent *);
+  void mousePressEvent(QMouseEvent *);
+  GLuint createPiece(void);
 };
 
 #endif
