@@ -25,21 +25,15 @@ class glpiece: public QGLWidget
   Q_OBJECT
 
  public:
-
-  /*
-  ** -- Members --
-  */
-
-  /*
-  ** -- Methods --
-  */
-
-  glpiece(QWidget *, glpiece *, const int, const QColor &);
+  static const int CUBE_SIZE = 150;
+  glpiece(QWidget *, glpiece *, const int, const QColor &, const int);
   ~glpiece();
   void paintGL(void);
   void resizeGL(int, int);
   void rotateBy(const int, const int, const int);
   void initializeGL(void);
+  QSize sizeHint(void);
+  QSize minimumSizeHint(void);
 
  private:
   int side;

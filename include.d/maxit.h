@@ -33,15 +33,13 @@ class maxit: public QMainWindow, private Ui::maxit_window
   Q_OBJECT
 
  public:
-  static const int NCOLS = 6;
-  static const int NROWS = 6;
+  static const int NCOLS = 7;
+  static const int NROWS = 7;
   maxit(void);
 
  private:
   glpiece *glpieces[NROWS][NCOLS];
   bool isGameOver(void);
-  void easyMove(const int, const int);
-  void computerTurn(const int, const int);
 
  private slots:
   void slotAbout(void);

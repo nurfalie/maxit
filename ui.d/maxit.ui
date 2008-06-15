@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
-    <height>165</height>
+    <width>372</width>
+    <height>337</height>
    </rect>
   </property>
   <property name="font" >
@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle" >
-   <string>Maximus</string>
+   <string>Maxit</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QVBoxLayout" >
@@ -61,7 +61,7 @@
               </sizepolicy>
              </property>
              <property name="text" >
-              <string>Player's Score</string>
+              <string>Player</string>
              </property>
             </widget>
            </item>
@@ -94,7 +94,7 @@
               </sizepolicy>
              </property>
              <property name="text" >
-              <string>Opponent's Score</string>
+              <string>Opponent</string>
              </property>
             </widget>
            </item>
@@ -137,6 +137,19 @@
     <item>
      <layout class="QHBoxLayout" >
       <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QFrame" name="boardframe" >
         <property name="font" >
          <font>
@@ -152,6 +165,19 @@
         </property>
        </widget>
       </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </item>
    </layout>
@@ -161,8 +187,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>576</width>
-     <height>22</height>
+     <width>372</width>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File" >
@@ -179,14 +205,7 @@
     </property>
     <addaction name="action_About" />
    </widget>
-   <widget class="QMenu" name="menu_Difficulty" >
-    <property name="title" >
-     <string>&amp;Difficulty</string>
-    </property>
-    <addaction name="action_Easy" />
-   </widget>
    <addaction name="menu_File" />
-   <addaction name="menu_Difficulty" />
    <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
@@ -209,17 +228,6 @@
   <action name="action_About" >
    <property name="text" >
     <string>&amp;About</string>
-   </property>
-  </action>
-  <action name="action_Easy" >
-   <property name="checkable" >
-    <bool>true</bool>
-   </property>
-   <property name="checked" >
-    <bool>true</bool>
-   </property>
-   <property name="text" >
-    <string>&amp;Easy</string>
    </property>
   </action>
  </widget>

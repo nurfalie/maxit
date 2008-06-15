@@ -7,6 +7,7 @@ maxit::maxit(void):QMainWindow()
   int i = 0;
   int j = 0;
   int value = 1;
+  int suitableH = NROWS * (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE);
   QColor color;
   QGridLayout *qgl = NULL;
 
@@ -28,7 +29,7 @@ maxit::maxit(void):QMainWindow()
       exit(EXIT_FAILURE);
     }
 
-  qgl->setSpacing(1);
+  qgl->setSpacing(0);
   glpieces[0][0] = NULL;
 
   for(i = 0; i < NROWS; i++)
@@ -38,15 +39,19 @@ maxit::maxit(void):QMainWindow()
 
 	if(value == 0)
 	  value += 1;
-	else if(value > 64)
+	else if(value > (NROWS * NROWS))
 	  value = value / 2;
 
-	if((i + j ) % 2 == 0)
-	  color = QColor(100, 149, 237);
-	else
-	  color = QColor(176, 196, 222);
+	if(qrand() % 3 == 0)
+	  value = -value;
 
-	glpieces[i][j] = new glpiece(NULL, glpieces[0][0], value, color);
+	if((i + j ) % 2 == 0)
+	  color = QColor(255, 255, 224);
+	else
+	  color = QColor(238, 221, 130);
+
+	glpieces[i][j] = new glpiece(NULL, glpieces[0][0], value, color,
+				     glpiece::CUBE_SIZE);
 
 	if((i + j) % 2 == 0)
 	  glpieces[i][j]->rotateBy(45 * 64, 45 * 64, -25 * 64);
@@ -57,32 +62,19 @@ maxit::maxit(void):QMainWindow()
       }
 
   boardframe->setLayout(qgl);
-  showMaximized();
+  boardframe->setFixedSize(suitableH, suitableH);
+  show();
 }
 
 void maxit::slotNewGame(void)
 {
-  QFont font("Courier", 20, false);
-  QString number = "";
-
   playerscore->display("0");
   opponentscore->display("0");
-
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
-      {
-      }
 }
 
 bool maxit::isGameOver(void)
 {
   bool gameOver = true;
-
-  for(int i = 0; i < NROWS; i++)
-    {
-      if(!gameOver)
-	break;
-    }
 
   if(gameOver)
     if(playerscore->intValue() >
@@ -90,7 +82,7 @@ bool maxit::isGameOver(void)
       QMessageBox::information(this, "Game Over", "You won!");
     else if(playerscore->intValue() <
 	    opponentscore->intValue())
-      QMessageBox::information(this, "Game Over", "The computer won!");
+      QMessageBox::information(this, "Game Over", "Your opponent won!");
     else
       QMessageBox::information(this, "Game Over", "A tie!");
 
@@ -101,9 +93,9 @@ void maxit::slotAbout(void)
 {
   QMessageBox mb(this);
 
-  mb.setWindowTitle("Maximus: About");
+  mb.setWindowTitle("Maxit: About");
   mb.setTextFormat(Qt::RichText);
-  mb.setText("<html>Maximus Version 1.00.<br>"
+  mb.setText("<html>Maxit Version 1.00.<br>"
 	     "Copyright (c) Alexis Megas 2007, 2008.<br><br>"
 	     "Please visit "
 	     "<a href=\"http://maxit.sourceforge.net\">"
@@ -112,20 +104,4 @@ void maxit::slotAbout(void)
 	     "</html>");
   mb.setStandardButtons(QMessageBox::Ok);
   mb.exec();
-}
-
-void maxit::computerTurn(const int I, const int J)
-{
-  if(action_Easy->isChecked())
-    easyMove(I, J);
-}
-
-void maxit::easyMove(const int I, const int J)
-{
-  (void) I;
-  (void) J;
-
-  for(int i = 0; i < NROWS; i++)
-    {
-    }
 }
