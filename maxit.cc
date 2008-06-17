@@ -7,7 +7,8 @@ maxit::maxit(void):QMainWindow()
   int i = 0;
   int j = 0;
   int value = 1;
-  int suitableH = NROWS * (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE);
+  int suitableH =
+    NROWS * ((int) (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
   QColor color;
   QGridLayout *qgl = NULL;
 

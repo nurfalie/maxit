@@ -73,7 +73,7 @@ void glpiece::rotateBy(const int xAngle, const int yAngle, const int zAngle)
 
 void glpiece::shrinkBy(const int percentage)
 {
-  side = side - (side * percentage) / 100.0;
+  side = (int) (side - (side * percentage) / 100.0);
   resizeGL(width(), height());
 }
 
@@ -136,9 +136,9 @@ void glpiece::enterEvent(QEvent *e)
   ** Highlight the piece.
   */
 
-  bgColor = QColor(bgColor.red() - bgColor.red() * 0.25,
-		   bgColor.green() - bgColor.green() * 0.25,
-		   bgColor.blue() - bgColor.blue() * 0.25);
+  bgColor = QColor((int) (bgColor.red() - bgColor.red() * 0.25),
+		   (int) (bgColor.green() - bgColor.green() * 0.25),
+		   (int) (bgColor.blue() - bgColor.blue() * 0.25));
   updateGL();
 }
 
@@ -182,10 +182,10 @@ void glpiece::mousePressEvent(QMouseEvent *e)
 
 QSize glpiece::minimumSizeHint(void)
 {
-  return QSize(50, 50);
+  return QSize(side - (int) (side * 0.5), side - (int) (side * 0.5));
 }
 
 QSize glpiece::sizeHint(void)
 {
-  return QSize(200, 200);
+  return QSize(side + (int) (side * 0.5), side + (int) (side * 0.5));
 }
