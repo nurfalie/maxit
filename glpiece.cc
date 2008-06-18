@@ -46,7 +46,7 @@ void glpiece::paintGL(void)
 void glpiece::initializeGL(void)
 {
   /*
-  ** Initiaze OpenGL.
+  ** Initialize OpenGL.
   */
 
   glEnable(GL_CULL_FACE);
