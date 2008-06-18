@@ -46,11 +46,7 @@ maxit::maxit(void):QMainWindow()
 	if(qrand() % 3 == 0)
 	  value = -value;
 
-	if((i + j ) % 2 == 0)
-	  color = QColor(255, 255, 224);
-	else
-	  color = QColor(238, 221, 130);
-
+	color = Qt::black; // QColor(238, 221, 130);
 	glpieces[i][j] = new glpiece(NULL, glpieces[0][0], value, color,
 				     glpiece::CUBE_SIZE);
 

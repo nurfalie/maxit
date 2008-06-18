@@ -101,7 +101,7 @@ GLuint glpiece::createPiece(void)
 
   for(j = 0; j < 6; j++)
     textures[j] = bindTexture
-      (QPixmap(QString("images.d/sunsplash.d/%1.png").arg(facevalue)),
+      (QPixmap(QString("images.d/ubuntu.d/%1.png").arg(facevalue)),
        GL_TEXTURE_2D);
 
   glNewList(list, GL_COMPILE);
@@ -136,9 +136,13 @@ void glpiece::enterEvent(QEvent *e)
   ** Highlight the piece.
   */
 
-  bgColor = QColor((int) (bgColor.red() - bgColor.red() * 0.25),
-		   (int) (bgColor.green() - bgColor.green() * 0.25),
-		   (int) (bgColor.blue() - bgColor.blue() * 0.25));
+  if(bgColor == Qt::black)
+    bgColor = Qt::gray;
+  else
+    bgColor = QColor(abs((int) (bgColor.red() - bgColor.red() * 0.25)),
+		     abs((int) (bgColor.green() - bgColor.green() * 0.25)),
+		     abs((int) (bgColor.blue() - bgColor.blue() * 0.25)));
+
   updateGL();
 }
 
@@ -169,7 +173,7 @@ void glpiece::mousePressEvent(QMouseEvent *e)
     {
       i += 1;
 
-      if(i % 10 == 0)
+      if(i % 12 == 0)
 	shrinkBy(5);
 
       rotateBy(-5 * 10, 25 * 10, -5 * 10);
