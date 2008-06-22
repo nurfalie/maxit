@@ -11,14 +11,13 @@
 #include "glpiece.h"
 
 glpiece::glpiece(QWidget *parent, glpiece *other,
-		 const int valueArg, const QColor &bgColorArg,
-		 const int sideArg):
+		 const int valueArg, const QColor &bgColorArg):
   QGLWidget(parent, other)
 {
   xRot = 0;
   yRot = 0;
   zRot = 0;
-  side = sideArg;
+  side = glpiece::CUBE_SIZE;
   value = valueArg;
   bgColor = bgColorOrig = bgColorArg;
   consumed = false;
@@ -27,6 +26,42 @@ glpiece::glpiece(QWidget *parent, glpiece *other,
 
 glpiece::~glpiece()
 {
+  glDeleteLists(piece, 1);
+}
+
+void glpiece::reset(const int valueArg)
+{
+  int i = 0;
+
+  xRot = 0;
+  yRot = 0;
+  zRot = 0;
+  value = valueArg;
+  consumed = false;
+
+  if(side == 0)
+    {
+      side = 20;
+
+      while(side < glpiece::CUBE_SIZE)
+	{
+	  i += 1;
+
+	  if(i % 15 == 0)
+	    growBy(5);
+
+	  rotateBy(-5 * 10, 25 * 10, -5 * 10);
+	}
+    }
+
+  xRot = 0;
+  yRot = 0;
+  zRot = 0;
+  side = glpiece::CUBE_SIZE;
+  glDeleteLists(piece, 1);
+  makeCurrent();
+  resizeGL(width(), height());
+  updateGL();
 }
 
 void glpiece::paintGL(void)
@@ -38,9 +73,13 @@ void glpiece::paintGL(void)
   glRotated(xRot / 64.0, 1.0, 0.0, 0.0);
   glRotated(yRot / 64.0, 0.0, 1.0, 0.0);
   glRotated(zRot / 64.0, 0.0, 0.0, 1.0);
+  glDeleteLists(piece, 1);
 
   if(!consumed)
-    glCallList(createPiece());
+    {
+      piece = createPiece();
+      glCallList(piece);
+    }
 }
 
 void glpiece::initializeGL(void)
@@ -69,6 +108,12 @@ void glpiece::rotateBy(const int xAngle, const int yAngle, const int zAngle)
   yRot += yAngle;
   zRot += zAngle;
   updateGL();
+}
+
+void glpiece::growBy(const int percentage)
+{
+  side = (int) (side + (side * percentage) / 100.0);
+  resizeGL(width(), height());
 }
 
 void glpiece::shrinkBy(const int percentage)
@@ -173,12 +218,13 @@ void glpiece::mousePressEvent(QMouseEvent *e)
     {
       i += 1;
 
-      if(i % 12 == 0)
+      if(i % 15 == 0)
 	shrinkBy(5);
 
       rotateBy(-5 * 10, 25 * 10, -5 * 10);
     }
 
+  glDeleteLists(piece, 1);
   consumed = true;
   bgColor = bgColorOrig;
   updateGL();

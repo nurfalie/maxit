@@ -39,7 +39,9 @@ class maxit: public QMainWindow, private Ui::maxit_window
 
  private:
   glpiece *glpieces[NROWS][NCOLS];
+  QGridLayout *qgl;
   bool isGameOver(void);
+  void prepareBoard(const bool = true);
 
  private slots:
   void slotAbout(void);

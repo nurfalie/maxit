@@ -6,11 +6,8 @@ maxit::maxit(void):QMainWindow()
 {
   int i = 0;
   int j = 0;
-  int value = 1;
-  int suitableH =
-    NROWS * ((int) (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
-  QColor color;
-  QGridLayout *qgl = NULL;
+  int suitableH = NROWS * ((int) (glpiece::CUBE_SIZE - 0.25 *
+				  glpiece::CUBE_SIZE));
 
   setupUi(this);
   connect((QObject *) action_Exit, SIGNAL(triggered(void)),
@@ -20,18 +17,31 @@ maxit::maxit(void):QMainWindow()
   connect((QObject *) action_New_Game, SIGNAL(triggered(void)),
 	  this, SLOT(slotNewGame(void)));
 
-  /*
-  ** Create the board.
-  */
-
   if((qgl = new QGridLayout()) == NULL)
     {
       cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
       exit(EXIT_FAILURE);
     }
 
-  qgl->setSpacing(0);
-  glpieces[0][0] = NULL;
+  qgl->setSpacing(1);
+
+  for(i = 0; i < NROWS; i++)
+    for(j = 0; j < NCOLS; j++)
+      glpieces[i][j] = NULL;
+
+  prepareBoard();
+  boardframe->setPalette(QPalette(Qt::black));
+  boardframe->setLayout(qgl);
+  boardframe->setFixedSize(suitableH, suitableH);
+  show();
+}
+
+void maxit::prepareBoard(const bool createPieces)
+{
+  int i = 0;
+  int j = 0;
+  int value = 0;
+  QColor color;
 
   for(i = 0; i < NROWS; i++)
     for(j = 0; j < NCOLS; j++)
@@ -46,27 +56,28 @@ maxit::maxit(void):QMainWindow()
 	if(qrand() % 3 == 0)
 	  value = -value;
 
-	color = Qt::black; // QColor(238, 221, 130);
-	glpieces[i][j] = new glpiece(NULL, glpieces[0][0], value, color,
-				     glpiece::CUBE_SIZE);
+	color = Qt::black;
+
+	if(createPieces)
+	  glpieces[i][j] = new glpiece(NULL, glpieces[0][0], value, color);
+	else
+	  glpieces[i][j]->reset(value);
 
 	if((i + j) % 2 == 0)
 	  glpieces[i][j]->rotateBy(45 * 64, 45 * 64, -25 * 64);
 	else
 	  glpieces[i][j]->rotateBy(-45 * 64, 45 * 64, 25 * 64);
 
-	qgl->addWidget(glpieces[i][j], i, j);
+	if(createPieces)
+	  qgl->addWidget(glpieces[i][j], i, j);
       }
-
-  boardframe->setLayout(qgl);
-  boardframe->setFixedSize(suitableH, suitableH);
-  show();
 }
 
 void maxit::slotNewGame(void)
 {
   playerscore->display("0");
   opponentscore->display("0");
+  prepareBoard(false);
 }
 
 bool maxit::isGameOver(void)

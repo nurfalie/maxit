@@ -25,9 +25,10 @@ class glpiece: public QGLWidget
   Q_OBJECT
 
  public:
-  static const int CUBE_SIZE = 150;
-  glpiece(QWidget *, glpiece *, const int, const QColor &, const int);
+  static const int CUBE_SIZE = 128;
+  glpiece(QWidget *, glpiece *, const int, const QColor &);
   ~glpiece();
+  void reset(const int);
   void paintGL(void);
   void resizeGL(int, int);
   void rotateBy(const int, const int, const int);
@@ -42,8 +43,10 @@ class glpiece: public QGLWidget
   int zRot;
   int value;
   bool consumed;
+  GLuint piece;
   QColor bgColor;
-  QColor bgColorOrig;
+  QColor bgColorOrig;;
+  void growBy(const int);
   void shrinkBy(const int);
   void enterEvent(QEvent *);
   void leaveEvent(QEvent *);
