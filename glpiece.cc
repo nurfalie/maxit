@@ -8,15 +8,18 @@
 ** -- Local Includes --
 */
 
+#include "maxit.h"
 #include "glpiece.h"
+
+extern maxit *maxitptr;
 
 glpiece::glpiece(QWidget *parent, glpiece *other,
 		 const int valueArg, const QColor &bgColorArg):
   QGLWidget(parent, other)
 {
-  xRot = 0;
-  yRot = 0;
-  zRot = 0;
+  xRot = xRot0 = 0;
+  yRot = yRot0 = 0;
+  zRot = zRot0 = 0;
   side = glpiece::CUBE_SIZE;
   value = valueArg;
   bgColor = bgColorOrig = bgColorArg;
@@ -50,13 +53,16 @@ void glpiece::reset(const int valueArg)
 	  if(i % 15 == 0)
 	    growBy(5);
 
-	  rotateBy(-5 * 10, 25 * 10, -5 * 10);
+	  if(maxitptr->getViewMode() == maxit::VIEW2D)
+	    rotateBy(0, 0, -5 * 10);
+	  else
+	    rotateBy(-5 * 10, 25 * 10, -5 * 10);
 	}
     }
 
-  xRot = 0;
-  yRot = 0;
-  zRot = 0;
+  xRot = xRot0;
+  yRot = yRot0;
+  zRot = zRot0;
   side = glpiece::CUBE_SIZE;
   glDeleteLists(piece, 1);
   makeCurrent();
@@ -100,6 +106,14 @@ void glpiece::resizeGL(int w, int h)
   glLoadIdentity();
   glOrtho(-0.5, 0.5, 0.5, -0.5, 4.0, 15.0);
   glMatrixMode(GL_MODELVIEW);
+}
+
+void glpiece::rotate(const int xAngle, const int yAngle, const int zAngle)
+{
+  xRot = xRot0 = xAngle;
+  yRot = yRot0 = yAngle;
+  zRot = zRot0 = zAngle;
+  updateGL();
 }
 
 void glpiece::rotateBy(const int xAngle, const int yAngle, const int zAngle)
@@ -221,7 +235,10 @@ void glpiece::mousePressEvent(QMouseEvent *e)
       if(i % 15 == 0)
 	shrinkBy(5);
 
-      rotateBy(-5 * 10, 25 * 10, -5 * 10);
+      if(maxitptr->getViewMode() == maxit::VIEW2D)
+	rotateBy(0, 0, -5 * 10);
+      else
+	rotateBy(-5 * 10, 25 * 10, -5 * 10);
     }
 
   glDeleteLists(piece, 1);

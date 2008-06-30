@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>372</width>
-    <height>337</height>
+    <height>329</height>
    </rect>
   </property>
   <property name="font" >
@@ -231,13 +231,25 @@
     </property>
     <addaction name="action_About" />
    </widget>
+   <widget class="QMenu" name="menu_View" >
+    <property name="title" >
+     <string>&amp;View</string>
+    </property>
+   </widget>
    <addaction name="menu_File" />
+   <addaction name="menu_View" />
    <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
   <action name="action_New_Game" >
    <property name="text" >
     <string>&amp;New Game</string>
+   </property>
+   <property name="font" >
+    <font>
+     <family>Times</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="shortcut" >
     <string>Ctrl+N</string>
@@ -247,6 +259,12 @@
    <property name="text" >
     <string>&amp;Exit</string>
    </property>
+   <property name="font" >
+    <font>
+     <family>Times</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="shortcut" >
     <string>Ctrl+E</string>
    </property>
@@ -254,6 +272,12 @@
   <action name="action_About" >
    <property name="text" >
     <string>&amp;About</string>
+   </property>
+   <property name="font" >
+    <font>
+     <family>Times</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </action>
  </widget>

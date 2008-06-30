@@ -35,10 +35,15 @@ class maxit: public QMainWindow, private Ui::maxit_window
  public:
   static const int NCOLS = 7;
   static const int NROWS = 7;
+  static const int VIEW2D = 0;
+  static const int VIEW3D = 1;
   maxit(void);
+  int getViewMode(void);
 
  private:
   glpiece *glpieces[NROWS][NCOLS];
+  QAction *action_2D;
+  QAction *action_3D;
   QGridLayout *qgl;
   bool isGameOver(void);
   void prepareBoard(const bool = true);
@@ -46,6 +51,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
  private slots:
   void slotAbout(void);
   void slotNewGame(void);
+  void slotChangeView(void);
 };
 
 #endif
