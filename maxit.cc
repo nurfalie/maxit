@@ -62,7 +62,6 @@ maxit::maxit(void):QMainWindow()
       glpieces[i][j] = NULL;
 
   prepareBoard();
-  boardframe->setPalette(QPalette(Qt::black));
   boardframe->setLayout(qgl);
   boardframe->setFixedSize(suitableH, suitableH);
   show();
@@ -73,7 +72,7 @@ void maxit::prepareBoard(const bool createPieces)
   int i = 0;
   int j = 0;
   int value = 0;
-  QColor color = Qt::black;
+  QColor color = QColor(133, 99, 99);
 
   for(i = 0; i < NROWS; i++)
     for(j = 0; j < NCOLS; j++)

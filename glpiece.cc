@@ -44,7 +44,7 @@ void glpiece::reset(const int valueArg)
 
   if(side == 0)
     {
-      side = 20;
+      side = glpiece::CUBE_SIZE / 5;
 
       while(side < glpiece::CUBE_SIZE)
 	{
@@ -54,9 +54,9 @@ void glpiece::reset(const int valueArg)
 	    growBy(5);
 
 	  if(maxitptr->getViewMode() == maxit::VIEW2D)
-	    rotateBy(0, 0, -5 * 10);
+	    rotateBy(0, 0, 5 * 10);
 	  else
-	    rotateBy(-5 * 10, 25 * 10, -5 * 10);
+	    rotateBy(5 * 10, -25 * 10, 5 * 10);
 	}
     }
 
@@ -160,7 +160,7 @@ GLuint glpiece::createPiece(void)
 
   for(j = 0; j < 6; j++)
     textures[j] = bindTexture
-      (QPixmap(QString("images.d/ubuntu.d/%1.png").arg(facevalue)),
+      (QPixmap(QString("images.d/sunsplash.d/%1.png").arg(facevalue)),
        GL_TEXTURE_2D);
 
   glNewList(list, GL_COMPILE);
