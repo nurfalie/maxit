@@ -6,8 +6,8 @@ maxit::maxit(void):QMainWindow()
 {
   int i = 0;
   int j = 0;
-  int suitableH = NROWS * ((int) (glpiece::CUBE_SIZE - 0.25 *
-				  glpiece::CUBE_SIZE));
+  int suitableH = NROWS * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
+					     glpiece::CUBE_SIZE));
   QActionGroup *ag = NULL;
 
   setupUi(this);
@@ -38,15 +38,15 @@ maxit::maxit(void):QMainWindow()
   action_2D->setCheckable(true);
   action_3D->setCheckable(true);
   action_2D->setChecked(true);
-  connect((QObject *) action_Exit, SIGNAL(triggered(void)),
+  connect(action_Exit, SIGNAL(triggered(void)),
 	  qapp, SLOT(quit(void)));
-  connect((QObject *) action_About, SIGNAL(triggered(void)),
+  connect(action_About, SIGNAL(triggered(void)),
 	  this, SLOT(slotAbout(void)));
-  connect((QObject *) action_New_Game, SIGNAL(triggered(void)),
+  connect(action_New_Game, SIGNAL(triggered(void)),
 	  this, SLOT(slotNewGame(void)));
-  connect((QObject *) action_2D, SIGNAL(triggered(void)),
+  connect(action_2D, SIGNAL(triggered(void)),
 	  this, SLOT(slotChangeView(void)));
-  connect((QObject *) action_3D, SIGNAL(triggered(void)),
+  connect(action_3D, SIGNAL(triggered(void)),
 	  this, SLOT(slotChangeView(void)));
 
   if((qgl = new QGridLayout()) == NULL)
@@ -55,7 +55,7 @@ maxit::maxit(void):QMainWindow()
       exit(EXIT_FAILURE);
     }
 
-  qgl->setSpacing(1);
+  qgl->setSpacing(0);
 
   for(i = 0; i < NROWS; i++)
     for(j = 0; j < NCOLS; j++)
@@ -99,8 +99,8 @@ void maxit::prepareBoard(const bool createPieces)
 
 void maxit::slotNewGame(void)
 {
-  playerscore->display("0");
-  opponentscore->display("0");
+  playerscore->setText("0");
+  opponentscore->setText("0");
   prepareBoard(false);
 }
 
@@ -109,11 +109,9 @@ bool maxit::isGameOver(void)
   bool gameOver = true;
 
   if(gameOver)
-    if(playerscore->intValue() >
-       opponentscore->intValue())
+    if(playerscore->text().toInt() > opponentscore->text().toInt())
       QMessageBox::information(this, "Game Over", "You won!");
-    else if(playerscore->intValue() <
-	    opponentscore->intValue())
+    else if(playerscore->text().toInt() < opponentscore->text().toInt())
       QMessageBox::information(this, "Game Over", "Your opponent won!");
     else
       QMessageBox::information(this, "Game Over", "A tie!");
@@ -127,7 +125,7 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle("Maxit: About");
   mb.setTextFormat(Qt::RichText);
-  mb.setText("<html>Maxit Version 1.00.<br>"
+  mb.setText("<html>Maxit Version 0.01.<br>"
 	     "Copyright (c) Alexis Megas 2007, 2008.<br><br>"
 	     "Please visit "
 	     "<a href=\"http://maxit.sourceforge.net\">"
