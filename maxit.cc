@@ -4,29 +4,30 @@ extern QApplication *qapp;
 
 maxit::maxit(void):QMainWindow()
 {
-  int i = 0;
-  int j = 0;
   int suitableH = NROWS * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
 					     glpiece::CUBE_SIZE));
-  QActionGroup *ag = NULL;
+  QActionGroup *ag = 0;
 
   setupUi(this);
 
-  if((ag = new QActionGroup(this)) == NULL)
+  if(!(ag = new QActionGroup(this)))
     {
-      cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
+      std::cerr << "Memory allocation error at line "
+		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
-  if((action_2D = new QAction("2D", this)) == NULL)
+  if(!(action_2D = new QAction("2D", this)))
     {
-      cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
+      std::cerr << "Memory allocation error at line "
+		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
-  if((action_3D = new QAction("3D", this)) == NULL)
+  if(!(action_3D = new QAction("3D", this)))
     {
-      cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
+      std::cerr << "Memory allocation error at line "
+		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
@@ -38,44 +39,42 @@ maxit::maxit(void):QMainWindow()
   action_2D->setCheckable(true);
   action_3D->setCheckable(true);
   action_2D->setChecked(true);
-  connect(action_Exit, SIGNAL(triggered(void)),
-	  qapp, SLOT(quit(void)));
-  connect(action_About, SIGNAL(triggered(void)),
-	  this, SLOT(slotAbout(void)));
-  connect(action_New_Game, SIGNAL(triggered(void)),
-	  this, SLOT(slotNewGame(void)));
-  connect(action_2D, SIGNAL(triggered(void)),
-	  this, SLOT(slotChangeView(void)));
-  connect(action_3D, SIGNAL(triggered(void)),
-	  this, SLOT(slotChangeView(void)));
+  connect(action_Exit, SIGNAL(triggered(void)), qapp, SLOT(quit(void)));
+  connect(action_About, SIGNAL(triggered(void)), this, SLOT(slotAbout(void)));
+  connect(action_New_Game, SIGNAL(triggered(void)), this,
+	  SLOT(slotNewGame(void)));
+  connect(action_2D, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeView(void)));
+  connect(action_3D, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeView(void)));
 
-  if((qgl = new QGridLayout()) == NULL)
+  if(!(qgl = new QGridLayout()))
     {
-      cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
+      std::cerr << "Memory allocation error at line "
+		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
   qgl->setSpacing(0);
 
-  for(i = 0; i < NROWS; i++)
-    for(j = 0; j < NCOLS; j++)
-      glpieces[i][j] = NULL;
+  for(int i = 0; i < NROWS; i++)
+    for(int j = 0; j < NCOLS; j++)
+      glpieces[i][j] = 0;
 
   prepareBoard();
   boardframe->setLayout(qgl);
   boardframe->setFixedSize(suitableH, suitableH);
+  setFixedSize(minimumSize());
   show();
 }
 
 void maxit::prepareBoard(const bool createPieces)
 {
-  int i = 0;
-  int j = 0;
   int value = 0;
   QColor color = QColor(133, 99, 99);
 
-  for(i = 0; i < NROWS; i++)
-    for(j = 0; j < NCOLS; j++)
+  for(int i = 0; i < NROWS; i++)
+    for(int j = 0; j < NCOLS; j++)
       {
 	value = qrand() % (NROWS * NROWS);
 
@@ -88,12 +87,14 @@ void maxit::prepareBoard(const bool createPieces)
 	  value = -value;
 
 	if(createPieces)
-	  glpieces[i][j] = new glpiece(NULL, glpieces[0][0], value, color);
+	  glpieces[i][j] = new glpiece(0, glpieces[0][0], value, color, i, j);
 	else
 	  glpieces[i][j]->reset(value);
 
 	if(createPieces)
 	  qgl->addWidget(glpieces[i][j], i, j);
+
+	qapp->processEvents();
       }
 }
 
@@ -102,6 +103,7 @@ void maxit::slotNewGame(void)
   playerscore->setText("0");
   opponentscore->setText("0");
   prepareBoard(false);
+  resize(minimumSize());
 }
 
 bool maxit::isGameOver(void)
@@ -126,7 +128,7 @@ void maxit::slotAbout(void)
   mb.setWindowTitle("Maxit: About");
   mb.setTextFormat(Qt::RichText);
   mb.setText("<html>Maxit Version 0.01.<br>"
-	     "Copyright (c) Alexis Megas 2007, 2008.<br><br>"
+	     "Copyright (c) Slurpy McMash 2007, 2008.<br><br>"
 	     "Please visit "
 	     "<a href=\"http://maxit.sourceforge.net\">"
 	     "http://maxit.sourceforge.net</a> for "
@@ -138,13 +140,10 @@ void maxit::slotAbout(void)
 
 void maxit::slotChangeView(void)
 {
-  int i = 0;
-  int j = 0;
-
   if(getViewMode() == VIEW2D)
     {
-      for(i = 0; i < NROWS; i++)
-	for(j = 0; j < NCOLS; j++)
+      for(int i = 0; i < NROWS; i++)
+	for(int j = 0; j < NCOLS; j++)
 	  if((i + j) % 2 == 0)
 	    glpieces[i][j]->rotate(0, 0, 0);
 	  else
@@ -152,8 +151,8 @@ void maxit::slotChangeView(void)
     }
   else
     {
-      for(i = 0; i < NROWS; i++)
-	for(j = 0; j < NCOLS; j++)
+      for(int i = 0; i < NROWS; i++)
+	for(int j = 0; j < NCOLS; j++)
 	  if((i + j) % 2 == 0)
 	    glpieces[i][j]->rotate(45 * 64, 45 * 64, -25 * 64);
 	  else
@@ -167,4 +166,19 @@ int maxit::getViewMode(void)
     return VIEW2D;
   else
     return VIEW3D;
+}
+
+void maxit::pieceSelected(glpiece *piece)
+{
+  QString sum = "";
+
+  sum = QString::number(playerscore->text().toInt() + abs(piece->value()));
+  playerscore->setText(sum);
+
+  for(int i = 0; i < NROWS; i++)
+    for(int j = 0; j < NCOLS; j++)
+      if(i == piece->row() || j == piece->col())
+	glpieces[i][j]->setEnabled(true);
+      else
+	glpieces[i][j]->setEnabled(false);
 }

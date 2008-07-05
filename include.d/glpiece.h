@@ -6,7 +6,6 @@
 */
 
 #include <iostream>
-using namespace std;
 
 /*
 ** -- Qt Includes --
@@ -26,26 +25,33 @@ class glpiece: public QGLWidget
 
  public:
   static const int CUBE_SIZE = 128;
-  glpiece(QWidget *, glpiece *, const int, const QColor &);
+  glpiece(QWidget *, glpiece *, const int, const QColor &, const int,
+	  const int);
   ~glpiece();
+  int col(void) const;
+  int row(void) const;
+  int value(void) const;
   void reset(const int);
   void rotate(const int, const int, const int);
   void paintGL(void);
   void resizeGL(int, int);
   void rotateBy(const int, const int, const int);
+  void setEnabled(const bool);
   void initializeGL(void);
-  QSize sizeHint(void);
-  QSize minimumSizeHint(void);
+  QSize sizeHint(void) const;
+  QSize minimumSizeHint(void) const;
 
  private:
+  int colv;
+  int rowv;
   int side;
   int xRot;
   int yRot;
   int zRot;
-  int value;
   int xRot0;
   int yRot0;
   int zRot0;
+  int valuev;
   bool consumed;
   GLuint piece;
   QColor bgColor;

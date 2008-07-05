@@ -12,7 +12,6 @@
 */
 
 #include <iostream>
-using namespace std;
 
 /*
 ** -- Qt Includes --
@@ -39,6 +38,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   static const int VIEW3D = 1;
   maxit(void);
   int getViewMode(void);
+  void pieceSelected(glpiece *);
 
  private:
   glpiece *glpieces[NROWS][NCOLS];

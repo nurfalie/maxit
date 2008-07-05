@@ -13,7 +13,7 @@
 ** 3. The name of the author may not be used to endorse or promote products
 **    derived from this software without specific prior written permission.
 **
-** THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+** MAXIT IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
 ** IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
 ** OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 ** IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
@@ -43,26 +43,28 @@
 
 #include "maxit.h"
 
-using namespace std;
-maxit *maxitptr = NULL;
-QApplication *qapp = NULL;
+maxit *maxitptr = 0;
+QApplication *qapp = 0;
 
 int main(int argc, char *argv[])
 {
   QApplication::setColorSpec(QApplication::CustomColor);
 
-  if((qapp = new QApplication(argc, argv)) == NULL)
+  if(!(qapp = new QApplication(argc, argv)))
     {
-      cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
+      std::cerr << "Memory allocation error at line "
+		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
-  if((maxitptr = new maxit()) == NULL)
+  if(!(maxitptr = new maxit()))
     {
-      cerr << "Memory allocation error at line " << __LINE__ << "." << endl;
+      std::cerr << "Memory allocation error at line "
+		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
   qapp->exec();
-  cout << "Exiting Maxit." << endl;
+  delete qapp;
+  std::cout << "Exiting Maxit." << std::endl;
 }

@@ -14,14 +14,17 @@
 extern maxit *maxitptr;
 
 glpiece::glpiece(QWidget *parent, glpiece *other,
-		 const int valueArg, const QColor &bgColorArg):
+		 const int valueArg, const QColor &bgColorArg,
+		 const int rowArg, const int colArg):
   QGLWidget(parent, other)
 {
+  colv = colArg;
+  rowv = rowArg;
   xRot = xRot0 = 0;
   yRot = yRot0 = 0;
   zRot = zRot0 = 0;
   side = glpiece::CUBE_SIZE;
-  value = valueArg;
+  valuev = valueArg;
   bgColor = bgColorOrig = bgColorArg;
   consumed = false;
   setMouseTracking(true);
@@ -34,24 +37,26 @@ glpiece::~glpiece()
 
 void glpiece::reset(const int valueArg)
 {
-  int i = 0;
-
   xRot = 0;
   yRot = 0;
   zRot = 0;
-  value = valueArg;
+  valuev = valueArg;
   consumed = false;
+  setEnabled(true);
 
   if(side == 0)
     {
       side = glpiece::CUBE_SIZE / 5;
 
-      while(side < glpiece::CUBE_SIZE)
+      for(int i = 0; side < glpiece::CUBE_SIZE; i++)
 	{
 	  i += 1;
 
 	  if(i % 15 == 0)
-	    growBy(5);
+	    if(maxitptr->getViewMode() == maxit::VIEW2D)
+	      growBy(5);
+	    else
+	      growBy(10);
 
 	  if(maxitptr->getViewMode() == maxit::VIEW2D)
 	    rotateBy(0, 0, 5 * 10);
@@ -138,8 +143,6 @@ void glpiece::shrinkBy(const int percentage)
 
 GLuint glpiece::createPiece(void)
 {
-  int i = 0;
-  int j = 0;
   GLuint list = glGenLists(1);
   GLuint textures[6];
   QString facevalue = "";
@@ -153,24 +156,24 @@ GLuint glpiece::createPiece(void)
       {{-1, -1, 1}, {1, -1, 1}, {1, 1, 1}, {-1, 1, 1}}
     };
 
-  if(value < 0)
+  if(valuev < 0)
     facevalue = "q";
   else
-    facevalue = QString::number(value);
+    facevalue = QString::number(valuev);
 
-  for(j = 0; j < 6; j++)
-    textures[j] = bindTexture
-      (QPixmap(QString("images.d/sunsplash.d/%1.png").arg(facevalue)),
+  for(int i = 0; i < 6; i++)
+    textures[i] = bindTexture
+      (QPixmap(QString("images.d/ubuntu.d/%1.png").arg(facevalue)),
        GL_TEXTURE_2D);
 
   glNewList(list, GL_COMPILE);
 
-  for(i = 0; i < 6; i++)
+  for(int i = 0; i < 6; i++)
     {
       glBindTexture(GL_TEXTURE_2D, textures[i]);
       glBegin(GL_QUADS);
 
-      for(j = 0; j < 4; j++)
+      for(int j = 0; j < 4; j++)
 	{
 	  glTexCoord2d(j == 0 || j == 3, j == 0 || j == 1);
 	  glVertex3d(0.21 * coords[i][j][0], 0.21 * coords[i][j][1],
@@ -188,7 +191,7 @@ void glpiece::enterEvent(QEvent *e)
 {
   (void) e;
 
-  if(consumed)
+  if(consumed || !isEnabled())
     return;
 
   /*
@@ -210,7 +213,7 @@ void glpiece::leaveEvent(QEvent *e)
 {
   (void) e;
 
-  if(consumed)
+  if(consumed || !isEnabled())
     return;
 
   bgColor = bgColorOrig;
@@ -219,7 +222,6 @@ void glpiece::leaveEvent(QEvent *e)
 
 void glpiece::mousePressEvent(QMouseEvent *e)
 {
-  int i = 0;
   (void) e;
 
   if(consumed)
@@ -229,12 +231,13 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   ** Shrink and spin the piece.
   */
 
-  while(side > 0)
+  for(int i = 0; side > 0; i++)
     {
-      i += 1;
-
       if(i % 15 == 0)
-	shrinkBy(5);
+	if(maxitptr->getViewMode() == maxit::VIEW2D)
+	  shrinkBy(5);
+	else
+	  shrinkBy(10);
 
       if(maxitptr->getViewMode() == maxit::VIEW2D)
 	rotateBy(0, 0, -5 * 10);
@@ -246,17 +249,47 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   consumed = true;
   bgColor = bgColorOrig;
   updateGL();
+  maxitptr->pieceSelected(this);
 }
 
-QSize glpiece::minimumSizeHint(void)
+QSize glpiece::minimumSizeHint(void) const
 {
   return QSize
     (side - static_cast<int> (side * 0.5),
      side - static_cast<int> (side * 0.5));
 }
 
-QSize glpiece::sizeHint(void)
+QSize glpiece::sizeHint(void) const
 {
   return QSize(side + static_cast<int> (side * 0.5),
 	       side + static_cast<int> (side * 0.5));
+}
+
+int glpiece::col(void) const
+{
+  return colv;
+}
+
+int glpiece::row(void) const
+{
+  return rowv;
+}
+
+int glpiece::value(void) const
+{
+  return valuev;
+}
+
+void glpiece::setEnabled(const bool state)
+{
+  static_cast<QGLWidget *> (this)->setEnabled(state);
+  bgColor = bgColorOrig;
+
+  if(!isEnabled())
+    bgColor = QColor
+      (abs(static_cast<int> (bgColor.red() - bgColor.red() * 0.50)),
+       abs(static_cast<int> (bgColor.green() - bgColor.green() * 0.50)),
+       abs(static_cast<int> (bgColor.blue() - bgColor.blue() * 0.50)));
+
+  updateGL();
 }
