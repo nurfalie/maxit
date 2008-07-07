@@ -50,14 +50,22 @@ int main(int argc, char *argv[])
 {
   QApplication::setColorSpec(QApplication::CustomColor);
 
-  if(!(qapp = new QApplication(argc, argv)))
+  try
+    {
+      qapp = new QApplication(argc, argv);
+    }
+  catch(std::bad_alloc)
     {
       std::cerr << "Memory allocation error at line "
 		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
-  if(!(maxitptr = new maxit()))
+  try
+    {
+      maxitptr = new maxit();
+    }
+  catch(std::bad_alloc)
     {
       std::cerr << "Memory allocation error at line "
 		<< __LINE__ << "." << std::endl;

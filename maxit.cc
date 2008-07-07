@@ -10,21 +10,33 @@ maxit::maxit(void):QMainWindow()
 
   setupUi(this);
 
-  if(!(ag = new QActionGroup(this)))
+  try
+    {
+      ag = new QActionGroup(this);
+    }
+  catch(std::bad_alloc)
     {
       std::cerr << "Memory allocation error at line "
 		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
-  if(!(action_2D = new QAction("2D", this)))
+  try
+    {
+      action_2D = new QAction("2D", this);
+    }
+  catch(std::bad_alloc)
     {
       std::cerr << "Memory allocation error at line "
 		<< __LINE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
-  if(!(action_3D = new QAction("3D", this)))
+  try
+    {
+      action_3D = new QAction("3D", this);
+    }
+  catch(std::bad_alloc)
     {
       std::cerr << "Memory allocation error at line "
 		<< __LINE__ << "." << std::endl;
@@ -48,7 +60,11 @@ maxit::maxit(void):QMainWindow()
   connect(action_3D, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeView(void)));
 
-  if(!(qgl = new QGridLayout()))
+  try
+    {
+      qgl = new QGridLayout();
+    }
+  catch(std::bad_alloc)
     {
       std::cerr << "Memory allocation error at line "
 		<< __LINE__ << "." << std::endl;
@@ -87,7 +103,17 @@ void maxit::prepareBoard(const bool createPieces)
 	  value = -value;
 
 	if(createPieces)
-	  glpieces[i][j] = new glpiece(0, glpieces[0][0], value, color, i, j);
+	  try
+	    {
+	      glpieces[i][j] = new glpiece
+		(0, glpieces[0][0], value, color, i, j);
+	    }
+	  catch(std::bad_alloc)
+	    {
+	      std::cerr << "Memory allocation error at line "
+			<< __LINE__ << "." << std::endl;
+	      exit(EXIT_FAILURE);
+	    }
 	else
 	  glpieces[i][j]->reset(value);
 
@@ -170,10 +196,18 @@ int maxit::getViewMode(void)
 
 void maxit::pieceSelected(glpiece *piece)
 {
-  QString sum = "";
+  QString sum1 = "", sum2 = "";
 
-  sum = QString::number(playerscore->text().toInt() + abs(piece->value()));
-  playerscore->setText(sum);
+  sum1 = QString::number(playerscore->text().toInt() + abs(piece->value()));
+  sum2 = opponentscore->text();
+
+  if(sum1.length() > sum2.length())
+    sum2 = sum2.leftJustified(sum1.length(), ' ');
+  else if(sum1.length() < sum2.length())
+    sum1 = sum1.leftJustified(sum2.length(), ' ');
+
+  playerscore->setText(sum1);
+  opponentscore->setText(sum2);
 
   for(int i = 0; i < NROWS; i++)
     for(int j = 0; j < NCOLS; j++)
