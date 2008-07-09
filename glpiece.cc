@@ -15,7 +15,7 @@ extern maxit *maxitptr;
 
 glpiece::glpiece(QWidget *parent, glpiece *other,
 		 const int valueArg, const QColor &bgColorArg,
-		 const int rowArg, const int colArg):
+		 const int rowArg, const int colArg, const int sideArg):
   QGLWidget(parent, other)
 {
   colv = colArg;
@@ -23,7 +23,7 @@ glpiece::glpiece(QWidget *parent, glpiece *other,
   xRot = xRot0 = 0;
   yRot = yRot0 = 0;
   zRot = zRot0 = 0;
-  side = glpiece::CUBE_SIZE;
+  side = sideArg;
   valuev = valueArg;
   bgColor = bgColorOrig = bgColorArg;
   consumed = false;
@@ -37,6 +37,8 @@ glpiece::~glpiece()
 
 void glpiece::reset(const int valueArg)
 {
+  int size = 0;
+
   xRot = 0;
   yRot = 0;
   zRot = 0;
@@ -46,9 +48,14 @@ void glpiece::reset(const int valueArg)
 
   if(side == 0)
     {
-      side = glpiece::CUBE_SIZE / 5;
+      if(maxitptr->getViewSize() == maxit::SMALLVIEW)
+	size = SMALL_CUBE_SIZE;
+      else
+	size = NORMAL_CUBE_SIZE;
 
-      for(int i = 0; side < glpiece::CUBE_SIZE; i++)
+      side = size / 5;
+
+      for(int i = 0; side < size; i++)
 	{
 	  i += 1;
 
@@ -68,7 +75,7 @@ void glpiece::reset(const int valueArg)
   xRot = xRot0;
   yRot = yRot0;
   zRot = zRot0;
-  side = glpiece::CUBE_SIZE;
+  side = size;
   glDeleteLists(piece, 1);
   makeCurrent();
   resizeGL(width(), height());
@@ -202,9 +209,9 @@ void glpiece::enterEvent(QEvent *e)
     bgColor = Qt::gray;
   else
     bgColor = QColor
-      (abs(static_cast<int> (bgColor.red() - bgColor.red() * 0.25)),
-       abs(static_cast<int> (bgColor.green() - bgColor.green() * 0.25)),
-       abs(static_cast<int> (bgColor.blue() - bgColor.blue() * 0.25)));
+      (abs(static_cast<int> (bgColor.red() + bgColor.red() * 0.50)),
+       abs(static_cast<int> (bgColor.green() + bgColor.green() * 0.50)),
+       abs(static_cast<int> (bgColor.blue() + bgColor.blue() * 0.50)));
 
   updateGL();
 }

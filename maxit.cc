@@ -4,37 +4,22 @@ extern QApplication *qapp;
 
 maxit::maxit(void):QMainWindow()
 {
-  int suitableH = NROWS * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
-					     glpiece::CUBE_SIZE));
-  QActionGroup *ag = 0;
+  int suitableH = NROWS * (static_cast<int> (glpiece::SMALL_CUBE_SIZE - 0.25 *
+					     glpiece::SMALL_CUBE_SIZE));
+  QActionGroup *ag1 = 0;
+  QActionGroup *ag2 = 0;
 
   setupUi(this);
 
   try
     {
-      ag = new QActionGroup(this);
-    }
-  catch(std::bad_alloc)
-    {
-      std::cerr << "Memory allocation error at line "
-		<< __LINE__ << "." << std::endl;
-      exit(EXIT_FAILURE);
-    }
-
-  try
-    {
+      ag1 = new QActionGroup(this);
+      ag2 = new QActionGroup(this);
       action_2D = new QAction("2D", this);
-    }
-  catch(std::bad_alloc)
-    {
-      std::cerr << "Memory allocation error at line "
-		<< __LINE__ << "." << std::endl;
-      exit(EXIT_FAILURE);
-    }
-
-  try
-    {
       action_3D = new QAction("3D", this);
+      smallSize = new QAction("Small View", this);
+      normalSize = new QAction("Normal View", this);
+      qgl = new QGridLayout();
     }
   catch(std::bad_alloc)
     {
@@ -43,11 +28,28 @@ maxit::maxit(void):QMainWindow()
       exit(EXIT_FAILURE);
     }
 
-  ag->setExclusive(true);
-  ag->addAction(action_2D);
-  ag->addAction(action_3D);
+  ag1->setExclusive(true);
+  ag1->addAction(action_2D);
+  ag1->addAction(action_3D);
+  ag2->setExclusive(true);
+  ag2->addAction(smallSize);
+  ag2->addAction(normalSize);
   menu_View->addAction(action_2D);
   menu_View->addAction(action_3D);
+
+  try
+    {
+      menu_View->addSeparator();
+    }
+  catch(std::bad_alloc)
+    {
+    }
+
+  menu_View->addAction(smallSize);
+  menu_View->addAction(normalSize);
+  smallSize->setCheckable(true);
+  normalSize->setCheckable(true);
+  smallSize->setChecked(true);
   action_2D->setCheckable(true);
   action_3D->setCheckable(true);
   action_2D->setChecked(true);
@@ -59,19 +61,11 @@ maxit::maxit(void):QMainWindow()
 	  SLOT(slotChangeView(void)));
   connect(action_3D, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeView(void)));
-
-  try
-    {
-      qgl = new QGridLayout();
-    }
-  catch(std::bad_alloc)
-    {
-      std::cerr << "Memory allocation error at line "
-		<< __LINE__ << "." << std::endl;
-      exit(EXIT_FAILURE);
-    }
-
-  qgl->setSpacing(0);
+  connect(smallSize, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeSize(void)));
+  connect(normalSize, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeSize(void)));
+  qgl->setSpacing(1);
 
   for(int i = 0; i < NROWS; i++)
     for(int j = 0; j < NCOLS; j++)
@@ -86,8 +80,14 @@ maxit::maxit(void):QMainWindow()
 
 void maxit::prepareBoard(const bool createPieces)
 {
+  int side = 0;
   int value = 0;
   QColor color = QColor(133, 99, 99);
+
+  if(getViewMode() == SMALLVIEW)
+    side = glpiece::SMALL_CUBE_SIZE;
+  else
+    side = glpiece::NORMAL_CUBE_SIZE;
 
   for(int i = 0; i < NROWS; i++)
     for(int j = 0; j < NCOLS; j++)
@@ -106,7 +106,7 @@ void maxit::prepareBoard(const bool createPieces)
 	  try
 	    {
 	      glpieces[i][j] = new glpiece
-		(0, glpieces[0][0], value, color, i, j);
+		(0, glpieces[0][0], value, color, i, j, side);
 	    }
 	  catch(std::bad_alloc)
 	    {
@@ -186,6 +186,10 @@ void maxit::slotChangeView(void)
     }
 }
 
+void maxit::slotChangeSize(void)
+{
+}
+
 int maxit::getViewMode(void)
 {
   if(action_2D->isChecked())
@@ -194,18 +198,20 @@ int maxit::getViewMode(void)
     return VIEW3D;
 }
 
+int maxit::getViewSize(void)
+{
+  if(smallSize->isChecked())
+    return SMALLVIEW;
+  else
+    return NORMALVIEW;
+}
+
 void maxit::pieceSelected(glpiece *piece)
 {
   QString sum1 = "", sum2 = "";
 
   sum1 = QString::number(playerscore->text().toInt() + abs(piece->value()));
   sum2 = opponentscore->text();
-
-  if(sum1.length() > sum2.length())
-    sum2 = sum2.leftJustified(sum1.length(), ' ');
-  else if(sum1.length() < sum2.length())
-    sum1 = sum1.leftJustified(sum2.length(), ' ');
-
   playerscore->setText(sum1);
   opponentscore->setText(sum2);
 

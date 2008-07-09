@@ -53,16 +53,6 @@ int main(int argc, char *argv[])
   try
     {
       qapp = new QApplication(argc, argv);
-    }
-  catch(std::bad_alloc)
-    {
-      std::cerr << "Memory allocation error at line "
-		<< __LINE__ << "." << std::endl;
-      exit(EXIT_FAILURE);
-    }
-
-  try
-    {
       maxitptr = new maxit();
     }
   catch(std::bad_alloc)
@@ -73,6 +63,7 @@ int main(int argc, char *argv[])
     }
 
   qapp->exec();
+  delete maxitptr;
   delete qapp;
   std::cout << "Exiting Maxit." << std::endl;
 }

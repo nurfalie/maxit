@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>562</width>
-    <height>487</height>
+    <height>413</height>
    </rect>
   </property>
   <property name="font" >
@@ -27,8 +27,8 @@
       </property>
       <property name="sizeHint" >
        <size>
-        <width>20</width>
-        <height>40</height>
+        <width>544</width>
+        <height>136</height>
        </size>
       </property>
      </spacer>
@@ -42,8 +42,8 @@
         </property>
         <property name="sizeHint" >
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>238</width>
+          <height>135</height>
          </size>
         </property>
        </spacer>
@@ -213,8 +213,8 @@ R
         </property>
         <property name="sizeHint" >
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>238</width>
+          <height>135</height>
          </size>
         </property>
        </spacer>
@@ -228,8 +228,8 @@ R
       </property>
       <property name="sizeHint" >
        <size>
-        <width>20</width>
-        <height>40</height>
+        <width>544</width>
+        <height>135</height>
        </size>
       </property>
      </spacer>
