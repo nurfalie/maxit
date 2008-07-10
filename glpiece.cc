@@ -37,8 +37,6 @@ glpiece::~glpiece()
 
 void glpiece::reset(const int valueArg)
 {
-  int size = 0;
-
   xRot = 0;
   yRot = 0;
   zRot = 0;
@@ -48,17 +46,10 @@ void glpiece::reset(const int valueArg)
 
   if(side == 0)
     {
-      if(maxitptr->getViewSize() == maxit::SMALLVIEW)
-	size = SMALL_CUBE_SIZE;
-      else
-	size = NORMAL_CUBE_SIZE;
+      side = CUBE_SIZE / 5;
 
-      side = size / 5;
-
-      for(int i = 0; side < size; i++)
+      for(int i = 0; side < CUBE_SIZE; i++)
 	{
-	  i += 1;
-
 	  if(i % 15 == 0)
 	    if(maxitptr->getViewMode() == maxit::VIEW2D)
 	      growBy(5);
@@ -75,7 +66,7 @@ void glpiece::reset(const int valueArg)
   xRot = xRot0;
   yRot = yRot0;
   zRot = zRot0;
-  side = size;
+  side = CUBE_SIZE;
   glDeleteLists(piece, 1);
   makeCurrent();
   resizeGL(width(), height());
@@ -284,7 +275,7 @@ int glpiece::row(void) const
 
 int glpiece::value(void) const
 {
-  return valuev;
+  return abs(valuev);
 }
 
 void glpiece::setEnabled(const bool state)

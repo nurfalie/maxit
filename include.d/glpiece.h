@@ -24,8 +24,7 @@ class glpiece: public QGLWidget
   Q_OBJECT
 
  public:
-  static const int SMALL_CUBE_SIZE = 100;
-  static const int NORMAL_CUBE_SIZE = 200;
+  static const int CUBE_SIZE = 128;
   glpiece(QWidget *, glpiece *, const int, const QColor &, const int,
 	  const int, const int);
   ~glpiece();

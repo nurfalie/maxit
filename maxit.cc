@@ -4,21 +4,17 @@ extern QApplication *qapp;
 
 maxit::maxit(void):QMainWindow()
 {
-  int suitableH = NROWS * (static_cast<int> (glpiece::SMALL_CUBE_SIZE - 0.25 *
-					     glpiece::SMALL_CUBE_SIZE));
+  int suitableH = NROWS * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
+					     glpiece::CUBE_SIZE));
   QActionGroup *ag1 = 0;
-  QActionGroup *ag2 = 0;
 
   setupUi(this);
 
   try
     {
       ag1 = new QActionGroup(this);
-      ag2 = new QActionGroup(this);
       action_2D = new QAction("2D", this);
       action_3D = new QAction("3D", this);
-      smallSize = new QAction("Small View", this);
-      normalSize = new QAction("Normal View", this);
       qgl = new QGridLayout();
     }
   catch(std::bad_alloc)
@@ -31,25 +27,8 @@ maxit::maxit(void):QMainWindow()
   ag1->setExclusive(true);
   ag1->addAction(action_2D);
   ag1->addAction(action_3D);
-  ag2->setExclusive(true);
-  ag2->addAction(smallSize);
-  ag2->addAction(normalSize);
   menu_View->addAction(action_2D);
   menu_View->addAction(action_3D);
-
-  try
-    {
-      menu_View->addSeparator();
-    }
-  catch(std::bad_alloc)
-    {
-    }
-
-  menu_View->addAction(smallSize);
-  menu_View->addAction(normalSize);
-  smallSize->setCheckable(true);
-  normalSize->setCheckable(true);
-  smallSize->setChecked(true);
   action_2D->setCheckable(true);
   action_3D->setCheckable(true);
   action_2D->setChecked(true);
@@ -61,10 +40,6 @@ maxit::maxit(void):QMainWindow()
 	  SLOT(slotChangeView(void)));
   connect(action_3D, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeView(void)));
-  connect(smallSize, SIGNAL(triggered(void)), this,
-	  SLOT(slotChangeSize(void)));
-  connect(normalSize, SIGNAL(triggered(void)), this,
-	  SLOT(slotChangeSize(void)));
   qgl->setSpacing(1);
 
   for(int i = 0; i < NROWS; i++)
@@ -73,21 +48,16 @@ maxit::maxit(void):QMainWindow()
 
   prepareBoard();
   boardframe->setLayout(qgl);
-  boardframe->setFixedSize(suitableH, suitableH);
-  setFixedSize(minimumSize());
+  boardframe->setMinimumSize(suitableH, suitableH);
+  resize(boardframe->size());
   show();
 }
 
 void maxit::prepareBoard(const bool createPieces)
 {
-  int side = 0;
+  int side = glpiece::CUBE_SIZE;
   int value = 0;
   QColor color = QColor(133, 99, 99);
-
-  if(getViewMode() == SMALLVIEW)
-    side = glpiece::SMALL_CUBE_SIZE;
-  else
-    side = glpiece::NORMAL_CUBE_SIZE;
 
   for(int i = 0; i < NROWS; i++)
     for(int j = 0; j < NCOLS; j++)
@@ -126,24 +96,14 @@ void maxit::prepareBoard(const bool createPieces)
 
 void maxit::slotNewGame(void)
 {
-  playerscore->setText("0");
-  opponentscore->setText("0");
+  playerscore->setValue(0);
+  opponentscore->setValue(0);
   prepareBoard(false);
-  resize(minimumSize());
 }
 
 bool maxit::isGameOver(void)
 {
   bool gameOver = true;
-
-  if(gameOver)
-    if(playerscore->text().toInt() > opponentscore->text().toInt())
-      QMessageBox::information(this, "Game Over", "You won!");
-    else if(playerscore->text().toInt() < opponentscore->text().toInt())
-      QMessageBox::information(this, "Game Over", "Your opponent won!");
-    else
-      QMessageBox::information(this, "Game Over", "A tie!");
-
   return gameOver;
 }
 
@@ -186,10 +146,6 @@ void maxit::slotChangeView(void)
     }
 }
 
-void maxit::slotChangeSize(void)
-{
-}
-
 int maxit::getViewMode(void)
 {
   if(action_2D->isChecked())
@@ -198,22 +154,9 @@ int maxit::getViewMode(void)
     return VIEW3D;
 }
 
-int maxit::getViewSize(void)
-{
-  if(smallSize->isChecked())
-    return SMALLVIEW;
-  else
-    return NORMALVIEW;
-}
-
 void maxit::pieceSelected(glpiece *piece)
 {
-  QString sum1 = "", sum2 = "";
-
-  sum1 = QString::number(playerscore->text().toInt() + abs(piece->value()));
-  sum2 = opponentscore->text();
-  playerscore->setText(sum1);
-  opponentscore->setText(sum2);
+  playerscore->setValue(playerscore->value() + piece->value());
 
   for(int i = 0; i < NROWS; i++)
     for(int j = 0; j < NCOLS; j++)
@@ -221,4 +164,13 @@ void maxit::pieceSelected(glpiece *piece)
 	glpieces[i][j]->setEnabled(true);
       else
 	glpieces[i][j]->setEnabled(false);
+
+  if(isGameOver())
+    if(playerscore->value() > opponentscore->value())
+      QMessageBox::information(this, "Game Over", "You have won!");
+    else if(playerscore->value() < opponentscore->value())
+      QMessageBox::information(this, "Game Over", "Your opponent has won!");
+    else
+      QMessageBox::information(this, "Game Over",
+			       "The game resulted in a tie!");
 }

@@ -70,7 +70,7 @@
             <property name="font" >
              <font>
               <family>Courier 10 Pitch</family>
-              <pointsize>25</pointsize>
+              <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -90,20 +90,29 @@ R
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="playerscore" >
+           <widget class="QSpinBox" name="playerscore" >
             <property name="font" >
              <font>
               <family>Courier 10 Pitch</family>
-              <pointsize>25</pointsize>
+              <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
-            <property name="text" >
-             <string>0</string>
+            <property name="frame" >
+             <bool>false</bool>
             </property>
             <property name="alignment" >
              <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly" >
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols" >
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="maximum" >
+             <number>999</number>
             </property>
            </widget>
           </item>
@@ -152,7 +161,7 @@ R
             <property name="font" >
              <font>
               <family>Courier 10 Pitch</family>
-              <pointsize>25</pointsize>
+              <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -172,20 +181,29 @@ R
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="opponentscore" >
+           <widget class="QSpinBox" name="opponentscore" >
             <property name="font" >
              <font>
               <family>Courier 10 Pitch</family>
-              <pointsize>25</pointsize>
+              <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
-            <property name="text" >
-             <string>0</string>
+            <property name="frame" >
+             <bool>false</bool>
             </property>
             <property name="alignment" >
              <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly" >
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols" >
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="maximum" >
+             <number>999</number>
             </property>
            </widget>
           </item>
@@ -309,6 +327,10 @@ R
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>playerscore</tabstop>
+  <tabstop>opponentscore</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
