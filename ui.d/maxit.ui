@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>562</width>
-    <height>413</height>
+    <width>568</width>
+    <height>338</height>
    </rect>
   </property>
   <property name="font" >
@@ -49,27 +49,27 @@
        </spacer>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
+       <layout class="QVBoxLayout" >
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>63</width>
+            <height>16</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <layout class="QVBoxLayout" >
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
           <item>
            <widget class="QLabel" name="label_3" >
             <property name="font" >
              <font>
-              <family>Courier 10 Pitch</family>
+              <family>Times</family>
               <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
@@ -90,17 +90,19 @@ R
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="playerscore" >
+           <widget class="QLineEdit" name="playerscore" >
             <property name="font" >
              <font>
-              <family>Courier 10 Pitch</family>
               <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
-            <property name="frame" >
-             <bool>false</bool>
+            <property name="text" >
+             <string>0</string>
+            </property>
+            <property name="maxLength" >
+             <number>4</number>
             </property>
             <property name="alignment" >
              <set>Qt::AlignCenter</set>
@@ -108,59 +110,57 @@ R
             <property name="readOnly" >
              <bool>true</bool>
             </property>
-            <property name="buttonSymbols" >
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="maximum" >
-             <number>999</number>
-            </property>
            </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </item>
         <item>
-         <widget class="QFrame" name="boardframe" >
-          <property name="font" >
-           <font>
-            <family>Times</family>
-            <pointsize>10</pointsize>
-           </font>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
           </property>
-         </widget>
+          <property name="sizeHint" >
+           <size>
+            <width>63</width>
+            <height>16</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QFrame" name="boardframe" >
+        <property name="font" >
+         <font>
+          <family>Times</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" >
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>67</width>
+            <height>16</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
          <layout class="QVBoxLayout" >
           <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
            <widget class="QLabel" name="label_2" >
             <property name="font" >
              <font>
-              <family>Courier 10 Pitch</family>
+              <family>Times</family>
               <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
@@ -181,17 +181,19 @@ R
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="opponentscore" >
+           <widget class="QLineEdit" name="opponentscore" >
             <property name="font" >
              <font>
-              <family>Courier 10 Pitch</family>
               <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
-            <property name="frame" >
-             <bool>false</bool>
+            <property name="text" >
+             <string>0</string>
+            </property>
+            <property name="maxLength" >
+             <number>3</number>
             </property>
             <property name="alignment" >
              <set>Qt::AlignCenter</set>
@@ -199,28 +201,22 @@ R
             <property name="readOnly" >
              <bool>true</bool>
             </property>
-            <property name="buttonSymbols" >
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="maximum" >
-             <number>999</number>
-            </property>
            </widget>
           </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" >
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>67</width>
+            <height>16</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -259,8 +255,8 @@ R
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>562</width>
-     <height>28</height>
+     <width>568</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File" >
@@ -327,10 +323,6 @@ R
    </property>
   </action>
  </widget>
- <tabstops>
-  <tabstop>playerscore</tabstop>
-  <tabstop>opponentscore</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

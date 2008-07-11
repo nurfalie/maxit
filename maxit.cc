@@ -96,8 +96,8 @@ void maxit::prepareBoard(const bool createPieces)
 
 void maxit::slotNewGame(void)
 {
-  playerscore->setValue(0);
-  opponentscore->setValue(0);
+  playerscore->setText("0");
+  opponentscore->setText("0");
   prepareBoard(false);
 }
 
@@ -156,7 +156,8 @@ int maxit::getViewMode(void)
 
 void maxit::pieceSelected(glpiece *piece)
 {
-  playerscore->setValue(playerscore->value() + piece->value());
+  playerscore->setText
+    (QString::number(playerscore->text().toInt() + piece->value()));
 
   for(int i = 0; i < NROWS; i++)
     for(int j = 0; j < NCOLS; j++)
@@ -166,9 +167,9 @@ void maxit::pieceSelected(glpiece *piece)
 	glpieces[i][j]->setEnabled(false);
 
   if(isGameOver())
-    if(playerscore->value() > opponentscore->value())
+    if(playerscore->text().toInt() > opponentscore->text().toInt())
       QMessageBox::information(this, "Game Over", "You have won!");
-    else if(playerscore->value() < opponentscore->value())
+    else if(playerscore->text().toInt() < opponentscore->text().toInt())
       QMessageBox::information(this, "Game Over", "Your opponent has won!");
     else
       QMessageBox::information(this, "Game Over",
