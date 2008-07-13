@@ -9,21 +9,10 @@ maxit::maxit(void):QMainWindow()
   QActionGroup *ag1 = 0;
 
   setupUi(this);
-
-  try
-    {
-      ag1 = new QActionGroup(this);
-      action_2D = new QAction("2D", this);
-      action_3D = new QAction("3D", this);
-      qgl = new QGridLayout();
-    }
-  catch(std::bad_alloc)
-    {
-      std::cerr << "Memory allocation error at line "
-		<< __LINE__ << "." << std::endl;
-      exit(EXIT_FAILURE);
-    }
-
+  ag1 = new QActionGroup(this);
+  action_2D = new QAction("2D", this);
+  action_3D = new QAction("3D", this);
+  qgl = new QGridLayout();
   ag1->setExclusive(true);
   ag1->addAction(action_2D);
   ag1->addAction(action_3D);
@@ -73,17 +62,8 @@ void maxit::prepareBoard(const bool createPieces)
 	  value = -value;
 
 	if(createPieces)
-	  try
-	    {
-	      glpieces[i][j] = new glpiece
-		(0, glpieces[0][0], value, color, i, j, side);
-	    }
-	  catch(std::bad_alloc)
-	    {
-	      std::cerr << "Memory allocation error at line "
-			<< __LINE__ << "." << std::endl;
-	      exit(EXIT_FAILURE);
-	    }
+	  glpieces[i][j] = new glpiece
+	    (0, glpieces[0][0], value, color, i, j, side);
 	else
 	  glpieces[i][j]->reset(value);
 
@@ -103,7 +83,7 @@ void maxit::slotNewGame(void)
 
 bool maxit::isGameOver(void)
 {
-  bool gameOver = true;
+  bool gameOver = false;
   return gameOver;
 }
 
@@ -114,7 +94,7 @@ void maxit::slotAbout(void)
   mb.setWindowTitle("Maxit: About");
   mb.setTextFormat(Qt::RichText);
   mb.setText("<html>Maxit Version 0.01.<br>"
-	     "Copyright (c) Slurpy McMash 2007, 2008.<br><br>"
+	     "Copyright (c) Slurpy McNash 2007, 2008.<br><br>"
 	     "Please visit "
 	     "<a href=\"http://maxit.sourceforge.net\">"
 	     "http://maxit.sourceforge.net</a> for "

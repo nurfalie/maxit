@@ -16,10 +16,12 @@ INCPATH		+= include.d
 FORMS           += ui.d/maxit.ui
 
 HEADERS		= include.d/maxit.h \
-		  include.d/glpiece.h
+		  include.d/glpiece.h \
+		  include.d/computer.h
 
 SOURCES		= maxit.cc \
 		  glpiece.cc \
+		  computer.cc \
 		  maxit_main.cc
 
 TARGET		= Maxit
