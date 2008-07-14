@@ -25,6 +25,7 @@
 */
 
 #include "glpiece.h"
+#include "computer.h"
 #include "ui_maxit.h"
 
 class maxit: public QMainWindow, private Ui::maxit_window
@@ -45,6 +46,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   glpiece *glpieces[NROWS][NCOLS];
   QAction *action_2D;
   QAction *action_3D;
+  computer *computerptr;
   QGridLayout *qgl;
   bool isGameOver(void) const;
   void prepareBoard(const bool = true);

@@ -9,6 +9,7 @@ maxit::maxit(void):QMainWindow()
   QActionGroup *ag1 = 0;
 
   setupUi(this);
+  computerptr = 0;
   ag1 = new QActionGroup(this);
   action_2D = new QAction("2D", this);
   action_3D = new QAction("3D", this);
@@ -46,6 +47,7 @@ void maxit::prepareBoard(const bool createPieces)
 {
   int side = glpiece::CUBE_SIZE;
   int value = 0;
+  int board[NROWS][NCOLS];
   QColor color = QColor(133, 99, 99);
 
   for(int i = 0; i < NROWS; i++)
@@ -71,7 +73,11 @@ void maxit::prepareBoard(const bool createPieces)
 	  qgl->addWidget(glpieces[i][j], i, j);
 
 	qapp->processEvents();
+	board[i][j] = abs(value);
       }
+
+  if(!computerptr)
+    computerptr = new computer(board);
 }
 
 void maxit::slotNewGame(void)
@@ -136,15 +142,26 @@ int maxit::getViewMode(void) const
 
 void maxit::pieceSelected(glpiece *piece)
 {
+  QMap<QString, int> move;
+
   playerscore->setText
     (QString::number(playerscore->text().toInt() + piece->value()));
+  computerptr->setRowCol(piece->row(), piece->col());
+  move = computerptr->computeMove();
 
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
-      if(i == piece->row() || j == piece->col())
-	glpieces[i][j]->setEnabled(true);
-      else
-	glpieces[i][j]->setEnabled(false);
+  if(move["row"] > -1 && move["col"] > -1)
+    {
+      opponentscore->setText
+	(QString::number(opponentscore->text().toInt()) +
+	 glpieces[move["row"]][move["col"]]->value());
+
+      for(int i = 0; i < NROWS; i++)
+	for(int j = 0; j < NCOLS; j++)
+	  if(i == move["row"] || j == move["col"])
+	    glpieces[i][j]->setEnabled(true);
+	  else
+	    glpieces[i][j]->setEnabled(false);
+    }
 
   if(isGameOver())
     if(playerscore->text().toInt() > opponentscore->text().toInt())
