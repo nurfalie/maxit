@@ -81,7 +81,7 @@ void maxit::slotNewGame(void)
   prepareBoard(false);
 }
 
-bool maxit::isGameOver(void)
+bool maxit::isGameOver(void) const
 {
   bool gameOver = false;
   return gameOver;
@@ -126,7 +126,7 @@ void maxit::slotChangeView(void)
     }
 }
 
-int maxit::getViewMode(void)
+int maxit::getViewMode(void) const
 {
   if(action_2D->isChecked())
     return VIEW2D;

@@ -37,8 +37,8 @@ class maxit: public QMainWindow, private Ui::maxit_window
   static const int VIEW2D = 0;
   static const int VIEW3D = 1;
   maxit(void);
-  int getViewMode(void);
-  int getViewSize(void);
+  int getViewMode(void) const;
+  int getViewSize(void) const;
   void pieceSelected(glpiece *);
 
  private:
@@ -46,7 +46,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   QAction *action_2D;
   QAction *action_3D;
   QGridLayout *qgl;
-  bool isGameOver(void);
+  bool isGameOver(void) const;
   void prepareBoard(const bool = true);
 
  private slots:
