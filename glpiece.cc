@@ -16,16 +16,13 @@ extern maxit *maxitptr;
 glpiece::glpiece(QWidget *parent, glpiece *other,
 		 const int valueArg, const QColor &bgColorArg,
 		 const int rowArg, const int colArg, const int sideArg):
-  QGLWidget(parent, other)
+  QGLWidget(parent, other),
+  colv(colArg), rowv(rowArg), side(sideArg), valuev(valueArg),
+  bgColor(bgColorArg), bgColorOrig(bgColorArg)
 {
-  colv = colArg;
-  rowv = rowArg;
   xRot = xRot0 = 0;
   yRot = yRot0 = 0;
   zRot = zRot0 = 0;
-  side = sideArg;
-  valuev = valueArg;
-  bgColor = bgColorOrig = bgColorArg;
   consumed = false;
   setMouseTracking(true);
 }
