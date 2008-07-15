@@ -33,10 +33,13 @@ class maxit: public QMainWindow, private Ui::maxit_window
   Q_OBJECT
 
  public:
-  static const int NCOLS = 7;
-  static const int NROWS = 7;
-  static const int VIEW2D = 0;
-  static const int VIEW3D = 1;
+  enum
+    {
+      NCOLS = 7,
+      NROWS = 7,
+      VIEW2D = 0,
+      VIEW3D = 1
+    };
   maxit(void);
   int getViewMode(void) const;
   int getViewSize(void) const;

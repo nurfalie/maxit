@@ -24,7 +24,10 @@ class glpiece: public QGLWidget
   Q_OBJECT
 
  public:
-  static const int CUBE_SIZE = 128;
+  enum
+    {
+      CUBE_SIZE = 128
+    };
   glpiece(QWidget *, glpiece *, const int, const QColor &, const int,
 	  const int, const int);
   ~glpiece();

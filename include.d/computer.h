@@ -21,20 +21,26 @@
 class computer
 {
  public:
-  static const int NCOLS = 7;
-  static const int NROWS = 7;
-  static const int HUMAN_WIN = 0;
-  static const int COMPUTER_WIN = 1;
+  enum
+    {
+      NCOLS = 7,
+      NROWS = 7,
+      HUMAN_WIN = 0,
+      COMPUTER_WIN
+    };
   computer(const int [][NCOLS]);
   ~computer();
   void setRowCol(const int, const int);
   QMap<QString, int> computeMove(void);
 
  private:
-  static const int HUMAN = 0;
-  static const int COMPUTER = 1;
-  static const int UNCLEAR_WIN = 2;
-  static const int BOTH_PARTIES_WIN = 3;
+  enum
+    {
+      HUMAN = 0,
+      COMPUTER,
+      UNCLEAR_WIN,
+      BOTH_PARTIES_WIN
+    };
   int col;
   int row;
   int originalBoard[NROWS][NCOLS];
