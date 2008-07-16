@@ -66,4 +66,5 @@ int main(int argc, char *argv[])
   delete maxitptr;
   delete qapp;
   std::cout << "Exiting Maxit." << std::endl;
+  return 0;
 }
