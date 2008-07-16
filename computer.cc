@@ -2,39 +2,52 @@
 
 computer::computer(const int board[][NCOLS])
 {
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
-      {
-	originalBoard[i][j] = currentBoard[i][j]["value"] = board[i][j];
-	currentBoard[i][j]["player"] = -1;
-      }
+  updateBoard(board);
 }
 
 computer::~computer()
 {
 }
 
-void computer::setRowCol(const int rowArg, const int colArg)
+void computer::updateBoard(const int board[][NCOLS], const int pScore,
+			   const int cScore)
 {
-  row = rowArg;
-  col = colArg;
+  for(int i = 0; i < NROWS; i++)
+    for(int j = 0; j < NCOLS; j++)
+      {
+	originalBoard[i][j] = currentBoard[i][j]["value"] = board[i][j];
+	currentBoard[i][j]["player"] = -1;
+      }
+
+  playerScore = pScore;
+  computerScore = cScore;
 }
 
-QMap<QString, int> computer::computeMove(void)
+void computer::updateBoard(const int rowArg, const int colArg,
+			   const int pScore, const int cScore)
+{
+  originalBoard[rowArg][colArg] = currentBoard[rowArg][colArg]["value"] = 0;
+  currentBoard[rowArg][colArg]["player"] = -1;
+  playerScore = pScore;
+  computerScore = cScore;
+}
+
+QMap<QString, int> computer::computeMove(const int rowArg, const int colArg)
 {
   int bestCol = -1;
   int bestRow = -1;
   QMap<QString, int> move;
 
   (void) chooseMove(COMPUTER, bestRow, bestCol, HUMAN_WIN, COMPUTER_WIN,
-		    row, col);
+		    rowArg, colArg, 0);
   move["row"] = bestRow;
   move["col"] = bestCol;
   return move;
 }
 
 int computer::chooseMove(const int s, int &bestRow, int &bestCol,
-			 int alpha, int beta, const int row, const int col)
+			 int alpha, int beta, const int row, const int col,
+			 const int depth)
 {
   int dc = 0;
   int opp = 0;
@@ -63,9 +76,9 @@ int computer::chooseMove(const int s, int &bestRow, int &bestCol,
 	  {
 	    currentBoard[i][j]["player"] = s;
 	    currentBoard[i][j]["value"] = 0;
-	    reply = chooseMove(opp, dc, dc, alpha, beta, i, j);
+	    reply = chooseMove(opp, dc, dc, alpha, beta, i, j, depth + 1);
 	    currentBoard[i][j]["player"] = -1;
-	    currentBoard[i][j]["player"] = originalBoard[i][j];
+	    currentBoard[i][j]["value"] = originalBoard[i][j];
 
 	    if(s == COMPUTER && reply > value ||
 	       s == HUMAN && reply < value)
@@ -89,8 +102,8 @@ int computer::chooseMove(const int s, int &bestRow, int &bestCol,
 int computer::positionValue(const int row, const int col)
 {
   int value = UNCLEAR_WIN;
-  int playertotal = 0;
-  int computertotal = 0;
+  int playerTotal = playerScore;
+  int computerTotal = computerScore;
   bool gameOver = true;
 
   for(int i = 0; i < NROWS; i++)
@@ -101,19 +114,18 @@ int computer::positionValue(const int row, const int col)
 	    gameOver = false;
 
 	if(currentBoard[i][j]["player"] == COMPUTER)
-	  computertotal += originalBoard[i][j];
+	  computerTotal += originalBoard[i][j];
 	else if(currentBoard[i][j]["player"] == HUMAN)
-	  playertotal += originalBoard[i][j];
+	  playerTotal += originalBoard[i][j];
       }
-
+    
   if(gameOver)
     {
-      if(computertotal > playertotal)
+      if(computerTotal > playerTotal)
 	value = COMPUTER_WIN;
-      else if(computertotal < playertotal)
+      else if(computerTotal < playerTotal)
 	value = HUMAN_WIN;
-      else if(computertotal == playertotal &&
-	      computertotal > 0 && playertotal > 0)
+      else if(computerTotal == playerTotal)
 	value = BOTH_PARTIES_WIN;
     }
   else

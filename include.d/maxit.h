@@ -35,8 +35,8 @@ class maxit: public QMainWindow, private Ui::maxit_window
  public:
   enum
     {
-      NCOLS = 7,
-      NROWS = 7,
+      NCOLS = 4,
+      NROWS = 4,
       VIEW2D = 0,
       VIEW3D = 1
     };

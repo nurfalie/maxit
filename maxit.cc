@@ -142,18 +142,32 @@ int maxit::getViewMode(void) const
 
 void maxit::pieceSelected(glpiece *piece)
 {
+  int board[NROWS][NCOLS];
   QMap<QString, int> move;
 
-  playerscore->setText
-    (QString::number(playerscore->text().toInt() + piece->value()));
-  computerptr->setRowCol(piece->row(), piece->col());
-  move = computerptr->computeMove();
+  playerscore->setText(QString::number(playerscore->text().toInt() +
+				       piece->value()));
+  piece->setValue(0);
+
+  for(int i = 0; i < NROWS; i++)
+    for(int j = 0; j < NCOLS; j++)
+      board[i][j] = glpieces[i][j]->value();  
+
+  computerptr->updateBoard(board, playerscore->text().toInt(),
+			   opponentscore->text().toInt());
+  move = computerptr->computeMove(piece->row(), piece->col());
+  std::cout << move["row"] << " " << move["col"] << std::endl;
 
   if(move["row"] > -1 && move["col"] > -1)
     {
       opponentscore->setText
-	(QString::number(opponentscore->text().toInt()) +
-	 glpieces[move["row"]][move["col"]]->value());
+	(QString::number(opponentscore->text().toInt() +
+			 glpieces[move["row"]][move["col"]]->value()));
+      computerptr->updateBoard(move["row"], move["col"],
+			       playerscore->text().toInt(),
+			       opponentscore->text().toInt());
+      glpieces[move["row"]][move["col"]]->select();
+      glpieces[move["row"]][move["col"]]->setValue(0);
 
       for(int i = 0; i < NROWS; i++)
 	for(int j = 0; j < NCOLS; j++)

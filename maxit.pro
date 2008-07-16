@@ -2,7 +2,7 @@ purge.commands = rm -f *~ && rm -f include.d/*~ && rm -f ui.d/*~
 
 TEMPLATE	= app
 LANGUAGE	= C++
-CONFIG		+= qt release warn_on
+CONFIG		+= qt release warn_on debug
 QT		+= network opengl
 QMAKE_CXXFLAGS	+= -Wall -Werror
 QMAKE_CLEAN	+= Maxit

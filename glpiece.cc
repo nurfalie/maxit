@@ -215,6 +215,11 @@ void glpiece::leaveEvent(QEvent *e)
   updateGL();
 }
 
+void glpiece::select(void)
+{
+  mousePressEvent(static_cast<QMouseEvent *> (0));
+}
+
 void glpiece::mousePressEvent(QMouseEvent *e)
 {
   (void) e;
@@ -244,7 +249,9 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   consumed = true;
   bgColor = bgColorOrig;
   updateGL();
-  maxitptr->pieceSelected(this);
+
+  if(e) // Ignore non-user calls.
+    maxitptr->pieceSelected(this);
 }
 
 QSize glpiece::minimumSizeHint(void) const
@@ -287,4 +294,9 @@ void glpiece::setEnabled(const bool state)
        abs(static_cast<int> (bgColor.blue() - bgColor.blue() * 0.50)));
 
   updateGL();
+}
+
+void glpiece::setValue(const int valueArg)
+{
+  valuev = valueArg;
 }

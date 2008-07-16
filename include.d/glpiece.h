@@ -36,9 +36,11 @@ class glpiece: public QGLWidget
   int value(void) const;
   void reset(const int);
   void rotate(const int, const int, const int);
+  void select(void);
   void paintGL(void);
   void resizeGL(int, int);
   void rotateBy(const int, const int, const int);
+  void setValue(const int);
   void setEnabled(const bool);
   void initializeGL(void);
   QSize sizeHint(void) const;
