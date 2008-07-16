@@ -26,7 +26,7 @@ class computer
       NCOLS = 4,
       NROWS = 4
     };
-  computer(const int [][NCOLS]);
+  computer(void);
   ~computer();
   void updateBoard(const int [][NCOLS], const int = 0, const int = 0);
   void updateBoard(const int, const int, const int = 0, const int = 0);
