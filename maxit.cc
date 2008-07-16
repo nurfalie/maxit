@@ -9,7 +9,7 @@ maxit::maxit(void):QMainWindow()
   QActionGroup *ag1 = 0;
 
   setupUi(this);
-  computerptr = 0;
+  computerptr = new computer();
   ag1 = new QActionGroup(this);
   action_2D = new QAction("2D", this);
   action_3D = new QAction("3D", this);
@@ -75,9 +75,6 @@ void maxit::prepareBoard(const bool createPieces)
 	qapp->processEvents();
 	board[i][j] = abs(value);
       }
-
-  if(!computerptr)
-    computerptr = new computer(board);
 }
 
 void maxit::slotNewGame(void)
@@ -148,6 +145,7 @@ void maxit::pieceSelected(glpiece *piece)
   playerscore->setText(QString::number(playerscore->text().toInt() +
 				       piece->value()));
   piece->setValue(0);
+  statusBar()->showMessage("Computer's Turn");
 
   for(int i = 0; i < NROWS; i++)
     for(int j = 0; j < NCOLS; j++)
@@ -176,6 +174,8 @@ void maxit::pieceSelected(glpiece *piece)
 	  else
 	    glpieces[i][j]->setEnabled(false);
     }
+
+  statusBar()->clearMessage();
 
   if(isGameOver())
     if(playerscore->text().toInt() > opponentscore->text().toInt())
