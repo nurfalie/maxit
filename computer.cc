@@ -1,8 +1,7 @@
 #include "computer.h"
 
-computer::computer(const int board[][NCOLS])
+computer::computer(void)
 {
-  updateBoard(board);
 }
 
 computer::~computer()
