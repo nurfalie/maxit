@@ -11,8 +11,6 @@
 #include "maxit.h"
 #include "glpiece.h"
 
-extern maxit *maxitptr;
-
 glpiece::glpiece(QWidget *parent, glpiece *other,
 		 const int valueArg, const QColor &bgColorArg,
 		 const int rowArg, const int colArg, const int sideArg):
@@ -20,9 +18,10 @@ glpiece::glpiece(QWidget *parent, glpiece *other,
   colv(colArg), rowv(rowArg), side(sideArg), valuev(valueArg),
   bgColor(bgColorArg), bgColorOrig(bgColorArg)
 {
-  xRot = xRot0 = 0;
-  yRot = yRot0 = 0;
-  zRot = zRot0 = 0;
+  xRot = 0;
+  yRot = 0;
+  zRot = 0;
+  nspins = 0;
   consumed = false;
   setMouseTracking(true);
 }
@@ -34,36 +33,25 @@ glpiece::~glpiece()
 
 void glpiece::reset(const int valueArg)
 {
-  xRot = 0;
-  yRot = 0;
-  zRot = 0;
   valuev = valueArg;
   consumed = false;
   setEnabled(true);
 
   if(side == 0)
-    {
-      side = CUBE_SIZE / 5;
-
-      for(int i = 0; side < CUBE_SIZE; i++)
-	{
-	  if(i % 15 == 0)
-	    if(maxitptr->getViewMode() == maxit::VIEW2D)
-	      growBy(5);
-	    else
-	      growBy(10);
-
-	  if(maxitptr->getViewMode() == maxit::VIEW2D)
-	    rotateBy(0, 0, 5 * 10);
+    for(int i = 0; i <= nspins; i++)
+      {
+	if(i % 15 == 0)
+	  if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
+	    growBy(2);
 	  else
-	    rotateBy(5 * 10, -25 * 10, 5 * 10);
-	}
-    }
+	    growBy(4);
 
-  xRot = xRot0;
-  yRot = yRot0;
-  zRot = zRot0;
-  side = CUBE_SIZE;
+	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
+	  rotateBy(0, 0, 5 * 10);
+	else
+	  rotateBy(5 * 10, -25 * 10, 5 * 10);
+      }
+
   glDeleteLists(piece, 1);
   makeCurrent();
   resizeGL(width(), height());
@@ -110,9 +98,9 @@ void glpiece::resizeGL(int w, int h)
 
 void glpiece::rotate(const int xAngle, const int yAngle, const int zAngle)
 {
-  xRot = xRot0 = xAngle;
-  yRot = yRot0 = yAngle;
-  zRot = zRot0 = zAngle;
+  xRot = xAngle;
+  yRot = yAngle;
+  zRot = zAngle;
   updateGL();
 }
 
@@ -124,15 +112,15 @@ void glpiece::rotateBy(const int xAngle, const int yAngle, const int zAngle)
   updateGL();
 }
 
-void glpiece::growBy(const int percentage)
+void glpiece::growBy(const int growth)
 {
-  side = static_cast<int> (side + (side * percentage) / 100.0);
+  side += static_cast<int> (growth);
   resizeGL(width(), height());
 }
 
-void glpiece::shrinkBy(const int percentage)
+void glpiece::shrinkBy(const int decrease)
 {
-  side = static_cast<int> (side - (side * percentage) / 100.0);
+  side -= static_cast<int> (decrease);
   resizeGL(width(), height());
 }
 
@@ -227,19 +215,23 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   if(consumed)
     return;
 
+  nspins = 0;
+
   /*
   ** Shrink and spin the piece.
   */
 
   for(int i = 0; side > 0; i++)
     {
-      if(i % 15 == 0)
-	if(maxitptr->getViewMode() == maxit::VIEW2D)
-	  shrinkBy(5);
-	else
-	  shrinkBy(10);
+      nspins += 1;
 
-      if(maxitptr->getViewMode() == maxit::VIEW2D)
+      if(i % 15 == 0)
+	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
+	  shrinkBy(2);
+	else
+	  shrinkBy(4);
+
+      if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
 	rotateBy(0, 0, -5 * 10);
       else
 	rotateBy(-5 * 10, 25 * 10, -5 * 10);
@@ -251,7 +243,7 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   updateGL();
 
   if(e) // Ignore non-user calls.
-    maxitptr->pieceSelected(this);
+    Global::maxitptr->pieceSelected(this);
 }
 
 QSize glpiece::minimumSizeHint(void) const

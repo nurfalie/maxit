@@ -24,6 +24,7 @@
 ** -- Local Includes --
 */
 
+#include "common.h"
 #include "glpiece.h"
 #include "computer.h"
 #include "ui_maxit.h"
@@ -35,8 +36,6 @@ class maxit: public QMainWindow, private Ui::maxit_window
  public:
   enum
     {
-      NCOLS = 4,
-      NROWS = 4,
       VIEW2D = 0,
       VIEW3D = 1
     };
@@ -46,7 +45,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   void pieceSelected(glpiece *);
 
  private:
-  glpiece *glpieces[NROWS][NCOLS];
+  glpiece *glpieces[Global::NROWS][Global::NCOLS];
   QAction *action_2D;
   QAction *action_3D;
   computer *computerptr;

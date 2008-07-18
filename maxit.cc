@@ -1,11 +1,10 @@
 #include "maxit.h"
 
-extern QApplication *qapp;
-
 maxit::maxit(void):QMainWindow()
 {
-  int suitableH = NROWS * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
-					     glpiece::CUBE_SIZE));
+  int suitableH =
+    Global::NROWS * (static_cast<int>
+		     (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
   QActionGroup *ag1 = 0;
 
   setupUi(this);
@@ -22,7 +21,8 @@ maxit::maxit(void):QMainWindow()
   action_2D->setCheckable(true);
   action_3D->setCheckable(true);
   action_2D->setChecked(true);
-  connect(action_Exit, SIGNAL(triggered(void)), qapp, SLOT(quit(void)));
+  connect(action_Exit, SIGNAL(triggered(void)), Global::qapp,
+	  SLOT(quit(void)));
   connect(action_About, SIGNAL(triggered(void)), this, SLOT(slotAbout(void)));
   connect(action_New_Game, SIGNAL(triggered(void)), this,
 	  SLOT(slotNewGame(void)));
@@ -32,8 +32,8 @@ maxit::maxit(void):QMainWindow()
 	  SLOT(slotChangeView(void)));
   qgl->setSpacing(1);
 
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
+  for(int i = 0; i < Global::NROWS; i++)
+    for(int j = 0; j < Global::NCOLS; j++)
       glpieces[i][j] = 0;
 
   prepareBoard();
@@ -47,17 +47,17 @@ void maxit::prepareBoard(const bool createPieces)
 {
   int side = glpiece::CUBE_SIZE;
   int value = 0;
-  int board[NROWS][NCOLS];
+  int board[Global::NROWS][Global::NCOLS];
   QColor color = QColor(133, 99, 99);
 
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
+  for(int i = 0; i < Global::NROWS; i++)
+    for(int j = 0; j < Global::NCOLS; j++)
       {
-	value = qrand() % (NROWS * NROWS);
+	value = qrand() % (Global::NROWS * Global::NROWS);
 
 	if(value == 0)
 	  value += 1;
-	else if(value > (NROWS * NROWS))
+	else if(value > (Global::NROWS * Global::NROWS))
 	  value = value / 2;
 
 	if(qrand() % 3 == 0)
@@ -72,7 +72,7 @@ void maxit::prepareBoard(const bool createPieces)
 	if(createPieces)
 	  qgl->addWidget(glpieces[i][j], i, j);
 
-	qapp->processEvents();
+	Global::qapp->processEvents();
 	board[i][j] = abs(value);
       }
 }
@@ -111,8 +111,8 @@ void maxit::slotChangeView(void)
 {
   if(getViewMode() == VIEW2D)
     {
-      for(int i = 0; i < NROWS; i++)
-	for(int j = 0; j < NCOLS; j++)
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
 	  if((i + j) % 2 == 0)
 	    glpieces[i][j]->rotate(0, 0, 0);
 	  else
@@ -120,8 +120,8 @@ void maxit::slotChangeView(void)
     }
   else
     {
-      for(int i = 0; i < NROWS; i++)
-	for(int j = 0; j < NCOLS; j++)
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
 	  if((i + j) % 2 == 0)
 	    glpieces[i][j]->rotate(45 * 64, 45 * 64, -25 * 64);
 	  else
@@ -139,7 +139,7 @@ int maxit::getViewMode(void) const
 
 void maxit::pieceSelected(glpiece *piece)
 {
-  int board[NROWS][NCOLS];
+  int board[Global::NROWS][Global::NCOLS];
   QMap<QString, int> move;
 
   playerscore->setText(QString::number(playerscore->text().toInt() +
@@ -147,8 +147,8 @@ void maxit::pieceSelected(glpiece *piece)
   piece->setValue(0);
   statusBar()->showMessage("Computer's Turn");
 
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
+  for(int i = 0; i < Global::NROWS; i++)
+    for(int j = 0; j < Global::NCOLS; j++)
       board[i][j] = glpieces[i][j]->value();  
 
   computerptr->updateBoard(board, playerscore->text().toInt(),
@@ -167,8 +167,8 @@ void maxit::pieceSelected(glpiece *piece)
       glpieces[move["row"]][move["col"]]->select();
       glpieces[move["row"]][move["col"]]->setValue(0);
 
-      for(int i = 0; i < NROWS; i++)
-	for(int j = 0; j < NCOLS; j++)
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
 	  if(i == move["row"] || j == move["col"])
 	    glpieces[i][j]->setEnabled(true);
 	  else

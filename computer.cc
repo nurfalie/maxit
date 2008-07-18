@@ -8,11 +8,11 @@ computer::~computer()
 {
 }
 
-void computer::updateBoard(const int board[][NCOLS], const int pScore,
+void computer::updateBoard(const int board[][Global::NCOLS], const int pScore,
 			   const int cScore)
 {
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
+  for(int i = 0; i < Global::NROWS; i++)
+    for(int j = 0; j < Global::NCOLS; j++)
       {
 	originalBoard[i][j] = currentBoard[i][j]["value"] = board[i][j];
 	currentBoard[i][j]["player"] = -1;
@@ -68,8 +68,11 @@ int computer::chooseMove(const int s, int &bestRow, int &bestCol,
       value = beta;
     }
 
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
+  if(depth >= Global::NROWS)
+    return value;
+
+  for(int i = 0; i < Global::NROWS; i++)
+    for(int j = 0; j < Global::NCOLS; j++)
       if(i == row || j == col)
 	if(currentBoard[i][j]["value"] > 0)
 	  {
@@ -105,8 +108,8 @@ int computer::positionValue(const int row, const int col)
   int computerTotal = computerScore;
   bool gameOver = true;
 
-  for(int i = 0; i < NROWS; i++)
-    for(int j = 0; j < NCOLS; j++)
+  for(int i = 0; i < Global::NROWS; i++)
+    for(int j = 0; j < Global::NCOLS; j++)
       {
 	if(i == row || j == col)
 	  if(currentBoard[i][j]["value"] > 0)

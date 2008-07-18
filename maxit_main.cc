@@ -43,8 +43,8 @@
 
 #include "maxit.h"
 
-maxit *maxitptr = 0;
-QApplication *qapp = 0;
+maxit *Global::maxitptr = 0;
+QApplication *Global::qapp = 0;
 
 int main(int argc, char *argv[])
 {
@@ -52,8 +52,8 @@ int main(int argc, char *argv[])
 
   try
     {
-      qapp = new QApplication(argc, argv);
-      maxitptr = new maxit();
+      Global::qapp = new QApplication(argc, argv);
+      Global::maxitptr = new maxit();
     }
   catch(std::bad_alloc)
     {
@@ -62,9 +62,9 @@ int main(int argc, char *argv[])
       exit(EXIT_FAILURE);
     }
 
-  qapp->exec();
-  delete maxitptr;
-  delete qapp;
+  Global::qapp->exec();
+  delete Global::maxitptr;
+  delete Global::qapp;
   std::cout << "Exiting Maxit." << std::endl;
   return 0;
 }

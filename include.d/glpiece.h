@@ -53,9 +53,7 @@ class glpiece: public QGLWidget
   int xRot;
   int yRot;
   int zRot;
-  int xRot0;
-  int yRot0;
-  int zRot0;
+  int nspins;
   int valuev;
   bool consumed;
   GLuint piece;

@@ -18,17 +18,14 @@
 ** -- Local Includes --
 */
 
+#include "common.h"
+
 class computer
 {
  public:
-  enum
-    {
-      NCOLS = 4,
-      NROWS = 4
-    };
   computer(void);
   ~computer();
-  void updateBoard(const int [][NCOLS], const int = 0, const int = 0);
+  void updateBoard(const int [][Global::NCOLS], const int = 0, const int = 0);
   void updateBoard(const int, const int, const int = 0, const int = 0);
   QMap<QString, int> computeMove(const int, const int);
 
@@ -44,8 +41,8 @@ class computer
     };
   int playerScore;
   int computerScore;
-  int originalBoard[NROWS][NCOLS];
-  QMap<QString, int> currentBoard[NROWS][NCOLS];
+  int originalBoard[Global::NROWS][Global::NCOLS];
+  QMap<QString, int> currentBoard[Global::NROWS][Global::NCOLS];
   int chooseMove(const int, int &, int &, int, int, const int, const int,
 		 const int);
   int positionValue(const int, const int);
