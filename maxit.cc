@@ -64,8 +64,14 @@ void maxit::prepareBoard(const bool createPieces)
 	  value = -value;
 
 	if(createPieces)
-	  glpieces[i][j] = new glpiece
-	    (0, glpieces[0][0], value, color, i, j, side);
+	  {
+	    if((i + j) % 2 == 0)
+	      glpieces[i][j] = new glpiece
+		(0, glpieces[0][0], value, color, i, j, side, -25 * 64);
+	    else
+	      glpieces[i][j] = new glpiece
+		(0, glpieces[0][0], value, color, i, j, side, 25 * 64);
+	  }
 	else
 	  glpieces[i][j]->reset(value);
 
@@ -82,12 +88,6 @@ void maxit::slotNewGame(void)
   playerscore->setText("0");
   opponentscore->setText("0");
   prepareBoard(false);
-}
-
-bool maxit::isGameOver(void) const
-{
-  bool gameOver = false;
-  return gameOver;
 }
 
 void maxit::slotAbout(void)
@@ -114,9 +114,9 @@ void maxit::slotChangeView(void)
       for(int i = 0; i < Global::NROWS; i++)
 	for(int j = 0; j < Global::NCOLS; j++)
 	  if((i + j) % 2 == 0)
-	    glpieces[i][j]->rotate(0, 0, 0);
+	    glpieces[i][j]->rotate(0, 0, -25 * 64);
 	  else
-	    glpieces[i][j]->rotate(0, 0, 0);
+	    glpieces[i][j]->rotate(0, 0, 25 * 64);
     }
   else
     {
@@ -149,12 +149,17 @@ void maxit::pieceSelected(glpiece *piece)
 
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
-      board[i][j] = glpieces[i][j]->value();  
+      {
+	glpieces[i][j]->setEnabled(false);
+	board[i][j] = glpieces[i][j]->value();  
+      }
 
   computerptr->updateBoard(board, playerscore->text().toInt(),
 			   opponentscore->text().toInt());
+  Global::qapp->setOverrideCursor(Qt::WaitCursor);
   move = computerptr->computeMove(piece->row(), piece->col());
-  std::cout << move["row"] << " " << move["col"] << std::endl;
+  Global::qapp->restoreOverrideCursor();
+  statusBar()->clearMessage();
 
   if(move["row"] > -1 && move["col"] > -1)
     {
@@ -174,15 +179,11 @@ void maxit::pieceSelected(glpiece *piece)
 	  else
 	    glpieces[i][j]->setEnabled(false);
     }
-
-  statusBar()->clearMessage();
-
-  if(isGameOver())
-    if(playerscore->text().toInt() > opponentscore->text().toInt())
-      QMessageBox::information(this, "Game Over", "You have won!");
-    else if(playerscore->text().toInt() < opponentscore->text().toInt())
-      QMessageBox::information(this, "Game Over", "Your opponent has won!");
-    else
-      QMessageBox::information(this, "Game Over",
-			       "The game resulted in a tie!");
+  else if(playerscore->text().toInt() > opponentscore->text().toInt())
+    QMessageBox::information(this, "Game Over", "You have won!");
+  else if(playerscore->text().toInt() < opponentscore->text().toInt())
+    QMessageBox::information(this, "Game Over", "Your opponent has won!");
+  else
+    QMessageBox::information(this, "Game Over",
+			     "The game resulted in a tie!");
 }

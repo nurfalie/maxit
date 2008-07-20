@@ -50,7 +50,6 @@ class maxit: public QMainWindow, private Ui::maxit_window
   QAction *action_3D;
   computer *computerptr;
   QGridLayout *qgl;
-  bool isGameOver(void) const;
   void prepareBoard(const bool = true);
 
  private slots:

@@ -13,15 +13,15 @@
 
 glpiece::glpiece(QWidget *parent, glpiece *other,
 		 const int valueArg, const QColor &bgColorArg,
-		 const int rowArg, const int colArg, const int sideArg):
+		 const int rowArg, const int colArg, const int sideArg,
+		 const int zRotArg):
   QGLWidget(parent, other),
   colv(colArg), rowv(rowArg), side(sideArg), valuev(valueArg),
   bgColor(bgColorArg), bgColorOrig(bgColorArg)
 {
   xRot = 0;
   yRot = 0;
-  zRot = 0;
-  nspins = 0;
+  zRot = zRotArg;
   consumed = false;
   setMouseTracking(true);
 }
@@ -38,7 +38,7 @@ void glpiece::reset(const int valueArg)
   setEnabled(true);
 
   if(side == 0)
-    for(int i = 0; i <= nspins; i++)
+    for(int i = 0; side < CUBE_SIZE; i++)
       {
 	if(i % 15 == 0)
 	  if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
@@ -215,16 +215,12 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   if(consumed)
     return;
 
-  nspins = 0;
-
   /*
   ** Shrink and spin the piece.
   */
 
   for(int i = 0; side > 0; i++)
     {
-      nspins += 1;
-
       if(i % 15 == 0)
 	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
 	  shrinkBy(2);

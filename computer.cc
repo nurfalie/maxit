@@ -37,18 +37,17 @@ QMap<QString, int> computer::computeMove(const int rowArg, const int colArg)
   int bestRow = -1;
   QMap<QString, int> move;
 
-  (void) chooseMove(COMPUTER, bestRow, bestCol, HUMAN_WIN, COMPUTER_WIN,
+  (void) chooseMove(COMPUTER, HUMAN_WIN, COMPUTER_WIN, bestRow, bestCol,
 		    rowArg, colArg, 0);
   move["row"] = bestRow;
   move["col"] = bestCol;
   return move;
 }
 
-int computer::chooseMove(const int s, int &bestRow, int &bestCol,
-			 int alpha, int beta, const int row, const int col,
-			 const int depth)
+int computer::chooseMove(const int s, int alpha, int beta,
+			 int &bestRow, int &bestCol, const int row,
+			 const int col, const int depth)
 {
-  int dc = 0;
   int opp = 0;
   int reply = 0;
   int value = 0;
@@ -56,6 +55,9 @@ int computer::chooseMove(const int s, int &bestRow, int &bestCol,
 
   if((simpleEval = positionValue(row, col)) != UNCLEAR_WIN)
     return simpleEval;
+
+  if(depth >= Global::NROWS)
+    return value;
 
   if(s == COMPUTER)
     {
@@ -68,9 +70,6 @@ int computer::chooseMove(const int s, int &bestRow, int &bestCol,
       value = beta;
     }
 
-  if(depth >= Global::NROWS)
-    return value;
-
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
       if(i == row || j == col)
@@ -78,12 +77,13 @@ int computer::chooseMove(const int s, int &bestRow, int &bestCol,
 	  {
 	    currentBoard[i][j]["player"] = s;
 	    currentBoard[i][j]["value"] = 0;
-	    reply = chooseMove(opp, dc, dc, alpha, beta, i, j, depth + 1);
+	    reply = chooseMove(opp, alpha, beta, bestRow, bestCol, i, j,
+			       depth + 1);
 	    currentBoard[i][j]["player"] = -1;
 	    currentBoard[i][j]["value"] = originalBoard[i][j];
 
-	    if(s == COMPUTER && reply > value ||
-	       s == HUMAN && reply < value)
+	    if((s == COMPUTER && reply > value) ||
+	       (s == HUMAN && reply < value))
 	      {
 		if(s == COMPUTER)
 		  alpha = value = reply;
@@ -104,8 +104,8 @@ int computer::chooseMove(const int s, int &bestRow, int &bestCol,
 int computer::positionValue(const int row, const int col)
 {
   int value = UNCLEAR_WIN;
-  int playerTotal = playerScore;
-  int computerTotal = computerScore;
+  int playerTotal = 0;//playerScore;
+  int computerTotal = 0;//computerScore;
   bool gameOver = true;
 
   for(int i = 0; i < Global::NROWS; i++)
@@ -120,7 +120,7 @@ int computer::positionValue(const int row, const int col)
 	else if(currentBoard[i][j]["player"] == HUMAN)
 	  playerTotal += originalBoard[i][j];
       }
-    
+
   if(gameOver)
     {
       if(computerTotal > playerTotal)

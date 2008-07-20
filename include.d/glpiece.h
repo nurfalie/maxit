@@ -29,7 +29,7 @@ class glpiece: public QGLWidget
       CUBE_SIZE = 128
     };
   glpiece(QWidget *, glpiece *, const int, const QColor &, const int,
-	  const int, const int);
+	  const int, const int, const int);
   ~glpiece();
   int col(void) const;
   int row(void) const;
@@ -53,7 +53,6 @@ class glpiece: public QGLWidget
   int xRot;
   int yRot;
   int zRot;
-  int nspins;
   int valuev;
   bool consumed;
   GLuint piece;

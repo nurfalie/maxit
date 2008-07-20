@@ -39,12 +39,14 @@ class computer
       COMPUTER_WIN,
       BOTH_PARTIES_WIN
     };
+  int bestCol;
+  int bestRow;
   int playerScore;
   int computerScore;
   int originalBoard[Global::NROWS][Global::NCOLS];
   QMap<QString, int> currentBoard[Global::NROWS][Global::NCOLS];
-  int chooseMove(const int, int &, int &, int, int, const int, const int,
-		 const int);
+  int chooseMove(const int, int, int, int &, int &,
+		 const int, const int, const int);
   int positionValue(const int, const int);
 };
 
