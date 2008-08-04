@@ -42,7 +42,8 @@ QMap<QString, int> computer::computeMove(const int rowArg, const int colArg)
 void computer::chooseMove(int &bestRow, int &bestCol, const int row,
 			  const int col)
 {
-  QList<pos> list;
+  int tmp = 0;
+  int total = -playerScore + computerScore;
 
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
@@ -60,20 +61,18 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
 			    for(int r = 0; r < Global::NCOLS; r++)
 			      if((o == q || p == r) && originalBoard[q][r] > 0)
 				{
-				  pos P;
-				  P.x = i;
-				  P.y = j;
-				  P.total = -playerScore +
+				  tmp = -playerScore + computerScore +
 				    originalBoard[i][j] -
 				    originalBoard[k][l] +
 				    originalBoard[m][n] -
 				    originalBoard[o][p] +
 				    originalBoard[q][r];
-				  list.append(P);
-				}
 
-  qSort(list.begin(), list.end());
-  bestCol = list.last().y;
-  bestRow = list.last().x;
-  list.clear();
+				  if(tmp > total)
+				    {
+				      total = tmp;
+				      bestRow = i;
+				      bestCol = j;
+				    }
+				}
 }

@@ -12,7 +12,6 @@
 */
 
 #include <QMap>
-#include <QList>
 #include <QString>
 
 /*
@@ -40,21 +39,6 @@ class computer
       UNCLEAR_WIN,
       COMPUTER_WIN
     };
-  class pos
-  {
-  public:
-    int x;
-    int y;
-    int total;
-    bool operator<(const pos &rhs) const
-    {
-      return total < rhs.total;
-    }
-    bool operator==(const pos &rhs) const
-    {
-      return total == rhs.total;
-    }
-  };
   int bestCol;
   int bestRow;
   int playerScore;
