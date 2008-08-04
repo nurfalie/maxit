@@ -256,7 +256,7 @@ R
      <x>0</x>
      <y>0</y>
      <width>568</width>
-     <height>22</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File" >
@@ -272,14 +272,31 @@ R
      <string>&amp;Help</string>
     </property>
     <addaction name="action_About" />
+    <addaction name="separator" />
+    <addaction name="action_Show_Instructions" />
    </widget>
    <widget class="QMenu" name="menu_View" >
     <property name="title" >
      <string>&amp;View</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menu_Options" >
+    <property name="font" >
+     <font>
+      <family>Times</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="title" >
+     <string>&amp;Options</string>
+    </property>
+    <addaction name="action_Animate_Pieces" />
+    <addaction name="separator" />
+    <addaction name="action_Select_Theme" />
+   </widget>
    <addaction name="menu_File" />
    <addaction name="menu_View" />
+   <addaction name="menu_Options" />
    <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
@@ -314,6 +331,39 @@ R
   <action name="action_About" >
    <property name="text" >
     <string>&amp;About</string>
+   </property>
+   <property name="font" >
+    <font>
+     <family>Times</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_Show_Instructions" >
+   <property name="text" >
+    <string>&amp;Show Instructions</string>
+   </property>
+   <property name="font" >
+    <font>
+     <family>Times</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_Animate_Pieces" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>&amp;Animate Pieces</string>
+   </property>
+  </action>
+  <action name="action_Select_Theme" >
+   <property name="text" >
+    <string>&amp;Select Theme</string>
    </property>
    <property name="font" >
     <font>

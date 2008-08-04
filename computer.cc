@@ -13,10 +13,7 @@ void computer::updateBoard(const int board[][Global::NCOLS], const int pScore,
 {
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
-      {
-	originalBoard[i][j] = currentBoard[i][j]["value"] = board[i][j];
-	currentBoard[i][j]["player"] = -1;
-      }
+      originalBoard[i][j] = board[i][j];
 
   playerScore = pScore;
   computerScore = cScore;
@@ -25,8 +22,7 @@ void computer::updateBoard(const int board[][Global::NCOLS], const int pScore,
 void computer::updateBoard(const int rowArg, const int colArg,
 			   const int pScore, const int cScore)
 {
-  originalBoard[rowArg][colArg] = currentBoard[rowArg][colArg]["value"] = 0;
-  currentBoard[rowArg][colArg]["player"] = -1;
+  originalBoard[rowArg][colArg] = 0;
   playerScore = pScore;
   computerScore = cScore;
 }
@@ -37,101 +33,47 @@ QMap<QString, int> computer::computeMove(const int rowArg, const int colArg)
   int bestRow = -1;
   QMap<QString, int> move;
 
-  (void) chooseMove(COMPUTER, HUMAN_WIN, COMPUTER_WIN, bestRow, bestCol,
-		    rowArg, colArg, 0);
+  chooseMove(bestRow, bestCol, rowArg, colArg);
   move["row"] = bestRow;
   move["col"] = bestCol;
   return move;
 }
 
-int computer::chooseMove(const int s, int alpha, int beta,
-			 int &bestRow, int &bestCol, const int row,
-			 const int col, const int depth)
+void computer::chooseMove(int &bestRow, int &bestCol, const int row,
+			  const int col)
 {
-  int opp = 0;
-  int reply = 0;
-  int value = 0;
-  int simpleEval = UNCLEAR_WIN;
-
-  if((simpleEval = positionValue(row, col)) != UNCLEAR_WIN)
-    return simpleEval;
-
-  if(depth >= Global::NROWS)
-    return value;
-
-  if(s == COMPUTER)
-    {
-      opp = HUMAN;
-      value = alpha;
-    }
-  else
-    {
-      opp = COMPUTER;
-      value = beta;
-    }
+  QList<pos> list;
 
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
-      if(i == row || j == col)
-	if(currentBoard[i][j]["value"] > 0)
-	  {
-	    currentBoard[i][j]["player"] = s;
-	    currentBoard[i][j]["value"] = 0;
-	    reply = chooseMove(opp, alpha, beta, bestRow, bestCol, i, j,
-			       depth + 1);
-	    currentBoard[i][j]["player"] = -1;
-	    currentBoard[i][j]["value"] = originalBoard[i][j];
+      if((i == row || j == col) && originalBoard[i][j] > 0)
+	for(int k = 0; k < Global::NROWS; k++)
+	  for(int l = 0; l < Global::NCOLS; l++)
+	    if((k == i || l == j) && originalBoard[k][l] > 0)
+	      for(int m = 0; m < Global::NROWS; m++)
+		for(int n = 0; n < Global::NCOLS; n++)
+		  if((m == k || n == l) && originalBoard[m][n] > 0)
+		    for(int o = 0; o < Global::NROWS; o++)
+		      for(int p = 0; p < Global::NCOLS; p++)
+			if((o == m || p == n) && originalBoard[o][p] > 0)
+			  for(int q = 0; q < Global::NROWS; q++)
+			    for(int r = 0; r < Global::NCOLS; r++)
+			      if((o == q || p == r) && originalBoard[q][r] > 0)
+				{
+				  pos P;
+				  P.x = i;
+				  P.y = j;
+				  P.total = -playerScore +
+				    originalBoard[i][j] -
+				    originalBoard[k][l] +
+				    originalBoard[m][n] -
+				    originalBoard[o][p] +
+				    originalBoard[q][r];
+				  list.append(P);
+				}
 
-	    if((s == COMPUTER && reply > value) ||
-	       (s == HUMAN && reply < value))
-	      {
-		if(s == COMPUTER)
-		  alpha = value = reply;
-		else
-		  beta = value = reply;
-
-		bestRow = i;
-		bestCol = j;
-
-		if(alpha >= beta)
-		  return value;
-	      }
-	}
-
-  return value;
-}
-
-int computer::positionValue(const int row, const int col)
-{
-  int value = UNCLEAR_WIN;
-  int playerTotal = 0;//playerScore;
-  int computerTotal = 0;//computerScore;
-  bool gameOver = true;
-
-  for(int i = 0; i < Global::NROWS; i++)
-    for(int j = 0; j < Global::NCOLS; j++)
-      {
-	if(i == row || j == col)
-	  if(currentBoard[i][j]["value"] > 0)
-	    gameOver = false;
-
-	if(currentBoard[i][j]["player"] == COMPUTER)
-	  computerTotal += originalBoard[i][j];
-	else if(currentBoard[i][j]["player"] == HUMAN)
-	  playerTotal += originalBoard[i][j];
-      }
-
-  if(gameOver)
-    {
-      if(computerTotal > playerTotal)
-	value = COMPUTER_WIN;
-      else if(computerTotal < playerTotal)
-	value = HUMAN_WIN;
-      else if(computerTotal == playerTotal)
-	value = BOTH_PARTIES_WIN;
-    }
-  else
-    value = UNCLEAR_WIN;
-
-  return value;
+  qSort(list.begin(), list.end());
+  bestCol = list.last().y;
+  bestRow = list.last().x;
+  list.clear();
 }

@@ -42,12 +42,15 @@ class maxit: public QMainWindow, private Ui::maxit_window
   maxit(void);
   int getViewMode(void) const;
   int getViewSize(void) const;
+  bool animatePieces(void) const;
   void pieceSelected(glpiece *);
+  QString themedir(void) const;
 
  private:
   glpiece *glpieces[Global::NROWS][Global::NCOLS];
   QAction *action_2D;
   QAction *action_3D;
+  QString themepath;
   computer *computerptr;
   QGridLayout *qgl;
   void prepareBoard(const bool = true);
@@ -56,6 +59,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   void slotAbout(void);
   void slotNewGame(void);
   void slotChangeView(void);
+  void slotChangeTheme(void);
 };
 
 #endif

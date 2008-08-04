@@ -48,8 +48,6 @@ QApplication *Global::qapp = 0;
 
 int main(int argc, char *argv[])
 {
-  QApplication::setColorSpec(QApplication::CustomColor);
-
   try
     {
       Global::qapp = new QApplication(argc, argv);
@@ -57,14 +55,17 @@ int main(int argc, char *argv[])
     }
   catch(std::bad_alloc)
     {
-      std::cerr << "Memory allocation error at line "
-		<< __LINE__ << "." << std::endl;
+      std::cerr << QObject::tr("Memory allocation error at line ").
+	toStdString()
+		<< __LINE__
+		<< QObject::tr(", file ").toStdString()
+		<< __FILE__ << "." << std::endl;
       exit(EXIT_FAILURE);
     }
 
   Global::qapp->exec();
   delete Global::maxitptr;
   delete Global::qapp;
-  std::cout << "Exiting Maxit." << std::endl;
+  std::cout << QObject::tr("Exiting Maxit.").toStdString() << std::endl;
   return 0;
 }

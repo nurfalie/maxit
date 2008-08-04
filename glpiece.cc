@@ -37,7 +37,11 @@ void glpiece::reset(const int valueArg)
   consumed = false;
   setEnabled(true);
 
-  if(side == 0)
+  if(side == 0 && Global::maxitptr->animatePieces())
+    /*
+    ** If necessary, enlarge and rotate the piece.
+    */
+
     for(int i = 0; side < CUBE_SIZE; i++)
       {
 	if(i % 15 == 0)
@@ -51,8 +55,10 @@ void glpiece::reset(const int valueArg)
 	else
 	  rotateBy(5 * 10, -25 * 10, 5 * 10);
       }
+  else
+    side = CUBE_SIZE;
 
-  glDeleteLists(piece, 1);
+  glDeleteLists(piece, 1); // Required cleanup.
   makeCurrent();
   resizeGL(width(), height());
   updateGL();
@@ -145,9 +151,9 @@ GLuint glpiece::createPiece(void)
     facevalue = QString::number(valuev);
 
   for(int i = 0; i < 6; i++)
-    textures[i] = bindTexture
-      (QPixmap(QString("images.d/ubuntu.d/%1.png").arg(facevalue)),
-       GL_TEXTURE_2D);
+    textures[i] = bindTexture(QPixmap(QString("%1/%2.png").
+				      arg(Global::maxitptr->themedir()).
+				      arg(facevalue)), GL_TEXTURE_2D);
 
   glNewList(list, GL_COMPILE);
 
@@ -178,7 +184,7 @@ void glpiece::enterEvent(QEvent *e)
     return;
 
   /*
-  ** Highlight the piece.
+  ** Highlight (change the background color) the piece on a mouse-enter event.
   */
 
   if(bgColor == Qt::black)
@@ -195,6 +201,11 @@ void glpiece::enterEvent(QEvent *e)
 void glpiece::leaveEvent(QEvent *e)
 {
   (void) e;
+
+  /*
+  ** Reset the piece's background color once the mouse has exited
+  ** the piece's space.
+  */
 
   if(consumed || !isEnabled())
     return;
@@ -215,30 +226,33 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   if(consumed)
     return;
 
-  /*
-  ** Shrink and spin the piece.
-  */
+  if(Global::maxitptr->animatePieces())
+    /*
+    ** Shrink and spin the piece.
+    */
 
-  for(int i = 0; side > 0; i++)
-    {
-      if(i % 15 == 0)
+    for(int i = 0; side > 0; i++)
+      {
+	if(i % 15 == 0)
+	  if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
+	    shrinkBy(2);
+	  else
+	    shrinkBy(4);
+
 	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	  shrinkBy(2);
+	  rotateBy(0, 0, -5 * 10);
 	else
-	  shrinkBy(4);
-
-      if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	rotateBy(0, 0, -5 * 10);
-      else
-	rotateBy(-5 * 10, 25 * 10, -5 * 10);
-    }
+	  rotateBy(-5 * 10, 25 * 10, -5 * 10);
+      }
+  else
+    side = 0;
 
   glDeleteLists(piece, 1);
   consumed = true;
   bgColor = bgColorOrig;
   updateGL();
 
-  if(e) // Ignore non-user calls.
+  if(e) // Ignore non-mouse events.
     Global::maxitptr->pieceSelected(this);
 }
 

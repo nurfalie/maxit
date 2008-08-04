@@ -8,10 +8,16 @@ maxit::maxit(void):QMainWindow()
   QActionGroup *ag1 = 0;
 
   setupUi(this);
+
+#ifdef Q_OS_WIN
+  themepath = QDir::current().path() + "\images.d\ubuntu.d";
+#else
+  themepath = QDir::current().path() + "/images.d/ubuntu.d";
+#endif
   computerptr = new computer();
   ag1 = new QActionGroup(this);
-  action_2D = new QAction("2D", this);
-  action_3D = new QAction("3D", this);
+  action_2D = new QAction(tr("2D"), this);
+  action_3D = new QAction(tr("3D"), this);
   qgl = new QGridLayout();
   ag1->setExclusive(true);
   ag1->addAction(action_2D);
@@ -30,6 +36,8 @@ maxit::maxit(void):QMainWindow()
 	  SLOT(slotChangeView(void)));
   connect(action_3D, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeView(void)));
+  connect(action_Select_Theme, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeTheme(void)));
   qgl->setSpacing(1);
 
   for(int i = 0; i < Global::NROWS; i++)
@@ -85,8 +93,8 @@ void maxit::prepareBoard(const bool createPieces)
 
 void maxit::slotNewGame(void)
 {
-  playerscore->setText("0");
-  opponentscore->setText("0");
+  playerscore->setText(tr("0"));
+  opponentscore->setText(tr("0"));
   prepareBoard(false);
 }
 
@@ -94,15 +102,15 @@ void maxit::slotAbout(void)
 {
   QMessageBox mb(this);
 
-  mb.setWindowTitle("Maxit: About");
+  mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText("<html>Maxit Version 0.01.<br>"
-	     "Copyright (c) Slurpy McNash 2007, 2008.<br><br>"
-	     "Please visit "
-	     "<a href=\"http://maxit.sourceforge.net\">"
-	     "http://maxit.sourceforge.net</a> for "
-	     "project information."
-	     "</html>");
+  mb.setText(tr("<html>Maxit Version 0.01.<br>"
+		"Copyright (c) Slurpy McNash 2007, 2008.<br><br>"
+		"Please visit "
+		"<a href=\"http://maxit.sourceforge.net\">"
+		"http://maxit.sourceforge.net</a> for "
+		"project information."
+		"</html>"));
   mb.setStandardButtons(QMessageBox::Ok);
   mb.exec();
 }
@@ -137,6 +145,11 @@ int maxit::getViewMode(void) const
     return VIEW3D;
 }
 
+bool maxit::animatePieces(void) const
+{
+  return action_Animate_Pieces->isChecked();
+}
+
 void maxit::pieceSelected(glpiece *piece)
 {
   int board[Global::NROWS][Global::NCOLS];
@@ -144,8 +157,9 @@ void maxit::pieceSelected(glpiece *piece)
 
   playerscore->setText(QString::number(playerscore->text().toInt() +
 				       piece->value()));
+  Global::qapp->processEvents();
   piece->setValue(0);
-  statusBar()->showMessage("Computer's Turn");
+  statusBar()->showMessage(tr("Analyzing..."));
 
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
@@ -180,10 +194,40 @@ void maxit::pieceSelected(glpiece *piece)
 	    glpieces[i][j]->setEnabled(false);
     }
   else if(playerscore->text().toInt() > opponentscore->text().toInt())
-    QMessageBox::information(this, "Game Over", "You have won!");
+    QMessageBox::information(this, tr("Game Over"), tr("You have won!"));
   else if(playerscore->text().toInt() < opponentscore->text().toInt())
-    QMessageBox::information(this, "Game Over", "Your opponent has won!");
+    QMessageBox::information(this, tr("Game Over"),
+			     tr("Your opponent has won!"));
   else
-    QMessageBox::information(this, "Game Over",
-			     "The game resulted in a tie!");
+    QMessageBox::information(this, tr("Game Over"),
+			     tr("The game resulted in a tie!"));
+}
+
+void maxit::slotChangeTheme(void)
+{
+  QString tmpstr = "";
+  QString startpath = "";
+
+#ifdef Q_OS_WIN
+  startpath = "\images.d";
+#else
+  startpath = "/images.d";
+#endif
+
+  if(!(tmpstr = QFileDialog::getExistingDirectory
+       (this,
+	tr("Select Theme"),
+	QDir::current().path() + startpath)).isEmpty())
+    {
+      themepath = tmpstr;
+
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
+	  glpieces[i][j]->updateGL();
+    }
+}
+
+QString maxit::themedir(void) const
+{
+  return themepath;
 }
