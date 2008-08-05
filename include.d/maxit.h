@@ -60,6 +60,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   void slotNewGame(void);
   void slotChangeView(void);
   void slotChangeTheme(void);
+  void slotInstructions(void);
 };
 
 #endif

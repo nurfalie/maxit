@@ -273,7 +273,7 @@ R
     </property>
     <addaction name="action_About" />
     <addaction name="separator" />
-    <addaction name="action_Show_Instructions" />
+    <addaction name="action_Instructions" />
    </widget>
    <widget class="QMenu" name="menu_View" >
     <property name="title" >
@@ -339,9 +339,9 @@ R
     </font>
    </property>
   </action>
-  <action name="action_Show_Instructions" >
+  <action name="action_Instructions" >
    <property name="text" >
-    <string>&amp;Show Instructions</string>
+    <string>&amp;Instructions</string>
    </property>
    <property name="font" >
     <font>

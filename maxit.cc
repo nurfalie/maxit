@@ -38,6 +38,8 @@ maxit::maxit(void):QMainWindow()
 	  SLOT(slotChangeView(void)));
   connect(action_Select_Theme, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeTheme(void)));
+  connect(action_Instructions, SIGNAL(triggered(void)), this,
+	  SLOT(slotInstructions(void)));
   qgl->setSpacing(1);
 
   for(int i = 0; i < Global::NROWS; i++)
@@ -194,12 +196,13 @@ void maxit::pieceSelected(glpiece *piece)
 	    glpieces[i][j]->setEnabled(false);
     }
   else if(playerscore->text().toInt() > opponentscore->text().toInt())
-    QMessageBox::information(this, tr("Game Over"), tr("You have won!"));
+    QMessageBox::information(this, tr("Maxit: Game Over"),
+			     tr("You have won!"));
   else if(playerscore->text().toInt() < opponentscore->text().toInt())
-    QMessageBox::information(this, tr("Game Over"),
+    QMessageBox::information(this, tr("Maxit: Game Over"),
 			     tr("Your opponent has won!"));
   else
-    QMessageBox::information(this, tr("Game Over"),
+    QMessageBox::information(this, tr("Maxit: Game Over"),
 			     tr("The game resulted in a tie!"));
 }
 
@@ -230,4 +233,24 @@ void maxit::slotChangeTheme(void)
 QString maxit::themedir(void) const
 {
   return themepath;
+}
+
+void maxit::slotInstructions(void)
+{
+  QMessageBox mb(this);
+
+  mb.setWindowTitle(tr("Maxit: Instructions"));
+  mb.setTextFormat(Qt::RichText);
+  mb.setText(tr("<ul>"
+		"<li>The first player must initiate the game.</li>"
+		"<li>A player may only select a piece that is located "
+		"in the same column or row as the previously-selected "
+		"piece.</li>"
+		"<li>The game ends when all of the pieces have been "
+		"selected or when there are no pieces to select in accordance "
+		"with the second rule.</li>"
+		"<li>The player with the highest score wins.</li>"
+		"</ul>"));
+  mb.setStandardButtons(QMessageBox::Ok);
+  mb.exec();
 }
