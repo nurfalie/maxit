@@ -63,6 +63,8 @@ void maxit::prepareBoard(const bool createPieces)
   QColor color = QColor(133, 99, 99);
   QMap<QString, short> map;
 
+  Global::qapp->setOverrideCursor(Qt::WaitCursor);
+
   if(!createPieces)
     for(i = 0; i < Global::NROWS; i++)
       for(j = 0; j < Global::NCOLS; j++)
@@ -108,6 +110,7 @@ void maxit::prepareBoard(const bool createPieces)
     }
 
   map.clear();
+  Global::qapp->restoreOverrideCursor();
 }
 
 void maxit::slotNewGame(void)
@@ -136,6 +139,8 @@ void maxit::slotAbout(void)
 
 void maxit::slotChangeView(void)
 {
+  Global::qapp->setOverrideCursor(Qt::WaitCursor);
+
   if(getViewMode() == VIEW2D)
     {
       for(int i = 0; i < Global::NROWS; i++)
@@ -154,6 +159,8 @@ void maxit::slotChangeView(void)
 	  else
 	    glpieces[i][j]->rotate(-45 * 64, 45 * 64, 25 * 64);
     }
+
+  Global::qapp->restoreOverrideCursor();
 }
 
 int maxit::getViewMode(void) const
@@ -172,8 +179,10 @@ bool maxit::animatePieces(void) const
 void maxit::pieceSelected(glpiece *piece)
 {
   int board[Global::NROWS][Global::NCOLS];
+  bool gameover = false;
   QMap<QString, int> move;
 
+  Global::qapp->setOverrideCursor(Qt::WaitCursor);
   playerscore->setText(QString::number(playerscore->text().toInt() +
 				       piece->value()));
   Global::qapp->processEvents();
@@ -189,9 +198,7 @@ void maxit::pieceSelected(glpiece *piece)
 
   computerptr->updateBoard(board, playerscore->text().toInt(),
 			   opponentscore->text().toInt());
-  Global::qapp->setOverrideCursor(Qt::WaitCursor);
   move = computerptr->computeMove(piece->row(), piece->col());
-  Global::qapp->restoreOverrideCursor();
   statusBar()->clearMessage();
 
   if(move["row"] > -1 && move["col"] > -1)
@@ -212,15 +219,21 @@ void maxit::pieceSelected(glpiece *piece)
 	  else
 	    glpieces[i][j]->setEnabled(false);
     }
-  else if(playerscore->text().toInt() > opponentscore->text().toInt())
-    QMessageBox::information(this, tr("Maxit: Game Over"),
-			     tr("You have won!"));
-  else if(playerscore->text().toInt() < opponentscore->text().toInt())
-    QMessageBox::information(this, tr("Maxit: Game Over"),
-			     tr("Your opponent has won!"));
   else
-    QMessageBox::information(this, tr("Maxit: Game Over"),
-			     tr("The game resulted in a tie!"));
+    gameover = true;
+
+  Global::qapp->restoreOverrideCursor();
+
+  if(gameover)
+    if(playerscore->text().toInt() > opponentscore->text().toInt())
+      QMessageBox::information(this, tr("Maxit: Game Over"),
+			       tr("You have won!"));
+    else if(playerscore->text().toInt() < opponentscore->text().toInt())
+      QMessageBox::information(this, tr("Maxit: Game Over"),
+			       tr("Your opponent has won!"));
+    else
+      QMessageBox::information(this, tr("Maxit: Game Over"),
+			       tr("The game resulted in a tie!"));
 }
 
 void maxit::slotChangeTheme(void)

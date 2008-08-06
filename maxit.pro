@@ -2,12 +2,10 @@ purge.commands = rm -f *~ && rm -f include.d/*~ && rm -f ui.d/*~
 
 TEMPLATE	= app
 LANGUAGE	= C++
-CONFIG		+= qt release warn_on debug
+CONFIG		+= qt release warn_on
 QT		+= network opengl
 QMAKE_CXXFLAGS	+= -Wall -Werror
 QMAKE_CLEAN	+= Maxit
-QMAKE_CFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CFLAGS_RELEASE += -Werror
 QMAKE_CXXFLAGS_RELEASE += -Werror
 QMAKE_EXTRA_UNIX_TARGETS = purge

@@ -46,9 +46,9 @@ void glpiece::reset(const int valueArg)
       {
 	if(i % 15 == 0)
 	  if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	    growBy(2);
+	    growBy(8);
 	  else
-	    growBy(4);
+	    growBy(8);
 
 	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
 	  rotateBy(0, 0, 5 * 10);
@@ -235,9 +235,9 @@ void glpiece::mousePressEvent(QMouseEvent *e)
       {
 	if(i % 15 == 0)
 	  if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	    shrinkBy(2);
+	    shrinkBy(8);
 	  else
-	    shrinkBy(4);
+	    shrinkBy(8);
 
 	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
 	  rotateBy(0, 0, -5 * 10);
