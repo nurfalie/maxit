@@ -55,42 +55,59 @@ maxit::maxit(void):QMainWindow()
 
 void maxit::prepareBoard(const bool createPieces)
 {
+  int i = 0;
+  int j = 0;
   int side = glpiece::CUBE_SIZE;
   int value = 0;
   int board[Global::NROWS][Global::NCOLS];
   QColor color = QColor(133, 99, 99);
+  QMap<QString, short> map;
 
-  for(int i = 0; i < Global::NROWS; i++)
-    for(int j = 0; j < Global::NCOLS; j++)
-      {
-	value = qrand() % (Global::NROWS * Global::NROWS);
+  if(!createPieces)
+    for(i = 0; i < Global::NROWS; i++)
+      for(j = 0; j < Global::NCOLS; j++)
+	glpieces[i][j]->setEnabled(true);
 
-	if(value == 0)
-	  value += 1;
-	else if(value > (Global::NROWS * Global::NROWS))
-	  value = value / 2;
+  while(map.size() < Global::NROWS * Global::NCOLS)
+    {
+      i = qrand() % Global::NROWS;
+      j = qrand() % Global::NCOLS;
 
-	if(qrand() % 3 == 0)
-	  value = -value;
+      if(map.contains(QString("%1,%2").arg(i).arg(j)))
+	continue;
+      else
+	map[QString("%1,%2").arg(i).arg(j)] = 0;
 
-	if(createPieces)
-	  {
-	    if((i + j) % 2 == 0)
-	      glpieces[i][j] = new glpiece
-		(0, glpieces[0][0], value, color, i, j, side, -25 * 64);
-	    else
-	      glpieces[i][j] = new glpiece
-		(0, glpieces[0][0], value, color, i, j, side, 25 * 64);
-	  }
-	else
-	  glpieces[i][j]->reset(value);
+      value = qrand() % (Global::NROWS * Global::NROWS);
 
-	if(createPieces)
-	  qgl->addWidget(glpieces[i][j], i, j);
+      if(value == 0)
+	value += 1;
+      else if(value > (Global::NROWS * Global::NROWS))
+	value = value / 2;
 
-	Global::qapp->processEvents();
-	board[i][j] = abs(value);
-      }
+      if(qrand() % 3 == 0)
+	value = -value;
+
+      if(createPieces)
+	{
+	  if((i + j) % 2 == 0)
+	    glpieces[i][j] = new glpiece
+	      (0, glpieces[0][0], value, color, i, j, side, -25 * 64);
+	  else
+	    glpieces[i][j] = new glpiece
+	      (0, glpieces[0][0], value, color, i, j, side, 25 * 64);
+	}
+      else
+	glpieces[i][j]->reset(value);
+
+      if(createPieces)
+	qgl->addWidget(glpieces[i][j], i, j);
+
+      Global::qapp->processEvents();
+      board[i][j] = abs(value);
+    }
+
+  map.clear();
 }
 
 void maxit::slotNewGame(void)
