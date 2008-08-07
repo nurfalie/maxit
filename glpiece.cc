@@ -134,6 +134,7 @@ GLuint glpiece::createPiece(void)
 {
   GLuint list = glGenLists(1);
   GLuint textures[6];
+  QPixmap pixmap;
   QString facevalue = "";
   static const int coords[6][4][3] =
     {
@@ -151,9 +152,18 @@ GLuint glpiece::createPiece(void)
     facevalue = QString::number(valuev);
 
   for(int i = 0; i < 6; i++)
-    textures[i] = bindTexture(QPixmap(QString("%1/%2.png").
-				      arg(Global::maxitptr->themedir()).
-				      arg(facevalue)), GL_TEXTURE_2D);
+    {
+#ifdef Q_OS_WIN
+      pixmap = QPixmap(QString("%1\\%2.png").arg(Global::maxitptr->themedir()).
+		       arg(facevalue));
+#else
+      pixmap = QPixmap(QString("%1/%2.png").arg(Global::maxitptr->themedir()).
+		       arg(facevalue));
+#endif
+
+      if(!pixmap.isNull())
+	textures[i] = bindTexture(pixmap, GL_TEXTURE_2D);
+    }
 
   glNewList(list, GL_COMPILE);
 
