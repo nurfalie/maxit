@@ -8,7 +8,6 @@ maxit::maxit(void):QMainWindow()
   QActionGroup *ag1 = 0;
 
   setupUi(this);
-
 #ifdef Q_OS_WIN
   themepath = QDir::current().path() + "\\images.d\\ubuntu.d";
 #else
@@ -238,8 +237,8 @@ void maxit::pieceSelected(glpiece *piece)
 
 void maxit::slotChangeTheme(void)
 {
-  QString tmpstr = "";
-  QString startpath = "";
+  QString tmpstr("");
+  QString startpath("");
 
 #ifdef Q_OS_WIN
   startpath = "\\images.d";
@@ -260,7 +259,7 @@ void maxit::slotChangeTheme(void)
     }
 }
 
-QString maxit::themedir(void) const
+QString maxit::themedir(void)
 {
   return themepath;
 }

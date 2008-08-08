@@ -135,7 +135,7 @@ GLuint glpiece::createPiece(void)
   GLuint list = glGenLists(1);
   GLuint textures[6];
   QPixmap pixmap;
-  QString facevalue = "";
+  QString facevalue("");
   static const int coords[6][4][3] =
     {
       {{1, -1, -1}, {-1, -1, -1}, {-1, 1, -1}, {1, 1, -1}},
@@ -154,10 +154,12 @@ GLuint glpiece::createPiece(void)
   for(int i = 0; i < 6; i++)
     {
 #ifdef Q_OS_WIN
-      pixmap = QPixmap(QString("%1\\%2.png").arg(Global::maxitptr->themedir()).
+      pixmap = QPixmap(QString("%1/%2.png").
+		       arg(maxit::themedir()).
 		       arg(facevalue));
 #else
-      pixmap = QPixmap(QString("%1/%2.png").arg(Global::maxitptr->themedir()).
+      pixmap = QPixmap(QString("%1/%2.png").
+		       arg(maxit::themedir()).
 		       arg(facevalue));
 #endif
 

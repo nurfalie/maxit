@@ -44,6 +44,7 @@
 #include "maxit.h"
 
 maxit *Global::maxitptr = 0;
+QString maxit::themepath("");
 QApplication *Global::qapp = 0;
 
 int main(int argc, char *argv[])
