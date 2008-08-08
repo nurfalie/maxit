@@ -44,15 +44,15 @@ class maxit: public QMainWindow, private Ui::maxit_window
   int getViewSize(void) const;
   bool animatePieces(void) const;
   void pieceSelected(glpiece *);
-  QString themedir(void) const;
+  static QString themedir(void);
 
  private:
   glpiece *glpieces[Global::NROWS][Global::NCOLS];
   QAction *action_2D;
   QAction *action_3D;
-  QString themepath;
   computer *computerptr;
   QGridLayout *qgl;
+  static QString themepath;
   void prepareBoard(const bool = true);
 
  private slots:
