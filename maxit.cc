@@ -49,9 +49,9 @@ maxit::maxit(void):QMainWindow()
   connect(action_2D, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeView(void)));
   connect(action_3D, SIGNAL(triggered(void)), this,
-	  SLOT(slotNewGame(void)));
+	  SLOT(slotChangeView(void)));
   connect(action_Select_Theme, SIGNAL(triggered(void)), this,
-	  SLOT(slotNewGame(void)));
+	  SLOT(slotChangeTheme(void)));
   connect(action_easy, SIGNAL(triggered(void)), this,
 	  SLOT(slotNewGame(void)));
   connect(action_normal, SIGNAL(triggered(void)), this,
