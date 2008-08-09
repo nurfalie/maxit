@@ -26,7 +26,6 @@ class computer
   computer(void);
   ~computer();
   void updateBoard(const int [][Global::NCOLS], const int = 0, const int = 0);
-  void updateBoard(const int, const int, const int = 0, const int = 0);
   QMap<QString, int> computeMove(const int, const int);
 
  private:

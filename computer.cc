@@ -19,14 +19,6 @@ void computer::updateBoard(const int board[][Global::NCOLS], const int pScore,
   computerScore = cScore;
 }
 
-void computer::updateBoard(const int rowArg, const int colArg,
-			   const int pScore, const int cScore)
-{
-  originalBoard[rowArg][colArg] = 0;
-  playerScore = pScore;
-  computerScore = cScore;
-}
-
 QMap<QString, int> computer::computeMove(const int rowArg, const int colArg)
 {
   int bestCol = -1;

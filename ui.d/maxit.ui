@@ -25,7 +25,7 @@
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" >
+      <property name="sizeHint" stdset="0" >
        <size>
         <width>544</width>
         <height>136</height>
@@ -40,7 +40,7 @@
         <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>238</width>
           <height>135</height>
@@ -55,7 +55,7 @@
           <property name="orientation" >
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>63</width>
             <height>16</height>
@@ -69,7 +69,6 @@
            <widget class="QLabel" name="label_3" >
             <property name="font" >
              <font>
-              <family>Times</family>
               <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
@@ -119,7 +118,7 @@ R
           <property name="orientation" >
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>63</width>
             <height>16</height>
@@ -146,7 +145,7 @@ R
           <property name="orientation" >
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>67</width>
             <height>16</height>
@@ -160,7 +159,6 @@ R
            <widget class="QLabel" name="label_2" >
             <property name="font" >
              <font>
-              <family>Times</family>
               <pointsize>15</pointsize>
               <weight>75</weight>
               <bold>true</bold>
@@ -210,7 +208,7 @@ R
           <property name="orientation" >
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>67</width>
             <height>16</height>
@@ -225,7 +223,7 @@ R
         <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>238</width>
           <height>135</height>
@@ -240,7 +238,7 @@ R
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" >
+      <property name="sizeHint" stdset="0" >
        <size>
         <width>544</width>
         <height>135</height>
@@ -276,6 +274,12 @@ R
     <addaction name="action_Instructions" />
    </widget>
    <widget class="QMenu" name="menu_View" >
+    <property name="font" >
+     <font>
+      <family>Times</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="title" >
      <string>&amp;View</string>
     </property>
@@ -294,9 +298,21 @@ R
     <addaction name="separator" />
     <addaction name="action_Select_Theme" />
    </widget>
+   <widget class="QMenu" name="menu_Difficulty" >
+    <property name="font" >
+     <font>
+      <family>Times</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="title" >
+     <string>&amp;Difficulty</string>
+    </property>
+   </widget>
    <addaction name="menu_File" />
-   <addaction name="menu_View" />
+   <addaction name="menu_Difficulty" />
    <addaction name="menu_Options" />
+   <addaction name="menu_View" />
    <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
@@ -359,6 +375,12 @@ R
    </property>
    <property name="text" >
     <string>&amp;Animate Pieces</string>
+   </property>
+   <property name="font" >
+    <font>
+     <family>Times</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </action>
   <action name="action_Select_Theme" >

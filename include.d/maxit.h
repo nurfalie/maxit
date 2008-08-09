@@ -50,6 +50,9 @@ class maxit: public QMainWindow, private Ui::maxit_window
   glpiece *glpieces[Global::NROWS][Global::NCOLS];
   QAction *action_2D;
   QAction *action_3D;
+  QAction *action_easy;
+  QAction *action_normal;
+  QAction *action_difficult;
   computer *computerptr;
   QGridLayout *qgl;
   static QString themepath;

@@ -6,6 +6,7 @@ maxit::maxit(void):QMainWindow()
     Global::NROWS * (static_cast<int>
 		     (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
   QActionGroup *ag1 = 0;
+  QActionGroup *ag2 = 0;
 
   setupUi(this);
 #ifdef Q_OS_WIN
@@ -15,17 +16,31 @@ maxit::maxit(void):QMainWindow()
 #endif
   computerptr = new computer();
   ag1 = new QActionGroup(this);
+  ag2 = new QActionGroup(this);
   action_2D = new QAction(tr("2D"), this);
   action_3D = new QAction(tr("3D"), this);
+  action_easy = new QAction(tr("Easy"), this);
+  action_normal = new QAction(tr("Normal"), this);
+  action_difficult = new QAction(tr("Difficult"), this);
   qgl = new QGridLayout();
   ag1->setExclusive(true);
   ag1->addAction(action_2D);
   ag1->addAction(action_3D);
+  ag2->addAction(action_easy);
+  ag2->addAction(action_normal);
+  ag2->addAction(action_difficult);
   menu_View->addAction(action_2D);
   menu_View->addAction(action_3D);
+  menu_Difficulty->addAction(action_easy);
+  menu_Difficulty->addAction(action_normal);
+  menu_Difficulty->addAction(action_difficult);
   action_2D->setCheckable(true);
   action_3D->setCheckable(true);
   action_2D->setChecked(true);
+  action_easy->setCheckable(true);
+  action_normal->setCheckable(true);
+  action_difficult->setCheckable(true);
+  action_easy->setChecked(true);
   connect(action_Exit, SIGNAL(triggered(void)), Global::qapp,
 	  SLOT(quit(void)));
   connect(action_About, SIGNAL(triggered(void)), this, SLOT(slotAbout(void)));
@@ -34,9 +49,15 @@ maxit::maxit(void):QMainWindow()
   connect(action_2D, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeView(void)));
   connect(action_3D, SIGNAL(triggered(void)), this,
-	  SLOT(slotChangeView(void)));
+	  SLOT(slotNewGame(void)));
   connect(action_Select_Theme, SIGNAL(triggered(void)), this,
-	  SLOT(slotChangeTheme(void)));
+	  SLOT(slotNewGame(void)));
+  connect(action_easy, SIGNAL(triggered(void)), this,
+	  SLOT(slotNewGame(void)));
+  connect(action_normal, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeDifficulty(void)));
+  connect(action_difficult, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeDifficulty(void)));
   connect(action_Instructions, SIGNAL(triggered(void)), this,
 	  SLOT(slotInstructions(void)));
   qgl->setSpacing(1);
@@ -59,10 +80,18 @@ void maxit::prepareBoard(const bool createPieces)
   int side = glpiece::CUBE_SIZE;
   int value = 0;
   int board[Global::NROWS][Global::NCOLS];
+  int difficulty = 0;
   QColor color = QColor(133, 99, 99);
   QMap<QString, short> map;
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
+
+  if(action_easy->isChecked())
+    difficulty = 7;
+  else if(action_normal->isChecked())
+    difficulty = 3;
+  else
+    difficulty = 2;
 
   if(!createPieces)
     for(i = 0; i < Global::NROWS; i++)
@@ -86,10 +115,10 @@ void maxit::prepareBoard(const bool createPieces)
       else if(value > (Global::NROWS * Global::NROWS))
 	value = value / 2;
 
-      if(qrand() % 3 == 0)
+      if(qrand() % difficulty == 0)
 	value = -value;
 
-      if(createPieces)
+      if(createPieces && !glpieces[i][j])
 	{
 	  if((i + j) % 2 == 0)
 	    glpieces[i][j] = new glpiece
@@ -125,7 +154,7 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<html>Maxit Version 0.01.<br>"
+  mb.setText(tr("<html>Maxit Version 0.02.<br>"
 		"Copyright (c) Slurpy McNash 2007, 2008.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
@@ -178,7 +207,7 @@ bool maxit::animatePieces(void) const
 void maxit::pieceSelected(glpiece *piece)
 {
   int board[Global::NROWS][Global::NCOLS];
-  bool gameover = false;
+  bool gameover = true;
   QMap<QString, int> move;
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
@@ -205,9 +234,6 @@ void maxit::pieceSelected(glpiece *piece)
       opponentscore->setText
 	(QString::number(opponentscore->text().toInt() +
 			 glpieces[move["row"]][move["col"]]->value()));
-      computerptr->updateBoard(move["row"], move["col"],
-			       playerscore->text().toInt(),
-			       opponentscore->text().toInt());
       glpieces[move["row"]][move["col"]]->select();
       glpieces[move["row"]][move["col"]]->setValue(0);
 
@@ -217,22 +243,26 @@ void maxit::pieceSelected(glpiece *piece)
 	    glpieces[i][j]->setEnabled(true);
 	  else
 	    glpieces[i][j]->setEnabled(false);
+
+      for(int i = 0; i < Global::NROWS && gameover; i++)
+	for(int j = 0; j < Global::NCOLS && gameover; j++)
+	  if(i == move["row"] || j == move["col"])
+	    if(glpieces[i][j]->value() > 0)
+	      gameover = false;
     }
-  else
-    gameover = true;
 
   Global::qapp->restoreOverrideCursor();
 
   if(gameover)
     if(playerscore->text().toInt() > opponentscore->text().toInt())
       QMessageBox::information(this, tr("Maxit: Game Over"),
-			       tr("You have won!"));
+			       tr("Congratulations, you won!"));
     else if(playerscore->text().toInt() < opponentscore->text().toInt())
       QMessageBox::information(this, tr("Maxit: Game Over"),
-			       tr("Your opponent has won!"));
+			       tr("I'm sorry, but you lost!"));
     else
       QMessageBox::information(this, tr("Maxit: Game Over"),
-			       tr("The game resulted in a tie!"));
+			       tr("Congratulations, it's a tie!"));
 }
 
 void maxit::slotChangeTheme(void)
