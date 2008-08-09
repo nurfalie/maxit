@@ -26,7 +26,7 @@ class computer
   computer(void);
   ~computer();
   void updateBoard(const int [][Global::NCOLS], const int = 0, const int = 0);
-  QMap<QString, int> computeMove(const int, const int);
+  QMap<QString, int> getMove(const int, const int) const;
 
  private:
   enum
@@ -38,12 +38,10 @@ class computer
       UNCLEAR_WIN,
       COMPUTER_WIN
     };
-  int bestCol;
-  int bestRow;
   int playerScore;
   int computerScore;
-  int originalBoard[Global::NROWS][Global::NCOLS];
-  void chooseMove(int &, int &, const int, const int);
+  int board[Global::NROWS][Global::NCOLS];
+  void chooseMove(int &, int &, const int, const int) const;
 };
 
 #endif

@@ -199,7 +199,7 @@ int maxit::getViewMode(void) const
     return VIEW3D;
 }
 
-bool maxit::animatePieces(void) const
+bool maxit::isAnimationEnabled(void) const
 {
   return action_Animate_Pieces->isChecked();
 }
@@ -226,7 +226,7 @@ void maxit::pieceSelected(glpiece *piece)
 
   computerptr->updateBoard(board, playerscore->text().toInt(),
 			   opponentscore->text().toInt());
-  move = computerptr->computeMove(piece->row(), piece->col());
+  move = computerptr->getMove(piece->row(), piece->col());
   statusBar()->clearMessage();
 
   if(move["row"] > -1 && move["col"] > -1)

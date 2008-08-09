@@ -37,7 +37,7 @@ void glpiece::reset(const int valueArg)
   consumed = false;
   setEnabled(true);
 
-  if(side == 0 && Global::maxitptr->animatePieces())
+  if(side == 0 && Global::maxitptr->isAnimationEnabled())
     /*
     ** If necessary, enlarge and rotate the piece.
     */
@@ -45,10 +45,7 @@ void glpiece::reset(const int valueArg)
     for(int i = 0; side < CUBE_SIZE; i++)
       {
 	if(i % 15 == 0)
-	  if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	    growBy(8);
-	  else
-	    growBy(8);
+	  growBy(8);
 
 	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
 	  rotateBy(0, 0, 5 * 10);
@@ -154,7 +151,7 @@ GLuint glpiece::createPiece(void)
   for(int i = 0; i < 6; i++)
     {
 #ifdef Q_OS_WIN
-      pixmap = QPixmap(QString("%1/%2.png").
+      pixmap = QPixmap(QString("%1\\%2.png").
 		       arg(maxit::themedir()).
 		       arg(facevalue));
 #else
@@ -238,7 +235,7 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   if(consumed)
     return;
 
-  if(Global::maxitptr->animatePieces())
+  if(Global::maxitptr->isAnimationEnabled())
     /*
     ** Shrink and spin the piece.
     */
@@ -246,10 +243,7 @@ void glpiece::mousePressEvent(QMouseEvent *e)
     for(int i = 0; side > 0; i++)
       {
 	if(i % 15 == 0)
-	  if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	    shrinkBy(8);
-	  else
-	    shrinkBy(8);
+	  shrinkBy(8);
 
 	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
 	  rotateBy(0, 0, -5 * 10);

@@ -42,7 +42,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   maxit(void);
   int getViewMode(void) const;
   int getViewSize(void) const;
-  bool animatePieces(void) const;
+  bool isAnimationEnabled(void) const;
   void pieceSelected(glpiece *);
   static QString themedir(void);
 
