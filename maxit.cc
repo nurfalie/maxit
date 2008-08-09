@@ -55,9 +55,9 @@ maxit::maxit(void):QMainWindow()
   connect(action_easy, SIGNAL(triggered(void)), this,
 	  SLOT(slotNewGame(void)));
   connect(action_normal, SIGNAL(triggered(void)), this,
-	  SLOT(slotChangeDifficulty(void)));
+	  SLOT(slotNewGame(void)));
   connect(action_difficult, SIGNAL(triggered(void)), this,
-	  SLOT(slotChangeDifficulty(void)));
+	  SLOT(slotNewGame(void)));
   connect(action_Instructions, SIGNAL(triggered(void)), this,
 	  SLOT(slotInstructions(void)));
   qgl->setSpacing(1);
