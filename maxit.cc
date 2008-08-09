@@ -278,7 +278,7 @@ void maxit::slotChangeTheme(void)
 
   if(!(tmpstr = QFileDialog::getExistingDirectory
        (this,
-	tr("Select Theme"),
+	tr("Maxit: Theme Selection"),
 	QDir::current().path() + startpath)).isEmpty())
     {
       themepath = tmpstr;
