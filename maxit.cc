@@ -53,11 +53,11 @@ maxit::maxit(void):QMainWindow()
   connect(action_Select_Theme, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeTheme(void)));
   connect(action_easy, SIGNAL(triggered(void)), this,
-	  SLOT(slotNewGame(void)));
+	  SLOT(slotChangeDifficulty(void)));
   connect(action_normal, SIGNAL(triggered(void)), this,
-	  SLOT(slotNewGame(void)));
+	  SLOT(slotChangeDifficulty(void)));
   connect(action_difficult, SIGNAL(triggered(void)), this,
-	  SLOT(slotNewGame(void)));
+	  SLOT(slotChangeDifficulty(void)));
   connect(action_Instructions, SIGNAL(triggered(void)), this,
 	  SLOT(slotInstructions(void)));
   qgl->setSpacing(1);
@@ -79,7 +79,6 @@ void maxit::prepareBoard(const bool createPieces)
   int j = 0;
   int side = glpiece::CUBE_SIZE;
   int value = 0;
-  int board[Global::NROWS][Global::NCOLS];
   int difficulty = 0;
   QColor color = QColor(133, 99, 99);
   QMap<QString, short> map;
@@ -134,7 +133,6 @@ void maxit::prepareBoard(const bool createPieces)
 	qgl->addWidget(glpieces[i][j], i, j);
 
       Global::qapp->processEvents();
-      board[i][j] = abs(value);
     }
 
   map.clear();
@@ -312,4 +310,39 @@ void maxit::slotInstructions(void)
 		"</ul>"));
   mb.setStandardButtons(QMessageBox::Ok);
   mb.exec();
+}
+
+void maxit::slotChangeDifficulty(void)
+{
+  int value = 0;
+  int difficulty = 0;
+
+  Global::qapp->setOverrideCursor(Qt::WaitCursor);
+
+  if(action_easy->isChecked())
+    difficulty = 7;
+  else if(action_normal->isChecked())
+    difficulty = 3;
+  else
+    difficulty = 2;
+
+  for(int i = 0; i < Global::NROWS; i++)
+    for(int j = 0; j < Global::NCOLS; j++)
+      if(glpieces[i][j]->value() > 0)
+	{
+	  value = qrand() % (Global::NROWS * Global::NROWS);
+
+	  if(value == 0)
+	    value += 1;
+	  else if(value > (Global::NROWS * Global::NROWS))
+	    value = value / 2;
+
+	  if(qrand() % difficulty == 0)
+	    value = -value;
+
+	  glpieces[i][j]->setValue(value);
+	  Global::qapp->processEvents();
+	}
+
+  Global::qapp->restoreOverrideCursor();
 }

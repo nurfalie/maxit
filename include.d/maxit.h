@@ -64,6 +64,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   void slotChangeView(void);
   void slotChangeTheme(void);
   void slotInstructions(void);
+  void slotChangeDifficulty(void);
 };
 
 #endif

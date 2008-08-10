@@ -307,4 +307,5 @@ void glpiece::setEnabled(const bool state)
 void glpiece::setValue(const int valueArg)
 {
   valuev = valueArg;
+  updateGL();
 }
