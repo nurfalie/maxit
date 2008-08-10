@@ -272,6 +272,8 @@ R
     <addaction name="action_About" />
     <addaction name="separator" />
     <addaction name="action_Instructions" />
+    <addaction name="separator" />
+    <addaction name="action_Show_Hint" />
    </widget>
    <widget class="QMenu" name="menu_View" >
     <property name="font" >
@@ -365,12 +367,12 @@ R
      <pointsize>10</pointsize>
     </font>
    </property>
+   <property name="shortcut" >
+    <string>Ctrl+I</string>
+   </property>
   </action>
   <action name="action_Animate_Pieces" >
    <property name="checkable" >
-    <bool>true</bool>
-   </property>
-   <property name="checked" >
     <bool>true</bool>
    </property>
    <property name="text" >
@@ -382,16 +384,36 @@ R
      <pointsize>10</pointsize>
     </font>
    </property>
+   <property name="shortcut" >
+    <string>Ctrl+A</string>
+   </property>
   </action>
   <action name="action_Select_Theme" >
    <property name="text" >
-    <string>&amp;Select Theme</string>
+    <string>Select &amp;Theme</string>
    </property>
    <property name="font" >
     <font>
      <family>Times</family>
      <pointsize>10</pointsize>
     </font>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="action_Show_Hint" >
+   <property name="text" >
+    <string>&amp;Show Hint</string>
+   </property>
+   <property name="font" >
+    <font>
+     <family>Times</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+H</string>
    </property>
   </action>
  </widget>

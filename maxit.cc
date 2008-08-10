@@ -60,6 +60,8 @@ maxit::maxit(void):QMainWindow()
 	  SLOT(slotChangeDifficulty(void)));
   connect(action_Instructions, SIGNAL(triggered(void)), this,
 	  SLOT(slotInstructions(void)));
+  connect(action_Show_Hint, SIGNAL(triggered(void)), this,
+	  SLOT(slotShowHint(void)));
   qgl->setSpacing(1);
 
   for(int i = 0; i < Global::NROWS; i++)
@@ -227,13 +229,14 @@ void maxit::pieceSelected(glpiece *piece)
   move = computerptr->getMove(piece->row(), piece->col());
   statusBar()->clearMessage();
 
-  if(move["row"] > -1 && move["col"] > -1)
+  if(move["row"] > -1)
     {
+      computerlastpiece = glpieces[move["row"]][move["col"]];
       opponentscore->setText
 	(QString::number(opponentscore->text().toInt() +
-			 glpieces[move["row"]][move["col"]]->value()));
-      glpieces[move["row"]][move["col"]]->select();
-      glpieces[move["row"]][move["col"]]->setValue(0);
+			 computerlastpiece->value()));
+      computerlastpiece->select();
+      computerlastpiece->setValue(0);
 
       for(int i = 0; i < Global::NROWS; i++)
 	for(int j = 0; j < Global::NCOLS; j++)
@@ -249,6 +252,7 @@ void maxit::pieceSelected(glpiece *piece)
 	      gameover = false;
     }
 
+  move.clear();
   Global::qapp->restoreOverrideCursor();
 
   if(gameover)
@@ -345,4 +349,51 @@ void maxit::slotChangeDifficulty(void)
 	}
 
   Global::qapp->restoreOverrideCursor();
+}
+
+void maxit::slotShowHint(void)
+{
+  int I = -1;
+  int J = -1;
+  int max = 0;
+  int board[Global::NROWS][Global::NCOLS];
+  QMap<QString, int> move;
+
+  if(playerscore->text() == "0")
+    {
+      /*
+      ** Find the piece with the greatest value.
+      */
+
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
+	  if(glpieces[i][j]->value() > max)
+	    {
+	      I = i;
+	      J = j;
+	      max = glpieces[i][j]->value();
+	    }
+    }
+  else
+    {
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
+	  board[i][j] = glpieces[i][j]->value();  
+
+      computerptr->updateBoard(board, playerscore->text().toInt(),
+			       opponentscore->text().toInt());
+      move = computerptr->getMove(computerlastpiece->row(),
+				  computerlastpiece->col());
+
+      if(move["row"] > -1)
+	{
+	  I = move["row"];
+	  J = move["col"];
+	}
+
+      move.clear();
+    }
+
+  if(I > -1)
+    glpieces[I][J]->hintMe();
 }

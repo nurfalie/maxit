@@ -37,7 +37,7 @@ void glpiece::reset(const int valueArg)
   consumed = false;
   setEnabled(true);
 
-  if(side == 0 && Global::maxitptr->isAnimationEnabled())
+  if(side == 0)
     /*
     ** If necessary, enlarge and rotate the piece.
     */
@@ -52,8 +52,6 @@ void glpiece::reset(const int valueArg)
 	else
 	  rotateBy(5 * 10, -25 * 10, 5 * 10);
       }
-  else
-    side = CUBE_SIZE;
 
   glDeleteLists(piece, 1); // Required cleanup.
   makeCurrent();
@@ -112,19 +110,25 @@ void glpiece::rotateBy(const int xAngle, const int yAngle, const int zAngle)
   xRot += xAngle;
   yRot += yAngle;
   zRot += zAngle;
-  updateGL();
+
+  if(Global::maxitptr->isAnimationEnabled())
+    updateGL();
 }
 
 void glpiece::growBy(const int growth)
 {
   side += static_cast<int> (growth);
-  resizeGL(width(), height());
+
+  if(Global::maxitptr->isAnimationEnabled())
+    resizeGL(width(), height());
 }
 
 void glpiece::shrinkBy(const int decrease)
 {
   side -= static_cast<int> (decrease);
-  resizeGL(width(), height());
+
+  if(Global::maxitptr->isAnimationEnabled())
+    resizeGL(width(), height());
 }
 
 GLuint glpiece::createPiece(void)
@@ -196,14 +200,10 @@ void glpiece::enterEvent(QEvent *e)
   ** Highlight (change the background color) the piece on a mouse-enter event.
   */
 
-  if(bgColor == Qt::black)
-    bgColor = Qt::gray;
-  else
-    bgColor = QColor
-      (abs(static_cast<int> (bgColor.red() + bgColor.red() * 0.50)),
-       abs(static_cast<int> (bgColor.green() + bgColor.green() * 0.50)),
-       abs(static_cast<int> (bgColor.blue() + bgColor.blue() * 0.50)));
-
+  bgColor = QColor
+    (abs(static_cast<int> (bgColor.red() + bgColor.red() * 0.50)),
+     abs(static_cast<int> (bgColor.green() + bgColor.green() * 0.50)),
+     abs(static_cast<int> (bgColor.blue() + bgColor.blue() * 0.50)));
   updateGL();
 }
 
@@ -235,23 +235,20 @@ void glpiece::mousePressEvent(QMouseEvent *e)
   if(consumed)
     return;
 
-  if(Global::maxitptr->isAnimationEnabled())
-    /*
-    ** Shrink and spin the piece.
-    */
+  /*
+  ** Shrink and spin the piece.
+  */
 
-    for(int i = 0; side > 0; i++)
-      {
-	if(i % 15 == 0)
-	  shrinkBy(8);
+  for(int i = 0; side > 0; i++)
+    {
+      if(i % 15 == 0)
+	shrinkBy(8);
 
-	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	  rotateBy(0, 0, -5 * 10);
-	else
-	  rotateBy(-5 * 10, 25 * 10, -5 * 10);
-      }
-  else
-    side = 0;
+      if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
+	rotateBy(0, 0, -5 * 10);
+      else
+	rotateBy(-5 * 10, 25 * 10, -5 * 10);
+    }
 
   glDeleteLists(piece, 1);
   consumed = true;
@@ -308,4 +305,21 @@ void glpiece::setValue(const int valueArg)
 {
   valuev = valueArg;
   updateGL();
+}
+
+void glpiece::hintMe(void)
+{
+  /*
+  ** Special highlight.
+  */
+
+  if(consumed || !isEnabled())
+    return;
+
+  bgColor = QColor
+    (abs(static_cast<int> (bgColorOrig.red() + bgColorOrig.red() * 0.80)),
+     abs(static_cast<int> (bgColorOrig.green() + bgColorOrig.green() * 0.80)),
+     abs(static_cast<int> (bgColorOrig.blue() + bgColorOrig.blue() * 0.80)));
+  updateGL();
+  bgColor = bgColorOrig;
 }

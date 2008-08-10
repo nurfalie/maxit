@@ -11,7 +11,7 @@ QMAKE_CXXFLAGS_RELEASE += -Werror
 QMAKE_EXTRA_UNIX_TARGETS = purge
 INCPATH		+= include.d
 
-FORMS           += ui.d/maxit.ui
+FORMS           = ui.d/maxit.ui
 
 HEADERS		= include.d/maxit.h \
 		  include.d/glpiece.h \

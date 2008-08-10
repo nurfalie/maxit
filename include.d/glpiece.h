@@ -35,11 +35,11 @@ class glpiece: public QGLWidget
   int row(void) const;
   int value(void) const;
   void reset(const int);
+  void hintMe(void);
   void rotate(const int, const int, const int);
   void select(void);
   void paintGL(void);
   void resizeGL(int, int);
-  void rotateBy(const int, const int, const int);
   void setValue(const int);
   void setEnabled(const bool);
   void initializeGL(void);
@@ -59,6 +59,7 @@ class glpiece: public QGLWidget
   QColor bgColor;
   QColor bgColorOrig;;
   void growBy(const int);
+  void rotateBy(const int, const int, const int);
   void shrinkBy(const int);
   void enterEvent(QEvent *);
   void leaveEvent(QEvent *);
