@@ -34,37 +34,37 @@ QMap<QString, int> computer::getMove(const int rowArg, const int colArg) const
 void computer::chooseMove(int &bestRow, int &bestCol, const int row,
 			  const int col) const
 {
-  int tmp = 0;
-  int total = -playerScore + computerScore;
+  int total = 0;
+  thread *t = 0;
+  QList<thread *> threads;
+
+  bestRow = -1;
+  bestCol = -1;
 
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
       if((i == row || j == col) && board[i][j] > 0)
-	for(int k = 0; k < Global::NROWS; k++)
-	  for(int l = 0; l < Global::NCOLS; l++)
-	    if((k == i || l == j) && board[k][l] > 0)
-	      for(int m = 0; m < Global::NROWS; m++)
-		for(int n = 0; n < Global::NCOLS; n++)
-		  if((m == k || n == l) && board[m][n] > 0)
-		    for(int o = 0; o < Global::NROWS; o++)
-		      for(int p = 0; p < Global::NCOLS; p++)
-			if((o == m || p == n) && board[o][p] > 0)
-			  for(int q = 0; q < Global::NROWS; q++)
-			    for(int r = 0; r < Global::NCOLS; r++)
-			      if((o == q || p == r) && board[q][r] > 0)
-				{
-				  tmp = -playerScore + computerScore +
-				    board[i][j] -
-				    board[k][l] +
-				    board[m][n] -
-				    board[o][p] +
-				    board[q][r];
+	{
+	  t = new thread(computerScore, playerScore, board, i, j);
+	  t->start();
+	  threads.append(t);
+	}
 
-				  if(tmp > total)
-				    {
-				      total = tmp;
-				      bestRow = i;
-				      bestCol = j;
-				    }
-				}
+  for(int i = 0; i < threads.size();)
+    {
+      if(!threads.at(i)->isFinished())
+	continue;
+
+      if(threads.at(i)->value() > total)
+	{
+	  total = threads.at(i)->value();
+	  bestCol = threads.at(i)->col();
+	  bestRow = threads.at(i)->row();
+	}
+
+      i += 1;
+    }
+
+  while(!threads.isEmpty())
+    delete threads.takeFirst();
 }
