@@ -23,6 +23,8 @@
 
 class thread: public QThread
 {
+  Q_OBJECT
+
  public:
   static int playerScore;
   static int computerScore;
