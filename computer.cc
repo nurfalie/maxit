@@ -1,5 +1,9 @@
 #include "computer.h"
 
+int thread::playerScore = 0;
+int thread::computerScore = 0;
+int thread::board[Global::NROWS][Global::NCOLS];
+
 computer::computer(void)
 {
 }
@@ -15,6 +19,7 @@ void computer::updateBoard(const int boardArg[][Global::NCOLS],
     for(int j = 0; j < Global::NCOLS; j++)
       board[i][j] = boardArg[i][j];
 
+  thread::initThread(cScore, pScore, board);
   playerScore = pScore;
   computerScore = cScore;
 }
@@ -38,17 +43,18 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
   thread *t = 0;
   QList<thread *> threads;
 
-  bestRow = -1;
-  bestCol = -1;
-
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
       if((i == row || j == col) && board[i][j] > 0)
 	{
-	  t = new thread(computerScore, playerScore, board, i, j);
+	  t = new thread(i, j);
 	  t->start();
 	  threads.append(t);
 	}
+
+  /*
+  ** Wait.
+  */
 
   for(int i = 0; i < threads.size();)
     {
