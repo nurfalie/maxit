@@ -109,9 +109,8 @@ class thread: public QThread
 class computer
 {
  public:
-  computer(void);
+  computer(const int [][Global::NCOLS], const int = 0, const int = 0);
   ~computer();
-  void updateBoard(const int [][Global::NCOLS], const int = 0, const int = 0);
   QMap<QString, int> getMove(const int, const int) const;
 
  private:

@@ -14,7 +14,6 @@ maxit::maxit(void):QMainWindow()
 #else
   themepath = QDir::current().path() + "/images.d/ubuntu.d";
 #endif
-  computerptr = new computer();
   ag1 = new QActionGroup(this);
   ag2 = new QActionGroup(this);
   action_2D = new QAction(tr("2D"), this);
@@ -224,9 +223,9 @@ void maxit::pieceSelected(glpiece *piece)
 	board[i][j] = glpieces[i][j]->value();  
       }
 
-  computerptr->updateBoard(board, playerscore->text().toInt(),
-			   opponentscore->text().toInt());
-  move = computerptr->getMove(piece->row(), piece->col());
+  computer cmptr(board, playerscore->text().toInt(),
+		 opponentscore->text().toInt());
+  move = cmptr.getMove(piece->row(), piece->col());
   statusBar()->clearMessage();
 
   if(move["row"] > -1)
@@ -360,7 +359,6 @@ void maxit::slotShowHint(void)
   int J = -1;
   int max = 0;
   int board[Global::NROWS][Global::NCOLS];
-  computer hint;
   QMap<QString, int> move;
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
@@ -386,8 +384,8 @@ void maxit::slotShowHint(void)
 	for(int j = 0; j < Global::NCOLS; j++)
 	  board[i][j] = glpieces[i][j]->value();  
 
-      hint.updateBoard(board, playerscore->text().toInt(),
-		       opponentscore->text().toInt());
+      computer hint(board, playerscore->text().toInt(),
+		    opponentscore->text().toInt());
       move = hint.getMove(computerlastpiece->row(), computerlastpiece->col());
 
       if(move["row"] > -1)

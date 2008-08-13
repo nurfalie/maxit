@@ -4,24 +4,20 @@ int thread::playerScore = 0;
 int thread::computerScore = 0;
 int thread::board[Global::NROWS][Global::NCOLS];
 
-computer::computer(void)
-{
-}
-
-computer::~computer()
-{
-}
-
-void computer::updateBoard(const int boardArg[][Global::NCOLS],
-			   const int pScore, const int cScore)
+computer::computer(const int brd[][Global::NCOLS],
+		   const int pScore, const int cScore)
 {
   for(int i = 0; i < Global::NROWS; i++)
     for(int j = 0; j < Global::NCOLS; j++)
-      board[i][j] = boardArg[i][j];
+      board[i][j] = brd[i][j];
 
   thread::initThread(pScore, cScore, board);
   playerScore = pScore;
   computerScore = cScore;
+}
+
+computer::~computer()
+{
 }
 
 QMap<QString, int> computer::getMove(const int rowArg, const int colArg) const
@@ -39,7 +35,7 @@ QMap<QString, int> computer::getMove(const int rowArg, const int colArg) const
 void computer::chooseMove(int &bestRow, int &bestCol, const int row,
 			  const int col) const
 {
-  int total = 0;
+  int total = -playerScore + computerScore;
   thread *t = 0;
   QList<thread *> threads;
 
@@ -60,7 +56,7 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
     {
       if(threads.at(i)->isRunning())
 	{
-	  threads.at(i)->wait(250);
+	  threads.at(i)->wait(100);
 	  continue;
 	}
 

@@ -54,7 +54,6 @@ class maxit: public QMainWindow, private Ui::maxit_window
   QAction *action_easy;
   QAction *action_normal;
   QAction *action_difficult;
-  computer *computerptr;
   QGridLayout *qgl;
   static QString themepath;
   void prepareBoard(const bool = true);
