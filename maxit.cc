@@ -283,11 +283,14 @@ void maxit::slotChangeTheme(void)
 	tr("Maxit: Theme Selection"),
 	QDir::current().path() + startpath)).isEmpty())
     {
+      Global::qapp->setOverrideCursor(Qt::WaitCursor);
       themepath = tmpstr;
 
       for(int i = 0; i < Global::NROWS; i++)
 	for(int j = 0; j < Global::NCOLS; j++)
 	  glpieces[i][j]->updateGL();
+
+      Global::qapp->restoreOverrideCursor();
     }
 }
 
@@ -357,7 +360,10 @@ void maxit::slotShowHint(void)
   int J = -1;
   int max = 0;
   int board[Global::NROWS][Global::NCOLS];
+  computer hint;
   QMap<QString, int> move;
+
+  Global::qapp->setOverrideCursor(Qt::WaitCursor);
 
   if(playerscore->text() == "0")
     {
@@ -380,10 +386,9 @@ void maxit::slotShowHint(void)
 	for(int j = 0; j < Global::NCOLS; j++)
 	  board[i][j] = glpieces[i][j]->value();  
 
-      computerptr->updateBoard(board, playerscore->text().toInt(),
-			       opponentscore->text().toInt());
-      move = computerptr->getMove(computerlastpiece->row(),
-				  computerlastpiece->col());
+      hint.updateBoard(board, playerscore->text().toInt(),
+		       opponentscore->text().toInt());
+      move = hint.getMove(computerlastpiece->row(), computerlastpiece->col());
 
       if(move["row"] > -1)
 	{
@@ -396,4 +401,6 @@ void maxit::slotShowHint(void)
 
   if(I > -1)
     glpieces[I][J]->hintMe();
+
+  Global::qapp->restoreOverrideCursor();
 }

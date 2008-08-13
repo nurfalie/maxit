@@ -19,7 +19,7 @@ void computer::updateBoard(const int boardArg[][Global::NCOLS],
     for(int j = 0; j < Global::NCOLS; j++)
       board[i][j] = boardArg[i][j];
 
-  thread::initThread(cScore, pScore, board);
+  thread::initThread(pScore, cScore, board);
   playerScore = pScore;
   computerScore = cScore;
 }
@@ -58,8 +58,11 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
 
   for(int i = 0; i < threads.size();)
     {
-      if(!threads.at(i)->isFinished())
-	continue;
+      if(threads.at(i)->isRunning())
+	{
+	  threads.at(i)->wait(250);
+	  continue;
+	}
 
       if(threads.at(i)->value() > total)
 	{

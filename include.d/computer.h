@@ -51,7 +51,7 @@ class thread: public QThread
     return total;
   }
 
-  static void initThread(const int cScore, const int pScore,
+  static void initThread(const int pScore, const int cScore,
 			 const int brd[][Global::NCOLS])
   {
     playerScore = pScore;
