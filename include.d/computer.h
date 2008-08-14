@@ -32,8 +32,8 @@ class thread: public QThread
 
   thread(const int r, const int c)
   {
-    i = r;
-    j = c;
+    rw = r;
+    cl = c;
   }
 
   int col(void) const
@@ -63,8 +63,8 @@ class thread: public QThread
   }
 
  private:
-  int i;
-  int j;
+  int cl;
+  int rw;
   int total;
   int bestCol;
   int bestRow;
@@ -78,7 +78,7 @@ class thread: public QThread
 
     for(int k = 0; k < Global::NROWS; k++)
       for(int l = 0; l < Global::NCOLS; l++)
-	if((k == i || l == j) && board[k][l] > 0)
+	if((k == rw || l == cl) && board[k][l] > 0)
 	  for(int m = 0; m < Global::NROWS; m++)
 	    for(int n = 0; n < Global::NCOLS; n++)
 	      if((m == k || n == l) && board[m][n] > 0)
@@ -90,7 +90,7 @@ class thread: public QThread
 			  if((o == q || p == r) && board[q][r] > 0)
 			    {
 			      tmp = -playerScore + computerScore +
-				board[i][j] -
+				board[rw][cl] -
 				board[k][l] +
 				board[m][n] -
 				board[o][p] +
@@ -99,8 +99,8 @@ class thread: public QThread
 			      if(tmp > total)
 				{
 				  total = tmp;
-				  bestRow = i;
-				  bestCol = j;
+				  bestRow = rw;
+				  bestCol = cl;
 				}
 			    }
   }

@@ -323,3 +323,9 @@ void glpiece::hintMe(void)
   updateGL();
   bgColor = bgColorOrig;
 }
+
+void glpiece::resetBackground(void)
+{
+  bgColor = bgColorOrig;
+  updateGL();
+}

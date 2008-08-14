@@ -377,12 +377,16 @@ void maxit::slotShowHint(void)
 
       for(int i = 0; i < Global::NROWS; i++)
 	for(int j = 0; j < Global::NCOLS; j++)
-	  if(glpieces[i][j]->value() > max)
-	    {
-	      I = i;
-	      J = j;
-	      max = glpieces[i][j]->value();
-	    }
+	  {
+	    glpieces[i][j]->resetBackground();
+
+	    if(glpieces[i][j]->value() > max)
+	      {
+		I = i;
+		J = j;
+		max = glpieces[i][j]->value();
+	      }
+	  }
     }
   else
     {

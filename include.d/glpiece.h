@@ -43,6 +43,7 @@ class glpiece: public QGLWidget
   void setValue(const int);
   void setEnabled(const bool);
   void initializeGL(void);
+  void resetBackground(void);
   QSize sizeHint(void) const;
   QSize minimumSizeHint(void) const;
 
