@@ -42,6 +42,7 @@ class glpiece: public QGLWidget
   void resizeGL(int, int);
   void setValue(const int);
   void setEnabled(const bool);
+  void setClickable(const bool);
   void initializeGL(void);
   void resetBackground(void);
   QSize sizeHint(void) const;
@@ -56,6 +57,7 @@ class glpiece: public QGLWidget
   int zRot;
   int valuev;
   bool consumed;
+  bool clickable;
   GLuint piece;
   QColor bgColor;
   QColor bgColorOrig;;

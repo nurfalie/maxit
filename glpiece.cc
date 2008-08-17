@@ -23,6 +23,7 @@ glpiece::glpiece(QWidget *parent, glpiece *other,
   yRot = 0;
   zRot = zRotArg;
   consumed = false;
+  clickable = false;
   setMouseTracking(true);
 }
 
@@ -44,7 +45,7 @@ void glpiece::reset(const int valueArg)
 
     for(int i = 0; side < CUBE_SIZE; i++)
       {
-	if(i % 15 == 0)
+	if(i % 25 == 0)
 	  growBy(8);
 
 	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
@@ -193,7 +194,7 @@ void glpiece::enterEvent(QEvent *e)
 {
   (void) e;
 
-  if(consumed || !isEnabled())
+  if(consumed || !isEnabled() || !clickable)
     return;
 
   /*
@@ -232,7 +233,7 @@ void glpiece::mousePressEvent(QMouseEvent *e)
 {
   (void) e;
 
-  if(consumed)
+  if(consumed || !clickable)
     return;
 
   /*
@@ -241,7 +242,7 @@ void glpiece::mousePressEvent(QMouseEvent *e)
 
   for(int i = 0; side > 0; i++)
     {
-      if(i % 15 == 0)
+      if(i % 25 == 0)
 	shrinkBy(8);
 
       if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
@@ -328,4 +329,9 @@ void glpiece::resetBackground(void)
 {
   bgColor = bgColorOrig;
   updateGL();
+}
+
+void glpiece::setClickable(const bool state)
+{
+  clickable = state;
 }

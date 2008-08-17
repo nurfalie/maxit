@@ -96,7 +96,10 @@ void maxit::prepareBoard(const bool createPieces)
   if(!createPieces)
     for(i = 0; i < Global::NROWS; i++)
       for(j = 0; j < Global::NCOLS; j++)
-	glpieces[i][j]->setEnabled(true);
+	{
+	  glpieces[i][j]->setEnabled(true);
+	  glpieces[i][j]->setClickable(false);
+	}
 
   while(map.size() < Global::NROWS * Global::NCOLS)
     {
@@ -136,6 +139,10 @@ void maxit::prepareBoard(const bool createPieces)
       Global::qapp->processEvents();
     }
 
+  for(i = 0; i < Global::NROWS; i++)
+    for(j = 0; j < Global::NCOLS; j++)
+      glpieces[i][j]->setClickable(true);
+
   map.clear();
   Global::qapp->restoreOverrideCursor();
 }
@@ -153,7 +160,7 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<html>Maxit Version 0.03.<br>"
+  mb.setText(tr("<html>Maxit Version 0.04.<br>"
 		"Copyright (c) Slurpy McNash 2007, 2008.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
