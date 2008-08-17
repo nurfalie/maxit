@@ -58,7 +58,6 @@ class glpiece: public QGLWidget
   int valuev;
   bool consumed;
   bool clickable;
-  GLuint piece;
   QColor bgColor;
   QColor bgColorOrig;;
   void growBy(const int);

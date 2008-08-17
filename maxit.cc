@@ -10,9 +10,9 @@ maxit::maxit(void):QMainWindow()
 
   setupUi(this);
 #ifdef Q_OS_WIN
-  themepath = QDir::current().path() + "\\images.d\\ubuntu.d";
+  themepath = QDir::current().path() + "\\images.d\\ubuntu.d\\";
 #else
-  themepath = QDir::current().path() + "/images.d/ubuntu.d";
+  themepath = QDir::current().path() + "/images.d/ubuntu.d/";
 #endif
   ag1 = new QActionGroup(this);
   ag2 = new QActionGroup(this);
@@ -285,15 +285,16 @@ void maxit::slotChangeTheme(void)
   QString startpath("");
 
 #ifdef Q_OS_WIN
-  startpath = "\\images.d";
+  startpath = "\\images.d\\";
 #else
-  startpath = "/images.d";
+  startpath = "/images.d/";
 #endif
 
   if(!(tmpstr = QFileDialog::getExistingDirectory
        (this,
 	tr("Maxit: Theme Selection"),
-	QDir::current().path() + startpath)).isEmpty())
+	QDir::current().path() + startpath)).isEmpty() &&
+     tmpstr != (QDir::current().path() + startpath))
     {
       Global::qapp->setOverrideCursor(Qt::WaitCursor);
       themepath = tmpstr;

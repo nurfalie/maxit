@@ -29,16 +29,15 @@ glpiece::glpiece(QWidget *parent, glpiece *other,
 
 glpiece::~glpiece()
 {
-  glDeleteLists(piece, 1);
 }
 
 void glpiece::reset(const int valueArg)
 {
-  valuev = valueArg;
+  setValue(valueArg);
   consumed = false;
   setEnabled(true);
 
-  if(side == 0)
+  if(side != CUBE_SIZE)
     /*
     ** If necessary, enlarge and rotate the piece.
     */
@@ -54,7 +53,6 @@ void glpiece::reset(const int valueArg)
 	  rotateBy(5 * 10, -25 * 10, 5 * 10);
       }
 
-  glDeleteLists(piece, 1); // Required cleanup.
   makeCurrent();
   resizeGL(width(), height());
   updateGL();
@@ -69,12 +67,12 @@ void glpiece::paintGL(void)
   glRotated(xRot / 64.0, 1.0, 0.0, 0.0);
   glRotated(yRot / 64.0, 0.0, 1.0, 0.0);
   glRotated(zRot / 64.0, 0.0, 0.0, 1.0);
-  glDeleteLists(piece, 1);
 
   if(!consumed)
     {
-      piece = createPiece();
+      GLuint piece = createPiece();
       glCallList(piece);
+      glDeleteLists(piece, 1);
     }
 }
 
@@ -251,7 +249,6 @@ void glpiece::mousePressEvent(QMouseEvent *e)
 	rotateBy(-5 * 10, 25 * 10, -5 * 10);
     }
 
-  glDeleteLists(piece, 1);
   consumed = true;
   bgColor = bgColorOrig;
   updateGL();
