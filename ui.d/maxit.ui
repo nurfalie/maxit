@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>568</width>
-    <height>338</height>
+    <height>377</height>
    </rect>
   </property>
   <property name="font" >
@@ -254,7 +254,7 @@ R
      <x>0</x>
      <y>0</y>
      <width>568</width>
-     <height>28</height>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File" >
@@ -404,7 +404,7 @@ R
   </action>
   <action name="action_Show_Hint" >
    <property name="text" >
-    <string>&amp;Show Hint</string>
+    <string>Show &amp;Hint</string>
    </property>
    <property name="font" >
     <font>
