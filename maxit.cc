@@ -247,15 +247,14 @@ void maxit::pieceSelected(glpiece *piece)
       for(int i = 0; i < Global::NROWS; i++)
 	for(int j = 0; j < Global::NCOLS; j++)
 	  if(i == move["row"] || j == move["col"])
-	    glpieces[i][j]->setEnabled(true);
+	    {
+	      if(glpieces[i][j]->value() > 0)
+		gameover = false;
+
+	      glpieces[i][j]->setEnabled(true);
+	    }
 	  else
 	    glpieces[i][j]->setEnabled(false);
-
-      for(int i = 0; i < Global::NROWS && gameover; i++)
-	for(int j = 0; j < Global::NCOLS && gameover; j++)
-	  if(i == move["row"] || j == move["col"])
-	    if(glpieces[i][j]->value() > 0)
-	      gameover = false;
     }
 
   move.clear();
@@ -263,8 +262,8 @@ void maxit::pieceSelected(glpiece *piece)
 
   if(gameover)
     {
-      for(int i = 0; i < Global::NROWS && gameover; i++)
-	for(int j = 0; j < Global::NCOLS && gameover; j++)
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
 	  glpieces[i][j]->setEnabled(false);
 
       if(playerscore->text().toInt() > opponentscore->text().toInt())
