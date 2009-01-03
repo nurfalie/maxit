@@ -1,12 +1,12 @@
 #include "maxit.h"
 
-maxit::maxit(void):QMainWindow()
+maxit::maxit(void):QMainWindow(),size(4)
 {
-  int suitableH =
-    Global::NROWS * (static_cast<int>
-		     (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
+  int suitableH = size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
+					    glpiece::CUBE_SIZE));
   QActionGroup *ag1 = 0;
   QActionGroup *ag2 = 0;
+  QActionGroup *ag3 = 0;
 
   setupUi(this);
 #ifdef Q_OS_WIN
@@ -16,11 +16,16 @@ maxit::maxit(void):QMainWindow()
 #endif
   ag1 = new QActionGroup(this);
   ag2 = new QActionGroup(this);
+  ag3 = new QActionGroup(this);
   action_2D = new QAction(tr("2D"), this);
   action_3D = new QAction(tr("3D"), this);
   action_easy = new QAction(tr("Easy"), this);
   action_normal = new QAction(tr("Normal"), this);
   action_difficult = new QAction(tr("Difficult"), this);
+  action_4x4 = new QAction(tr("4x4"), this);
+  action_5x5 = new QAction(tr("5x5"), this);
+  action_6x6 = new QAction(tr("6x6"), this);
+  action_7x7 = new QAction(tr("7x7"), this);
   qgl = new QGridLayout();
   ag1->setExclusive(true);
   ag1->addAction(action_2D);
@@ -28,8 +33,17 @@ maxit::maxit(void):QMainWindow()
   ag2->addAction(action_easy);
   ag2->addAction(action_normal);
   ag2->addAction(action_difficult);
+  ag3->addAction(action_4x4);
+  ag3->addAction(action_5x5);
+  ag3->addAction(action_6x6);
+  ag3->addAction(action_7x7);
   menu_View->addAction(action_2D);
   menu_View->addAction(action_3D);
+  menu_View->addSeparator();
+  menu_View->addAction(action_4x4);
+  menu_View->addAction(action_5x5);
+  menu_View->addAction(action_6x6);
+  menu_View->addAction(action_7x7);
   menu_Difficulty->addAction(action_easy);
   menu_Difficulty->addAction(action_normal);
   menu_Difficulty->addAction(action_difficult);
@@ -40,6 +54,11 @@ maxit::maxit(void):QMainWindow()
   action_normal->setCheckable(true);
   action_difficult->setCheckable(true);
   action_easy->setChecked(true);
+  action_4x4->setCheckable(true);
+  action_5x5->setCheckable(true);
+  action_6x6->setCheckable(true);
+  action_7x7->setCheckable(true);
+  action_4x4->setChecked(true);
   connect(action_Exit, SIGNAL(triggered(void)), Global::qapp,
 	  SLOT(quit(void)));
   connect(action_About, SIGNAL(triggered(void)), this, SLOT(slotAbout(void)));
@@ -49,6 +68,14 @@ maxit::maxit(void):QMainWindow()
 	  SLOT(slotChangeView(void)));
   connect(action_3D, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeView(void)));
+  connect(action_4x4, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeSize(void)));
+  connect(action_5x5, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeSize(void)));
+  connect(action_6x6, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeSize(void)));
+  connect(action_7x7, SIGNAL(triggered(void)), this,
+	  SLOT(slotChangeSize(void)));
   connect(action_Select_Theme, SIGNAL(triggered(void)), this,
 	  SLOT(slotChangeTheme(void)));
   connect(action_easy, SIGNAL(triggered(void)), this,
@@ -70,7 +97,7 @@ maxit::maxit(void):QMainWindow()
   prepareBoard();
   boardframe->setLayout(qgl);
   boardframe->setMinimumSize(suitableH, suitableH);
-  resize(boardframe->size());
+  resize(minimumSize());
   show();
 }
 
@@ -94,53 +121,53 @@ void maxit::prepareBoard(const bool createPieces)
     difficulty = 2;
 
   if(!createPieces)
-    for(i = 0; i < Global::NROWS; i++)
-      for(j = 0; j < Global::NCOLS; j++)
-	{
-	  glpieces[i][j]->setEnabled(true);
-	  glpieces[i][j]->setClickable(false);
-	}
+    for(i = 0; i < size; i++)
+      for(j = 0; j < size; j++)
+	if(glpieces[i][j])
+	  {
+	    glpieces[i][j]->setEnabled(true);
+	    glpieces[i][j]->setClickable(false);
+	  }
 
-  while(map.size() < Global::NROWS * Global::NCOLS)
+  while(map.size() < size * size)
     {
-      i = qrand() % Global::NROWS;
-      j = qrand() % Global::NCOLS;
+      i = qrand() % size;
+      j = qrand() % size;
 
       if(map.contains(QString("%1,%2").arg(i).arg(j)))
 	continue;
       else
 	map[QString("%1,%2").arg(i).arg(j)] = 0;
 
-      value = qrand() % (Global::NROWS * Global::NROWS);
+      value = qrand() % (size * size);
 
       if(value == 0)
 	value += 1;
-      else if(value > (Global::NROWS * Global::NROWS))
+      else if(value > (size * size))
 	value = value / 2;
 
       if(qrand() % difficulty == 0)
 	value = -value;
 
-      if(createPieces && !glpieces[i][j])
+      if(!glpieces[i][j])
 	{
 	  if((i + j) % 2 == 0)
 	    glpieces[i][j] = new glpiece
-	      (0, glpieces[0][0], value, color, i, j, side, -25 * 64);
+	      (0, 0, value, color, i, j, side, -25 * 64);
 	  else
 	    glpieces[i][j] = new glpiece
-	      (0, glpieces[0][0], value, color, i, j, side, 25 * 64);
+	      (0, 0, value, color, i, j, side, 25 * 64);
+
+	  qgl->addWidget(glpieces[i][j], i, j);
 	}
       else
 	glpieces[i][j]->reset(value);
 
-      if(createPieces)
-	qgl->addWidget(glpieces[i][j], i, j);
-
       Global::qapp->processEvents();
     }
 
-  for(i = 0; i < Global::NROWS; i++)
-    for(j = 0; j < Global::NCOLS; j++)
+  for(i = 0; i < size; i++)
+    for(j = 0; j < size; j++)
       glpieces[i][j]->setClickable(true);
 
   map.clear();
@@ -160,8 +187,8 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<html>Maxit Version 0.04.<br>"
-		"Copyright (c) Slurpy McNash 2007, 2008.<br><br>"
+  mb.setText(tr("<html>Maxit Version 0.05.<br>"
+		"Copyright (c) Slurpy McNash 2007, 2008, 2009.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
 		"http://maxit.sourceforge.net</a> for "
@@ -171,14 +198,33 @@ void maxit::slotAbout(void)
   mb.exec();
 }
 
+void maxit::slotChangeSize(void)
+{
+  if(action_4x4->isChecked())
+    size = 4;
+  else if(action_5x5->isChecked())
+    size = 5;
+  else if(action_6x6->isChecked())
+    size = 6;
+  else
+    size = 7;
+
+  int suitableH = size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
+					    glpiece::CUBE_SIZE));
+
+  slotNewGame();
+  boardframe->setMinimumSize(suitableH, suitableH);
+  resize(minimumSize());
+}
+
 void maxit::slotChangeView(void)
 {
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
 
   if(getViewMode() == VIEW2D)
     {
-      for(int i = 0; i < Global::NROWS; i++)
-	for(int j = 0; j < Global::NCOLS; j++)
+      for(int i = 0; i < size; i++)
+	for(int j = 0; j < size; j++)
 	  if((i + j) % 2 == 0)
 	    glpieces[i][j]->rotate(0, 0, -25 * 64);
 	  else
@@ -186,8 +232,8 @@ void maxit::slotChangeView(void)
     }
   else
     {
-      for(int i = 0; i < Global::NROWS; i++)
-	for(int j = 0; j < Global::NCOLS; j++)
+      for(int i = 0; i < size; i++)
+	for(int j = 0; j < size; j++)
 	  if((i + j) % 2 == 0)
 	    glpieces[i][j]->rotate(45 * 64, 45 * 64, -25 * 64);
 	  else
@@ -223,14 +269,14 @@ void maxit::pieceSelected(glpiece *piece)
   piece->setValue(0);
   statusBar()->showMessage(tr("Analyzing..."));
 
-  for(int i = 0; i < Global::NROWS; i++)
-    for(int j = 0; j < Global::NCOLS; j++)
+  for(int i = 0; i < size; i++)
+    for(int j = 0; j < size; j++)
       {
 	glpieces[i][j]->setEnabled(false);
 	board[i][j] = glpieces[i][j]->value();  
       }
 
-  computer cmptr(board, playerscore->text().toInt(),
+  computer cmptr(board, size, playerscore->text().toInt(),
 		 opponentscore->text().toInt());
   move = cmptr.getMove(piece->row(), piece->col());
   statusBar()->clearMessage();
@@ -244,8 +290,8 @@ void maxit::pieceSelected(glpiece *piece)
       computerlastpiece->select();
       computerlastpiece->setValue(0);
 
-      for(int i = 0; i < Global::NROWS; i++)
-	for(int j = 0; j < Global::NCOLS; j++)
+      for(int i = 0; i < size; i++)
+	for(int j = 0; j < size; j++)
 	  if(i == move["row"] || j == move["col"])
 	    {
 	      if(glpieces[i][j]->value() > 0)
@@ -262,8 +308,8 @@ void maxit::pieceSelected(glpiece *piece)
 
   if(gameover)
     {
-      for(int i = 0; i < Global::NROWS; i++)
-	for(int j = 0; j < Global::NCOLS; j++)
+      for(int i = 0; i < size; i++)
+	for(int j = 0; j < size; j++)
 	  glpieces[i][j]->setEnabled(false);
 
       if(playerscore->text().toInt() > opponentscore->text().toInt())
@@ -298,8 +344,8 @@ void maxit::slotChangeTheme(void)
       Global::qapp->setOverrideCursor(Qt::WaitCursor);
       themepath = tmpstr;
 
-      for(int i = 0; i < Global::NROWS; i++)
-	for(int j = 0; j < Global::NCOLS; j++)
+      for(int i = 0; i < size; i++)
+	for(int j = 0; j < size; j++)
 	  glpieces[i][j]->updateGL();
 
       Global::qapp->restoreOverrideCursor();
@@ -345,15 +391,15 @@ void maxit::slotChangeDifficulty(void)
   else
     difficulty = 2;
 
-  for(int i = 0; i < Global::NROWS; i++)
-    for(int j = 0; j < Global::NCOLS; j++)
+  for(int i = 0; i < size; i++)
+    for(int j = 0; j < size; j++)
       if(glpieces[i][j]->value() > 0)
 	{
-	  value = qrand() % (Global::NROWS * Global::NROWS);
+	  value = qrand() % (size * size);
 
 	  if(value == 0)
 	    value += 1;
-	  else if(value > (Global::NROWS * Global::NROWS))
+	  else if(value > (size * size))
 	    value = value / 2;
 
 	  if(qrand() % difficulty == 0)
@@ -382,8 +428,8 @@ void maxit::slotShowHint(void)
       ** Find the piece with the greatest value.
       */
 
-      for(int i = 0; i < Global::NROWS; i++)
-	for(int j = 0; j < Global::NCOLS; j++)
+      for(int i = 0; i < size; i++)
+	for(int j = 0; j < size; j++)
 	  {
 	    glpieces[i][j]->resetBackground();
 
@@ -397,11 +443,11 @@ void maxit::slotShowHint(void)
     }
   else
     {
-      for(int i = 0; i < Global::NROWS; i++)
-	for(int j = 0; j < Global::NCOLS; j++)
+      for(int i = 0; i < size; i++)
+	for(int j = 0; j < size; j++)
 	  board[i][j] = glpieces[i][j]->value();  
 
-      computer hint(board, playerscore->text().toInt(),
+      computer hint(board, size, playerscore->text().toInt(),
 		    opponentscore->text().toInt());
       move = hint.getMove(computerlastpiece->row(), computerlastpiece->col());
 

@@ -1,17 +1,20 @@
 #include "computer.h"
 
+int thread::size = 4;
 int thread::playerScore = 0;
 int thread::computerScore = 0;
 int thread::board[Global::NROWS][Global::NCOLS];
 
-computer::computer(const int brd[][Global::NCOLS],
+computer::computer(const int brd[][Global::NCOLS], const int sizeArg,
 		   const int pScore, const int cScore)
 {
-  for(int i = 0; i < Global::NROWS; i++)
-    for(int j = 0; j < Global::NCOLS; j++)
+  size = sizeArg;
+
+  for(int i = 0; i < size; i++)
+    for(int j = 0; j < size; j++)
       board[i][j] = brd[i][j];
 
-  thread::initThread(pScore, cScore, board);
+  thread::initThread(size, pScore, cScore, board);
   playerScore = pScore;
   computerScore = cScore;
 }
@@ -39,8 +42,8 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
   thread *t = 0;
   QList<thread *> threads;
 
-  for(int i = 0; i < Global::NROWS; i++)
-    for(int j = 0; j < Global::NCOLS; j++)
+  for(int i = 0; i < size; i++)
+    for(int j = 0; j < size; j++)
       if((i == row || j == col) && board[i][j] > 0)
 	{
 	  t = new thread(i, j);

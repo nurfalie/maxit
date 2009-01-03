@@ -85,6 +85,7 @@ void glpiece::initializeGL(void)
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_TEXTURE_2D);
+  glEnable(GL_POINT_SMOOTH);
 }
 
 void glpiece::resizeGL(int w, int h)
@@ -190,7 +191,7 @@ GLuint glpiece::createPiece(void)
 
 void glpiece::enterEvent(QEvent *e)
 {
-  (void) e;
+  Q_UNUSED(e);
 
   if(consumed || !isEnabled() || !clickable)
     return;
@@ -208,7 +209,7 @@ void glpiece::enterEvent(QEvent *e)
 
 void glpiece::leaveEvent(QEvent *e)
 {
-  (void) e;
+  Q_UNUSED(e);
 
   /*
   ** Reset the piece's background color once the mouse has exited
@@ -229,7 +230,7 @@ void glpiece::select(void)
 
 void glpiece::mousePressEvent(QMouseEvent *e)
 {
-  (void) e;
+  Q_UNUSED(e);
 
   if(consumed || !clickable)
     return;

@@ -47,10 +47,15 @@ class maxit: public QMainWindow, private Ui::maxit_window
   static QString themedir(void);
 
  private:
+  int size;
   glpiece *glpieces[Global::NROWS][Global::NCOLS];
   glpiece *computerlastpiece;
   QAction *action_2D;
   QAction *action_3D;
+  QAction *action_4x4;
+  QAction *action_5x5;
+  QAction *action_6x6;
+  QAction *action_7x7;
   QAction *action_easy;
   QAction *action_normal;
   QAction *action_difficult;
@@ -62,6 +67,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
   void slotAbout(void);
   void slotNewGame(void);
   void slotShowHint(void);
+  void slotChangeSize(void);
   void slotChangeView(void);
   void slotChangeTheme(void);
   void slotInstructions(void);

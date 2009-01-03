@@ -26,6 +26,7 @@ class thread: public QThread
   Q_OBJECT
 
  public:
+  static int size;
   static int playerScore;
   static int computerScore;
   static int board[Global::NROWS][Global::NCOLS];
@@ -51,14 +52,16 @@ class thread: public QThread
     return total;
   }
 
-  static void initThread(const int pScore, const int cScore,
+  static void initThread(const int sizeArg,
+			 const int pScore, const int cScore,
 			 const int brd[][Global::NCOLS])
   {
+    size = sizeArg;
     playerScore = pScore;
     computerScore = cScore;
 
-    for(int i = 0; i < Global::NROWS; i++)
-      for(int j = 0; j < Global::NCOLS; j++)
+    for(int i = 0; i < size; i++)
+      for(int j = 0; j < size; j++)
 	board[i][j] = brd[i][j];
   }
 
@@ -76,17 +79,17 @@ class thread: public QThread
 
     total = -playerScore + computerScore;
 
-    for(int k = 0; k < Global::NROWS; k++)
-      for(int l = 0; l < Global::NCOLS; l++)
+    for(int k = 0; k < size; k++)
+      for(int l = 0; l < size; l++)
 	if((k == rw || l == cl) && board[k][l] > 0)
-	  for(int m = 0; m < Global::NROWS; m++)
-	    for(int n = 0; n < Global::NCOLS; n++)
+	  for(int m = 0; m < size; m++)
+	    for(int n = 0; n < size; n++)
 	      if((m == k || n == l) && board[m][n] > 0)
-		for(int o = 0; o < Global::NROWS; o++)
-		  for(int p = 0; p < Global::NCOLS; p++)
+		for(int o = 0; o < size; o++)
+		  for(int p = 0; p < size; p++)
 		    if((o == m || p == n) && board[o][p] > 0)
-		      for(int q = 0; q < Global::NROWS; q++)
-			for(int r = 0; r < Global::NCOLS; r++)
+		      for(int q = 0; q < size; q++)
+			for(int r = 0; r < size; r++)
 			  if((o == q || p == r) && board[q][r] > 0)
 			    {
 			      tmp = -playerScore + computerScore +
@@ -109,7 +112,8 @@ class thread: public QThread
 class computer
 {
  public:
-  computer(const int [][Global::NCOLS], const int = 0, const int = 0);
+  computer(const int [][Global::NCOLS], const int, const int = 0,
+	   const int = 0);
   ~computer();
   QMap<QString, int> getMove(const int, const int) const;
 
@@ -123,6 +127,7 @@ class computer
       UNCLEAR_WIN,
       COMPUTER_WIN
     };
+  int size;
   int playerScore;
   int computerScore;
   int board[Global::NROWS][Global::NCOLS];
