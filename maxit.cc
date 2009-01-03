@@ -121,12 +121,18 @@ void maxit::prepareBoard(const bool createPieces)
     difficulty = 2;
 
   if(!createPieces)
-    for(i = 0; i < size; i++)
-      for(j = 0; j < size; j++)
+    for(i = 0; i < Global::NROWS; i++)
+      for(j = 0; j < Global::NCOLS; j++)
 	if(glpieces[i][j])
 	  {
-	    glpieces[i][j]->setEnabled(true);
-	    glpieces[i][j]->setClickable(false);
+	    if(i < size && j < size)
+	      {
+		glpieces[i][j]->setEnabled(true);
+		glpieces[i][j]->setClickable(false);
+		glpieces[i][j]->setVisible(true);
+	      }
+	    else
+	      glpieces[i][j]->setVisible(false);
 	  }
 
   while(map.size() < size * size)
