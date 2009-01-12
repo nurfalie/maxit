@@ -26,6 +26,7 @@ cp -p *.cc $BACKUP_DIR/.
 cp -p *.pro $BACKUP_DIR/.
 cp -p ui.d/*.ui $BACKUP_DIR/ui.d/.
 cp -p *.csh $BACKUP_DIR/.
+cp -p *.nsi $BACKUP_DIR/.
 cp -fpR images.d/ubuntu.d/*.png $BACKUP_DIR/images.d/ubuntu.d/.
 cp -fpR images.d/monster.d/*.png $BACKUP_DIR/images.d/monster.d/.
 cp -fpR images.d/sunsplash.d/*.png $BACKUP_DIR/images.d/sunsplash.d/.
