@@ -97,7 +97,7 @@ maxit::maxit(void):QMainWindow(),size(4)
   prepareBoard();
   boardframe->setLayout(qgl);
   boardframe->setMinimumSize(suitableH, suitableH);
-  resize(minimumSize());
+  resize(boardframe->minimumSize());
   show();
 }
 
@@ -164,6 +164,14 @@ void maxit::prepareBoard(const bool createPieces)
 	    glpieces[i][j] = new glpiece
 	      (0, 0, value, color, i, j, side, 25 * 64);
 
+	  if(getViewMode() == VIEW3D)
+	    {
+	      if((i + j) % 2 == 0)
+		glpieces[i][j]->rotate(45 * 64, 45 * 64, -25 * 64);
+	      else
+		glpieces[i][j]->rotate(-45 * 64, 45 * 64, 25 * 64);
+	    }
+
 	  qgl->addWidget(glpieces[i][j], i, j);
 	}
       else
@@ -218,9 +226,11 @@ void maxit::slotChangeSize(void)
   int suitableH = size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
 					    glpiece::CUBE_SIZE));
 
+  hide();
   slotNewGame();
   boardframe->setMinimumSize(suitableH, suitableH);
-  resize(minimumSize());
+  resize(boardframe->minimumSize());
+  show();
 }
 
 void maxit::slotChangeView(void)
@@ -229,21 +239,27 @@ void maxit::slotChangeView(void)
 
   if(getViewMode() == VIEW2D)
     {
-      for(int i = 0; i < size; i++)
-	for(int j = 0; j < size; j++)
-	  if((i + j) % 2 == 0)
-	    glpieces[i][j]->rotate(0, 0, -25 * 64);
-	  else
-	    glpieces[i][j]->rotate(0, 0, 25 * 64);
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
+	  if(glpieces[i][j])
+	    {
+	      if((i + j) % 2 == 0)
+		glpieces[i][j]->rotate(0, 0, -25 * 64);
+	      else
+		glpieces[i][j]->rotate(0, 0, 25 * 64);
+	    }
     }
   else
     {
-      for(int i = 0; i < size; i++)
-	for(int j = 0; j < size; j++)
-	  if((i + j) % 2 == 0)
-	    glpieces[i][j]->rotate(45 * 64, 45 * 64, -25 * 64);
-	  else
-	    glpieces[i][j]->rotate(-45 * 64, 45 * 64, 25 * 64);
+      for(int i = 0; i < Global::NROWS; i++)
+	for(int j = 0; j < Global::NCOLS; j++)
+	  if(glpieces[i][j])
+	    {
+	      if((i + j) % 2 == 0)
+		glpieces[i][j]->rotate(45 * 64, 45 * 64, -25 * 64);
+	      else
+		glpieces[i][j]->rotate(-45 * 64, 45 * 64, 25 * 64);
+	    }
     }
 
   Global::qapp->restoreOverrideCursor();
