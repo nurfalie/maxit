@@ -2,8 +2,8 @@
 
 maxit::maxit(void):QMainWindow(),size(4)
 {
-  int suitableH = size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
-					    glpiece::CUBE_SIZE));
+  int suitableH =
+    size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
   QActionGroup *ag1 = 0;
   QActionGroup *ag2 = 0;
   QActionGroup *ag3 = 0;
@@ -226,11 +226,9 @@ void maxit::slotChangeSize(void)
   int suitableH = size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
 					    glpiece::CUBE_SIZE));
 
-  hide();
   slotNewGame();
   boardframe->setMinimumSize(suitableH, suitableH);
   resize(boardframe->minimumSize());
-  show();
 }
 
 void maxit::slotChangeView(void)

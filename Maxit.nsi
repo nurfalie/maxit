@@ -1,6 +1,6 @@
 # Define installer name.
 Name "Maxit Installer"
-outFile "Maxit-Installer-0.04.exe"
+outFile "Maxit-Installer-0.05.exe"
 
 # Install directory.
 installDir C:\Maxit.d
@@ -19,7 +19,7 @@ file *.dll
 file Maxit.exe
 
 # Define uninstaller name.
-writeUninstaller $INSTDIR\Maxit-Uninstaller-0.04.exe
+writeUninstaller $INSTDIR\Maxit-Uninstaller-0.05.exe
 
 # Default section end.
 sectionEnd
