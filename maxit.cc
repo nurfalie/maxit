@@ -227,11 +227,12 @@ void maxit::slotChangeSize(void)
   int suitableH = size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
 					    glpiece::CUBE_SIZE));
 
-  boardframe->setVisible(false);
+  centralwidget->setVisible(false);
   slotNewGame();
-  boardframe->setVisible(true);
+  centralwidget->setVisible(true);
   boardframe->setMinimumSize(suitableH, suitableH);
   resize(boardframe->minimumSize());
+  update();
 }
 
 void maxit::slotChangeView(void)
