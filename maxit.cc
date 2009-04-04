@@ -98,6 +98,7 @@ maxit::maxit(void):QMainWindow(),size(4)
   boardframe->setLayout(qgl);
   boardframe->setMinimumSize(suitableH, suitableH);
   resize(boardframe->minimumSize());
+  setWindowIcon(QIcon("images.d/maxit.png"));
   show();
 }
 
@@ -201,7 +202,7 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<html>Maxit Version 0.05.<br>"
+  mb.setText(tr("<html>Maxit Version 0.06.<br>"
 		"Copyright (c) Slurpy McNash 2007, 2008, 2009.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
@@ -226,7 +227,9 @@ void maxit::slotChangeSize(void)
   int suitableH = size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 *
 					    glpiece::CUBE_SIZE));
 
+  boardframe->setVisible(false);
   slotNewGame();
+  boardframe->setVisible(true);
   boardframe->setMinimumSize(suitableH, suitableH);
   resize(boardframe->minimumSize());
 }
