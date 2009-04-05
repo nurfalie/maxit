@@ -14,9 +14,10 @@ section
 setOutPath $INSTDIR
 
 # Specify files to go in output path.
-file /r images.d
-file *.dll
-file Maxit.exe
+file /r release\images.d
+file release\*.dll
+file release\Maxit.exe
+file THEMES
 
 # Define uninstaller name.
 writeUninstaller $INSTDIR\Maxit-Uninstaller-0.06.exe
