@@ -100,6 +100,7 @@ maxit::maxit(void):QMainWindow(),size(4)
   resize(boardframe->minimumSize());
   setWindowIcon(QIcon("images.d/maxit.png"));
   show();
+  update();
 }
 
 void maxit::prepareBoard(const bool createPieces)
