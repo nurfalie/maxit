@@ -1,4 +1,4 @@
 1. All images must be in PNG format.
-2. The recommended dimensions are 64x64.
-3. The file names should be 1.png, 2.png, ..., 49.png.
-4. A "question mark" image, having a q.png file name, is also required.
+2. The recommended image dimensions are 64x64.
+3. The image file names should be 1.png, 2.png, ..., 49.png.
+4. An unnumbered image, having a q.png file name, is also required.
