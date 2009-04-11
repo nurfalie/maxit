@@ -232,7 +232,6 @@ void maxit::slotChangeSize(void)
   slotNewGame();
   centralwidget->setVisible(true);
   boardframe->setMinimumSize(suitableH, suitableH);
-  resize(boardframe->minimumSize());
   update();
 }
 
