@@ -9,7 +9,7 @@ QMAKE_CLEAN	+= Maxit
 QMAKE_CFLAGS_RELEASE += -Werror
 QMAKE_CXXFLAGS_RELEASE += -Werror
 QMAKE_EXTRA_UNIX_TARGETS = purge
-INCPATH		+= include.d
+INCLUDEPATH	+= include.d
 
 FORMS           = ui.d\maxit.ui
 
