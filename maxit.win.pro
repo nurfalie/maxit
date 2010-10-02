@@ -1,4 +1,4 @@
-purge.commands = del *~ && del include.d\*~ && del ui.d\*~
+purge.commands = del *~ && del include.d\\*~ && del ui.d\\*~
 
 TEMPLATE	= app
 LANGUAGE	= C++
@@ -8,14 +8,14 @@ QMAKE_CXXFLAGS	+= -Wall -Werror
 QMAKE_CLEAN	+= Maxit
 QMAKE_CFLAGS_RELEASE += -Werror
 QMAKE_CXXFLAGS_RELEASE += -Werror
-QMAKE_EXTRA_UNIX_TARGETS = purge
+QMAKE_EXTRA_TARGETS = purge
 INCLUDEPATH	+= include.d
 
-FORMS           = ui.d\maxit.ui
+FORMS           = ui.d\\maxit.ui
 
-HEADERS		= include.d\maxit.h \
-		  include.d\glpiece.h \
-		  include.d\computer.h
+HEADERS		= include.d\\maxit.h \
+		  include.d\\glpiece.h \
+		  include.d\\computer.h
 
 SOURCES		= maxit.cc \
 		  glpiece.cc \
