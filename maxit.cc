@@ -297,7 +297,7 @@ void maxit::pieceSelected(glpiece *piece)
     for(int j = 0; j < size; j++)
       {
 	glpieces[i][j]->setEnabled(false);
-	board[i][j] = glpieces[i][j]->value();  
+	board[i][j] = glpieces[i][j]->value();
       }
 
   computer cmptr(board, size, playerscore->text().toInt(),
@@ -469,7 +469,7 @@ void maxit::slotShowHint(void)
     {
       for(int i = 0; i < size; i++)
 	for(int j = 0; j < size; j++)
-	  board[i][j] = glpieces[i][j]->value();  
+	  board[i][j] = glpieces[i][j]->value();
 
       computer hint(board, size, playerscore->text().toInt(),
 		    opponentscore->text().toInt());
