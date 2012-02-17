@@ -4,10 +4,9 @@ TEMPLATE	= app
 LANGUAGE	= C++
 CONFIG		+= qt thread release warn_on
 QT		+= opengl
-QMAKE_CXXFLAGS	+= -Wall -Werror
 QMAKE_CLEAN	+= Maxit
-QMAKE_CFLAGS_RELEASE += -Werror
-QMAKE_CXXFLAGS_RELEASE += -Werror
+QMAKE_CXXFLAGS_RELEASE -= -O2
+QMAKE_CXXFLAGS_RELEASE += -O3 -Wall -Werror -Wextra
 QMAKE_EXTRA_TARGETS = purge
 INCLUDEPATH	+= include.d
 

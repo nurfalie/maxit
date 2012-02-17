@@ -28,6 +28,7 @@ class glpiece: public QGLWidget
     {
       CUBE_SIZE = 128
     };
+
   glpiece(QWidget *, glpiece *, const int, const QColor &, const int,
 	  const int, const int, const int);
   ~glpiece();
@@ -59,7 +60,7 @@ class glpiece: public QGLWidget
   bool consumed;
   bool clickable;
   QColor bgColor;
-  QColor bgColorOrig;;
+  QColor bgColorOrig;
   void growBy(const int);
   void rotateBy(const int, const int, const int);
   void shrinkBy(const int);

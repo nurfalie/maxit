@@ -39,6 +39,7 @@ class maxit: public QMainWindow, private Ui::maxit_window
       VIEW2D = 0,
       VIEW3D = 1
     };
+
   maxit(void);
   int getViewMode(void) const;
   int getViewSize(void) const;
