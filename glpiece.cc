@@ -44,13 +44,13 @@ void glpiece::reset(const int valueArg)
 
     for(int i = 0; side < CUBE_SIZE; i++)
       {
-	if(i % 25 == 0)
+	if(i % 5 == 0)
 	  growBy(8);
 
 	if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	  rotateBy(0, 0, 5 * 10);
+	  rotateBy(0, 0, 15 * 10);
 	else
-	  rotateBy(5 * 10, -25 * 10, 5 * 10);
+	  rotateBy(15 * 10, -25 * 10, 15 * 10);
       }
 
   makeCurrent();
@@ -241,13 +241,13 @@ void glpiece::mousePressEvent(QMouseEvent *e)
 
   for(int i = 0; side > 0; i++)
     {
-      if(i % 25 == 0)
+      if(i % 5 == 0)
 	shrinkBy(8);
 
       if(Global::maxitptr->getViewMode() == maxit::VIEW2D)
-	rotateBy(0, 0, -5 * 10);
+	rotateBy(0, 0, -15 * 10);
       else
-	rotateBy(-5 * 10, 25 * 10, -5 * 10);
+	rotateBy(-15 * 10, 25 * 10, -15 * 10);
     }
 
   consumed = true;

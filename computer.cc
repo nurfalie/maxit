@@ -39,27 +39,31 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
 			  const int col) const
 {
   int total = -playerScore + computerScore;
-  thread *t = 0;
   QList<thread *> threads;
 
   for(int i = 0; i < size; i++)
     for(int j = 0; j < size; j++)
       if((i == row || j == col) && board[i][j] > 0)
 	{
-	  t = new thread(i, j);
+	  thread *t = new thread(i, j);
+
 	  t->start();
 	  threads.append(t);
 	}
 
   /*
-  ** Wait.
+  ** Find the best move.
   */
 
   for(int i = 0; i < threads.size();)
     {
       if(threads.at(i)->isRunning())
 	{
-	  threads.at(i)->wait(100);
+	  /*
+	  ** Thread i hasn't completed. Wait and test the next thread.
+	  */
+
+	  threads.at(i)->wait(50);
 	  continue;
 	}
 
@@ -74,5 +78,5 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
     }
 
   while(!threads.isEmpty())
-    delete threads.takeFirst();
+    threads.takeFirst()->deleteLater();
 }

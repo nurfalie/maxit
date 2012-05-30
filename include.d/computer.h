@@ -90,7 +90,7 @@ class thread: public QThread
 		    if((o == m || p == n) && board[o][p] > 0)
 		      for(int q = 0; q < size; q++)
 			for(int r = 0; r < size; r++)
-			  if((o == q || p == r) && board[q][r] > 0)
+			  if((q == o || r == p) && board[q][r] > 0)
 			    {
 			      tmp = -playerScore + computerScore +
 				board[rw][cl] -

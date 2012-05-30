@@ -230,8 +230,9 @@ void maxit::slotChangeSize(void)
 
   centralwidget->setVisible(false);
   slotNewGame();
-  centralwidget->setVisible(true);
   boardframe->setMinimumSize(suitableH, suitableH);
+  centralwidget->setVisible(true);
+  resize(boardframe->minimumSize());
   update();
 }
 
@@ -311,6 +312,7 @@ void maxit::pieceSelected(glpiece *piece)
       opponentscore->setText
 	(QString::number(opponentscore->text().toInt() +
 			 computerlastpiece->value()));
+      Global::qapp->processEvents();
       computerlastpiece->select();
       computerlastpiece->setValue(0);
 
@@ -393,8 +395,8 @@ void maxit::slotInstructions(void)
 		"in the same column or row as the previously-selected "
 		"piece.</li>"
 		"<li>The game ends when all of the pieces have been "
-		"selected or when there are no pieces to select in accordance "
-		"with the second rule.</li>"
+		"selected or when all of the pieces for a given column "
+		"and row are exhausted.</li>"
 		"<li>The player with the highest score wins.</li>"
 		"</ul>"));
   mb.setStandardButtons(QMessageBox::Ok);
