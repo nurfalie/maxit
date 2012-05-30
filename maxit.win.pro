@@ -10,6 +10,7 @@ QMAKE_CXXFLAGS_RELEASE += -O3 -Wall -Werror -Wextra
 QMAKE_EXTRA_TARGETS = purge
 ICON            = images.d\\maxit.png
 INCLUDEPATH	+= include.d
+RC_FILE		= maxit.win.rc
 
 FORMS           = ui.d\\maxit.ui
 
