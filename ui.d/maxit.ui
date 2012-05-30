@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>maxit_window</class>
- <widget class="QMainWindow" name="maxit_window" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="maxit_window">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,23 +10,17 @@
     <height>377</height>
    </rect>
   </property>
-  <property name="font" >
-   <font>
-    <family>Times</family>
-    <pointsize>10</pointsize>
-   </font>
-  </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Maxit</string>
   </property>
-  <widget class="QWidget" name="centralwidget" >
-   <layout class="QVBoxLayout" >
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout">
     <item>
      <spacer>
-      <property name="orientation" >
+      <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" stdset="0" >
+      <property name="sizeHint" stdset="0">
        <size>
         <width>544</width>
         <height>136</height>
@@ -34,13 +29,13 @@
      </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" >
+     <layout class="QHBoxLayout">
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>238</width>
           <height>135</height>
@@ -49,13 +44,13 @@
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout" >
+       <layout class="QVBoxLayout">
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>63</width>
             <height>16</height>
@@ -64,17 +59,10 @@
          </spacer>
         </item>
         <item>
-         <layout class="QVBoxLayout" >
+         <layout class="QVBoxLayout">
           <item>
-           <widget class="QLabel" name="label_3" >
-            <property name="font" >
-             <font>
-              <pointsize>15</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text" >
+           <widget class="QLabel" name="label_3">
+            <property name="text">
              <string>P
 L
 A
@@ -83,30 +71,23 @@ E
 R
 1</string>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="playerscore" >
-            <property name="font" >
-             <font>
-              <pointsize>15</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text" >
+           <widget class="QLineEdit" name="playerscore">
+            <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength" >
+            <property name="maxLength">
              <number>4</number>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
-            <property name="readOnly" >
+            <property name="readOnly">
              <bool>true</bool>
             </property>
            </widget>
@@ -115,10 +96,10 @@ R
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>63</width>
             <height>16</height>
@@ -129,23 +110,16 @@ R
        </layout>
       </item>
       <item>
-       <widget class="QFrame" name="boardframe" >
-        <property name="font" >
-         <font>
-          <family>Times</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-       </widget>
+       <widget class="QFrame" name="boardframe"/>
       </item>
       <item>
-       <layout class="QVBoxLayout" >
+       <layout class="QVBoxLayout">
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>67</width>
             <height>16</height>
@@ -154,17 +128,10 @@ R
          </spacer>
         </item>
         <item>
-         <layout class="QVBoxLayout" >
+         <layout class="QVBoxLayout">
           <item>
-           <widget class="QLabel" name="label_2" >
-            <property name="font" >
-             <font>
-              <pointsize>15</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text" >
+           <widget class="QLabel" name="label_2">
+            <property name="text">
              <string>P
 L
 A
@@ -173,30 +140,23 @@ E
 R
 2</string>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="opponentscore" >
-            <property name="font" >
-             <font>
-              <pointsize>15</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text" >
+           <widget class="QLineEdit" name="opponentscore">
+            <property name="text">
              <string>0</string>
             </property>
-            <property name="maxLength" >
+            <property name="maxLength">
              <number>3</number>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
-            <property name="readOnly" >
+            <property name="readOnly">
              <bool>true</bool>
             </property>
            </widget>
@@ -205,10 +165,10 @@ R
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>67</width>
             <height>16</height>
@@ -220,10 +180,10 @@ R
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>238</width>
           <height>135</height>
@@ -235,10 +195,10 @@ R
     </item>
     <item>
      <spacer>
-      <property name="orientation" >
+      <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" stdset="0" >
+      <property name="sizeHint" stdset="0">
        <size>
         <width>544</width>
         <height>135</height>
@@ -248,171 +208,111 @@ R
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar" >
-   <property name="geometry" >
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>568</width>
-     <height>33</height>
+     <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_File" >
-    <property name="title" >
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="action_New_Game" />
-    <addaction name="separator" />
-    <addaction name="action_Exit" />
+    <addaction name="action_New_Game"/>
+    <addaction name="separator"/>
+    <addaction name="action_Exit"/>
    </widget>
-   <widget class="QMenu" name="menu_Help" >
-    <property name="title" >
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="action_About" />
-    <addaction name="separator" />
-    <addaction name="action_Instructions" />
-    <addaction name="separator" />
-    <addaction name="action_Show_Hint" />
+    <addaction name="action_About"/>
+    <addaction name="separator"/>
+    <addaction name="action_Instructions"/>
+    <addaction name="separator"/>
+    <addaction name="action_Show_Hint"/>
    </widget>
-   <widget class="QMenu" name="menu_View" >
-    <property name="font" >
-     <font>
-      <family>Times</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="title" >
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
      <string>&amp;View</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menu_Options" >
-    <property name="font" >
-     <font>
-      <family>Times</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="title" >
+   <widget class="QMenu" name="menu_Options">
+    <property name="title">
      <string>&amp;Options</string>
     </property>
-    <addaction name="action_Animate_Pieces" />
-    <addaction name="separator" />
-    <addaction name="action_Select_Theme" />
+    <addaction name="action_Animate_Pieces"/>
+    <addaction name="separator"/>
+    <addaction name="action_Select_Theme"/>
    </widget>
-   <widget class="QMenu" name="menu_Difficulty" >
-    <property name="font" >
-     <font>
-      <family>Times</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="title" >
+   <widget class="QMenu" name="menu_Difficulty">
+    <property name="title">
      <string>&amp;Difficulty</string>
     </property>
    </widget>
-   <addaction name="menu_File" />
-   <addaction name="menu_Difficulty" />
-   <addaction name="menu_Options" />
-   <addaction name="menu_View" />
-   <addaction name="menu_Help" />
+   <addaction name="menu_File"/>
+   <addaction name="menu_Difficulty"/>
+   <addaction name="menu_Options"/>
+   <addaction name="menu_View"/>
+   <addaction name="menu_Help"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar" />
-  <action name="action_New_Game" >
-   <property name="text" >
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_New_Game">
+   <property name="text">
     <string>&amp;New Game</string>
    </property>
-   <property name="font" >
-    <font>
-     <family>Times</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="shortcut" >
+   <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="action_Exit" >
-   <property name="text" >
+  <action name="action_Exit">
+   <property name="text">
     <string>&amp;Exit</string>
    </property>
-   <property name="font" >
-    <font>
-     <family>Times</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="shortcut" >
+   <property name="shortcut">
     <string>Ctrl+E</string>
    </property>
   </action>
-  <action name="action_About" >
-   <property name="text" >
+  <action name="action_About">
+   <property name="text">
     <string>&amp;About</string>
    </property>
-   <property name="font" >
-    <font>
-     <family>Times</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
   </action>
-  <action name="action_Instructions" >
-   <property name="text" >
+  <action name="action_Instructions">
+   <property name="text">
     <string>&amp;Instructions</string>
    </property>
-   <property name="font" >
-    <font>
-     <family>Times</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="shortcut" >
+   <property name="shortcut">
     <string>Ctrl+I</string>
    </property>
   </action>
-  <action name="action_Animate_Pieces" >
-   <property name="checkable" >
+  <action name="action_Animate_Pieces">
+   <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>&amp;Animate Pieces</string>
    </property>
-   <property name="font" >
-    <font>
-     <family>Times</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="shortcut" >
+   <property name="shortcut">
     <string>Ctrl+A</string>
    </property>
   </action>
-  <action name="action_Select_Theme" >
-   <property name="text" >
+  <action name="action_Select_Theme">
+   <property name="text">
     <string>Select &amp;Theme</string>
    </property>
-   <property name="font" >
-    <font>
-     <family>Times</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="shortcut" >
+   <property name="shortcut">
     <string>Ctrl+T</string>
    </property>
   </action>
-  <action name="action_Show_Hint" >
-   <property name="text" >
+  <action name="action_Show_Hint">
+   <property name="text">
     <string>Show &amp;Hint</string>
    </property>
-   <property name="font" >
-    <font>
-     <family>Times</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="shortcut" >
+   <property name="shortcut">
     <string>Ctrl+H</string>
    </property>
   </action>
