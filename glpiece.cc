@@ -82,10 +82,12 @@ void glpiece::initializeGL(void)
   ** Initialize OpenGL.
   */
 
+  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_LINE_SMOOTH);
   glEnable(GL_POINT_SMOOTH);
+  glEnable(GL_TEXTURE_2D);
 }
 
 void glpiece::resizeGL(int w, int h)
