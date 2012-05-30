@@ -200,10 +200,7 @@ void glpiece::enterEvent(QEvent *e)
   ** Highlight (change the background color) the piece on a mouse-enter event.
   */
 
-  bgColor = QColor
-    (abs(static_cast<int> (bgColor.red() + bgColor.red() * 0.50)),
-     abs(static_cast<int> (bgColor.green() + bgColor.green() * 0.50)),
-     abs(static_cast<int> (bgColor.blue() + bgColor.blue() * 0.50)));
+  bgColor = bgColor.lighter();
   updateGL();
 }
 
@@ -292,10 +289,7 @@ void glpiece::setEnabled(const bool state)
   bgColor = bgColorOrig;
 
   if(!isEnabled())
-    bgColor = QColor
-      (abs(static_cast<int> (bgColor.red() - bgColor.red() * 0.50)),
-       abs(static_cast<int> (bgColor.green() - bgColor.green() * 0.50)),
-       abs(static_cast<int> (bgColor.blue() - bgColor.blue() * 0.50)));
+    bgColor = bgColor.dark();
 
   updateGL();
 }
@@ -315,10 +309,7 @@ void glpiece::hintMe(void)
   if(consumed || !isEnabled())
     return;
 
-  bgColor = QColor
-    (abs(static_cast<int> (bgColorOrig.red() + bgColorOrig.red() * 0.80)),
-     abs(static_cast<int> (bgColorOrig.green() + bgColorOrig.green() * 0.80)),
-     abs(static_cast<int> (bgColorOrig.blue() + bgColorOrig.blue() * 0.80)));
+  bgColor = bgColor.lighter(200);
   updateGL();
   bgColor = bgColorOrig;
 }
