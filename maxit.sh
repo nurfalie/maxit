@@ -1,13 +1,9 @@
 #!/bin/sh
 
-ostype="`uname -s`"
-
-if [ $ostype = "Darwin" ]
+if [ -r /usr/local/maxit/Maxit ] && [ -x /usr/local/maxit/Maxit ]
 then
-    open /Applications/Maxit.d/Maxit.app &
+    cd /usr/local/maxit && ./Maxit &
+    exit $?
 else
-    cd /usr/local/maxit
-    ./Maxit &
+    exit 1
 fi
-
-exit 0
