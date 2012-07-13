@@ -35,6 +35,9 @@ class thread: public QThread
   {
     rw = r;
     cl = c;
+    total = 0;
+    bestCol = -1;
+    bestRow = -1;
   }
 
   int col(void) const

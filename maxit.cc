@@ -442,7 +442,6 @@ void maxit::slotShowHint(void)
 {
   int I = -1;
   int J = -1;
-  int max = 0;
   int board[Global::NROWS][Global::NCOLS];
   QMap<QString, int> move;
 
@@ -450,6 +449,8 @@ void maxit::slotShowHint(void)
 
   if(playerscore->text() == "0")
     {
+      int max = 0;
+
       /*
       ** Find the piece with the greatest value.
       */
