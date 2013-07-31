@@ -6,7 +6,7 @@ CONFIG		+= qt thread release warn_on
 QT		+= opengl
 QMAKE_CLEAN	+= Maxit
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE += -O3 -Wall -Werror -Wextra
+QMAKE_CXXFLAGS_RELEASE += -O3 -Wall -Werror -Wextra -Wstack-protector -fPIE -fstack-protector-all -pie
 QMAKE_EXTRA_TARGETS = purge
 INCLUDEPATH	+= include.d
 
