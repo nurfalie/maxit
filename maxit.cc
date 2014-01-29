@@ -204,7 +204,7 @@ void maxit::slotAbout(void)
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
   mb.setText(tr("<html>Maxit Version 1.00.<br>"
-		"Copyright (c) Mr. Megas 2007, 2008, 2009, 2012.<br><br>"
+		"Copyright (c) Time 2007, 2008, 2009, 2012.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
 		"http://maxit.sourceforge.net</a> for "
@@ -343,7 +343,8 @@ void maxit::pieceSelected(glpiece *piece)
 				 tr("Congratulations, you won!"));
       else if(playerscore->text().toInt() < opponentscore->text().toInt())
 	QMessageBox::information(this, tr("Maxit: Game Over"),
-				 tr("I'm sorry, but you lost!"));
+				 tr("I'm sorry, but you lost! "
+				    "Please play again."));
       else
 	QMessageBox::information(this, tr("Maxit: Game Over"),
 				 tr("Congratulations, it's a tie!"));
