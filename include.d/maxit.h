@@ -25,8 +25,8 @@
 */
 
 #include "common.h"
-#include "glpiece.h"
 #include "computer.h"
+#include "glpiece.h"
 #include "ui_maxit.h"
 
 class maxit: public QMainWindow, private Ui::maxit_window
@@ -35,44 +35,44 @@ class maxit: public QMainWindow, private Ui::maxit_window
 
  public:
   enum
-    {
-      VIEW2D = 0,
-      VIEW3D = 1
-    };
+  {
+    VIEW2D = 0,
+    VIEW3D = 1
+  };
 
   maxit(void);
+  bool isAnimationEnabled(void) const;
   int getViewMode(void) const;
   int getViewSize(void) const;
-  bool isAnimationEnabled(void) const;
   void pieceSelected(glpiece *);
   static QString themedir(void);
 
  private:
-  int size;
-  glpiece *glpieces[Global::NROWS][Global::NCOLS];
-  glpiece *computerlastpiece;
   QAction *action_2D;
   QAction *action_3D;
   QAction *action_4x4;
   QAction *action_5x5;
   QAction *action_6x6;
   QAction *action_7x7;
+  QAction *action_difficult;
   QAction *action_easy;
   QAction *action_normal;
-  QAction *action_difficult;
   QGridLayout *qgl;
+  glpiece *computerlastpiece;
+  glpiece *glpieces[Global::NROWS][Global::NCOLS];
+  int size;
   static QString themepath;
   void prepareBoard(const bool = true);
 
  private slots:
   void slotAbout(void);
+  void slotChangeDifficulty(void);
+  void slotChangeSize(void);
+  void slotChangeTheme(void);
+  void slotChangeView(void);
+  void slotInstructions(void);
   void slotNewGame(void);
   void slotShowHint(void);
-  void slotChangeSize(void);
-  void slotChangeView(void);
-  void slotChangeTheme(void);
-  void slotInstructions(void);
-  void slotChangeDifficulty(void);
 };
 
 #endif

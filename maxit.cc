@@ -2,11 +2,11 @@
 
 maxit::maxit(void):QMainWindow(),size(4)
 {
-  int suitableH =
-    size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
   QActionGroup *ag1 = 0;
   QActionGroup *ag2 = 0;
   QActionGroup *ag3 = 0;
+  int suitableH =
+    size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
 
   setupUi(this);
 #ifdef Q_OS_WIN
@@ -105,13 +105,13 @@ maxit::maxit(void):QMainWindow(),size(4)
 
 void maxit::prepareBoard(const bool createPieces)
 {
+  QColor color = QColor(133, 99, 99);
+  QMap<QString, short> map;
+  int difficulty = 0;
   int i = 0;
   int j = 0;
   int side = glpiece::CUBE_SIZE;
   int value = 0;
-  int difficulty = 0;
-  QColor color = QColor(133, 99, 99);
-  QMap<QString, short> map;
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
 
@@ -139,8 +139,11 @@ void maxit::prepareBoard(const bool createPieces)
 
   while(map.size() < size * size)
     {
-      i = qrand() % size;
-      j = qrand() % size;
+      i = qrand() % qMax(1, size);
+      j = qrand() % qMax(1, size);
+
+      if(i >= size || j >= size)
+	break;
 
       if(map.contains(QString("%1,%2").arg(i).arg(j)))
 	continue;
@@ -203,8 +206,8 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<html>Maxit Version 1.00.<br>"
-		"Copyright (c) Time 2007, 2008, 2009, 2012.<br><br>"
+  mb.setText(tr("<html>Maxit Version 1.01.<br>"
+		"Copyright (c) Time 2007 - 2014.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
 		"http://maxit.sourceforge.net</a> for "
@@ -283,9 +286,9 @@ bool maxit::isAnimationEnabled(void) const
 
 void maxit::pieceSelected(glpiece *piece)
 {
-  int board[Global::NROWS][Global::NCOLS];
-  bool gameover = true;
   QMap<QString, int> move;
+  bool gameover = true;
+  int board[Global::NROWS][Global::NCOLS];
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
   playerscore->setText(QString::number(playerscore->text().toInt() +
@@ -306,7 +309,8 @@ void maxit::pieceSelected(glpiece *piece)
   move = cmptr.getMove(piece->row(), piece->col());
   statusBar()->clearMessage();
 
-  if(move["row"] > -1)
+  if(move["row"] > -1 && move["row"] < size &&
+     move["col"] > -1 && move["col"] < size)
     {
       computerlastpiece = glpieces[move["row"]][move["col"]];
       opponentscore->setText
@@ -353,8 +357,8 @@ void maxit::pieceSelected(glpiece *piece)
 
 void maxit::slotChangeTheme(void)
 {
-  QString tmpstr("");
   QString startpath("");
+  QString tmpstr("");
 
 #ifdef Q_OS_WIN
   startpath = "\\images.d\\";
@@ -406,8 +410,8 @@ void maxit::slotInstructions(void)
 
 void maxit::slotChangeDifficulty(void)
 {
-  int value = 0;
   int difficulty = 0;
+  int value = 0;
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
 
@@ -422,7 +426,7 @@ void maxit::slotChangeDifficulty(void)
     for(int j = 0; j < size; j++)
       if(glpieces[i][j]->value() > 0)
 	{
-	  value = qrand() % (size * size);
+	  value = qrand() % qMax(1, size * size);
 
 	  if(value == 0)
 	    value += 1;
@@ -441,10 +445,10 @@ void maxit::slotChangeDifficulty(void)
 
 void maxit::slotShowHint(void)
 {
+  QMap<QString, int> move;
   int I = -1;
   int J = -1;
   int board[Global::NROWS][Global::NCOLS];
-  QMap<QString, int> move;
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
 
@@ -488,7 +492,7 @@ void maxit::slotShowHint(void)
       move.clear();
     }
 
-  if(I > -1)
+  if(I > -1 && I < size && J > -1 && J < size)
     glpieces[I][J]->hintMe();
 
   Global::qapp->restoreOverrideCursor();

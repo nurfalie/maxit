@@ -1,5 +1,5 @@
 /*
-** Copyright (c) 2007, 2008 Alexis Megas
+** Copyright (c) 2007 - 2014 Alexis Megas
 ** All rights reserved.
 **
 ** Redistribution and use in source and binary forms, with or without
@@ -43,9 +43,9 @@
 
 #include "maxit.h"
 
-maxit *Global::maxitptr = 0;
-QString maxit::themepath("");
 QApplication *Global::qapp = 0;
+QString maxit::themepath("");
+maxit *Global::maxitptr = 0;
 
 int main(int argc, char *argv[])
 {

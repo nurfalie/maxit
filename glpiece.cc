@@ -8,22 +8,25 @@
 ** -- Local Includes --
 */
 
-#include "maxit.h"
 #include "glpiece.h"
+#include "maxit.h"
 
 glpiece::glpiece(QWidget *parent, glpiece *other,
 		 const int valueArg, const QColor &bgColorArg,
 		 const int rowArg, const int colArg, const int sideArg,
-		 const int zRotArg):
-  QGLWidget(parent, other),
-  colv(colArg), rowv(rowArg), side(sideArg), valuev(valueArg),
-  bgColor(bgColorArg), bgColorOrig(bgColorArg)
+		 const int zRotArg):QGLWidget(parent, other)
 {
+  bgColor = bgColorArg;
+  bgColorOrig = bgColorArg;
+  clickable = false;
+  colv = colArg;
+  consumed = false;
+  rowv = rowArg;
+  side = sideArg;
+  valuev = valueArg;
   xRot = 0;
   yRot = 0;
   zRot = zRotArg;
-  consumed = false;
-  clickable = false;
   setMouseTracking(true);
 }
 
@@ -33,9 +36,9 @@ glpiece::~glpiece()
 
 void glpiece::reset(const int valueArg)
 {
-  setValue(valueArg);
   consumed = false;
   setEnabled(true);
+  setValue(valueArg);
 
   if(side != CUBE_SIZE)
     /*
@@ -119,7 +122,7 @@ void glpiece::rotateBy(const int xAngle, const int yAngle, const int zAngle)
 
 void glpiece::growBy(const int growth)
 {
-  side += static_cast<int> (growth);
+  side += growth;
 
   if(Global::maxitptr->isAnimationEnabled())
     resizeGL(width(), height());
@@ -127,7 +130,7 @@ void glpiece::growBy(const int growth)
 
 void glpiece::shrinkBy(const int decrease)
 {
-  side -= static_cast<int> (decrease);
+  side -= decrease;
 
   if(Global::maxitptr->isAnimationEnabled())
     resizeGL(width(), height());
@@ -195,7 +198,7 @@ void glpiece::enterEvent(QEvent *e)
 {
   Q_UNUSED(e);
 
-  if(consumed || !isEnabled() || !clickable)
+  if(!clickable || consumed || !isEnabled())
     return;
 
   /*
@@ -287,7 +290,11 @@ int glpiece::value(void) const
 
 void glpiece::setEnabled(const bool state)
 {
-  static_cast<QGLWidget *> (this)->setEnabled(state);
+  QGLWidget *widget = static_cast<QGLWidget *> (this);
+
+  if(widget)
+    widget->setEnabled(state);
+
   bgColor = bgColorOrig;
 
   if(!isEnabled())

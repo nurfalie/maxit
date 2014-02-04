@@ -1,8 +1,8 @@
 #ifndef _COMMON_
 #define _COMMON_
 
-class maxit;
 class QApplication;
+class maxit;
 
 class Global
 {
@@ -16,8 +16,8 @@ class Global
       NROWS = 7
     };
 
-  static maxit *maxitptr;
   static QApplication *qapp;
+  static maxit *maxitptr;
 };
 
 #endif

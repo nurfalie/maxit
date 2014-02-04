@@ -26,18 +26,18 @@ class thread: public QThread
   Q_OBJECT
 
  public:
-  static int size;
-  static int playerScore;
-  static int computerScore;
   static int board[Global::NROWS][Global::NCOLS];
+  static int computerScore;
+  static int playerScore;
+  static int size;
 
   thread(const int r, const int c)
   {
-    rw = r;
-    cl = c;
-    total = 0;
     bestCol = -1;
     bestRow = -1;
+    cl = c;
+    rw = r;
+    total = 0;
   }
 
   int col(void) const
@@ -59,9 +59,9 @@ class thread: public QThread
 			 const int pScore, const int cScore,
 			 const int brd[][Global::NCOLS])
   {
-    size = sizeArg;
-    playerScore = pScore;
     computerScore = cScore;
+    playerScore = pScore;
+    size = sizeArg;
 
     for(int i = 0; i < size; i++)
       for(int j = 0; j < size; j++)
@@ -69,11 +69,11 @@ class thread: public QThread
   }
 
  private:
+  int bestCol;
+  int bestRow;
   int cl;
   int rw;
   int total;
-  int bestCol;
-  int bestRow;
 
  protected:
   void run(void)
@@ -95,12 +95,13 @@ class thread: public QThread
 			for(int r = 0; r < size; r++)
 			  if((q == o || r == p) && board[q][r] > 0)
 			    {
-			      tmp = -playerScore + computerScore +
-				board[rw][cl] -
-				board[k][l] +
-				board[m][n] -
-				board[o][p] +
-				board[q][r];
+			      if(cl < size && rw < size)
+				tmp = -playerScore + computerScore +
+				  board[rw][cl] -
+				  board[k][l] +
+				  board[m][n] -
+				  board[o][p] +
+				  board[q][r];
 
 			      if(tmp > total)
 				{
@@ -123,16 +124,17 @@ class computer
  private:
   enum
     {
-      HUMAN,
       COMPUTER,
-      HUMAN_WIN,
+      COMPUTER_WIN,
       DRAW,
-      UNCLEAR_WIN,
-      COMPUTER_WIN
+      HUMAN,
+      HUMAN_WIN,
+      UNCLEAR_WIN
     };
-  int size;
-  int playerScore;
+
   int computerScore;
+  int playerScore;
+  int size;
   int board[Global::NROWS][Global::NCOLS];
   void chooseMove(int &, int &, const int, const int) const;
 };

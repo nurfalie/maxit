@@ -1,9 +1,9 @@
 #include "computer.h"
 
-int thread::size = 4;
-int thread::playerScore = 0;
-int thread::computerScore = 0;
 int thread::board[Global::NROWS][Global::NCOLS];
+int thread::computerScore = 0;
+int thread::playerScore = 0;
+int thread::size = 4;
 
 computer::computer(const int brd[][Global::NCOLS], const int sizeArg,
 		   const int pScore, const int cScore)
@@ -25,9 +25,9 @@ computer::~computer()
 
 QMap<QString, int> computer::getMove(const int rowArg, const int colArg) const
 {
+  QMap<QString, int> move;
   int bestCol = -1;
   int bestRow = -1;
-  QMap<QString, int> move;
 
   chooseMove(bestRow, bestCol, rowArg, colArg);
   move["row"] = bestRow;
@@ -38,8 +38,8 @@ QMap<QString, int> computer::getMove(const int rowArg, const int colArg) const
 void computer::chooseMove(int &bestRow, int &bestCol, const int row,
 			  const int col) const
 {
-  int total = -playerScore + computerScore;
   QList<thread *> threads;
+  int total = -playerScore + computerScore;
 
   for(int i = 0; i < size; i++)
     for(int j = 0; j < size; j++)
