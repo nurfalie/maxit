@@ -28,7 +28,7 @@ SOURCES		= computer.cc \
 PROJECTNAME	= Maxit
 TARGET		= Maxit
 
-macdeployqt.path  = QtChess.app
+macdeployqt.path  = Maxit.app
 macdeployqt.extra = $$[QT_INSTALL_BINS]/macdeployqt ./Maxit.app
 
 INSTALLS	= macdeployqt
