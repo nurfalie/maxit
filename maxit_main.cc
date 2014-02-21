@@ -65,8 +65,5 @@ int main(int argc, char *argv[])
     }
 
   Global::qapp->exec();
-  delete Global::maxitptr;
-  delete Global::qapp;
-  std::cout << QObject::tr("Exiting Maxit.").toStdString() << std::endl;
   return 0;
 }
