@@ -8,6 +8,7 @@ maxit::maxit(void):QMainWindow(),size(4)
   int suitableH =
     size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
 
+  size = 4;
   setupUi(this);
 #ifdef Q_OS_WIN
   themepath = QDir::current().path() + "\\images.d\\ubuntu.d\\";

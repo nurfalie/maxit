@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 		<< __LINE__
 		<< QObject::tr(", file ").toStdString()
 		<< __FILE__ << "." << std::endl;
-      exit(1);
+      exit(EXIT_FAILURE);
     }
 
   Global::qapp->exec();
