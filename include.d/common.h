@@ -7,14 +7,16 @@ class maxit;
 class Global
 {
  private:
-  Global(void) {}
+  Global(void)
+  {
+  }
 
  public:
   enum
-    {
-      NCOLS = 7,
-      NROWS = 7
-    };
+  {
+    NCOLS = 7,
+    NROWS = 7
+  };
 
   static QApplication *qapp;
   static maxit *maxitptr;

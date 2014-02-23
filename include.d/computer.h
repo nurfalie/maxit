@@ -123,19 +123,19 @@ class computer
 
  private:
   enum
-    {
-      COMPUTER,
-      COMPUTER_WIN,
-      DRAW,
-      HUMAN,
-      HUMAN_WIN,
-      UNCLEAR_WIN
-    };
+  {
+    COMPUTER,
+    COMPUTER_WIN,
+    DRAW,
+    HUMAN,
+    HUMAN_WIN,
+    UNCLEAR_WIN
+  };
 
+  int board[Global::NROWS][Global::NCOLS];
   int computerScore;
   int playerScore;
   int size;
-  int board[Global::NROWS][Global::NCOLS];
   void chooseMove(int &, int &, const int, const int) const;
 };
 
