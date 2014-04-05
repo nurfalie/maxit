@@ -1,3 +1,5 @@
+#include <QtDebug>
+
 #include "computer.h"
 
 int thread::board[Global::NROWS][Global::NCOLS];
@@ -45,10 +47,15 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
     for(int j = 0; j < size; j++)
       if((i == row || j == col) && board[i][j] > 0)
 	{
-	  thread *t = new thread(i, j);
+	  thread *t = new (std::nothrow) thread(i, j);
 
-	  t->start();
-	  threads.append(t);
+	  if(t)
+	    {
+	      t->start();
+	      threads.append(t);
+	    }
+	  else
+	    qDebug() << "Memory failure.";
 	}
 
   /*

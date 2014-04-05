@@ -164,11 +164,17 @@ void maxit::prepareBoard(const bool createPieces)
       if(!glpieces[i][j])
 	{
 	  if((i + j) % 2 == 0)
-	    glpieces[i][j] = new glpiece
+	    glpieces[i][j] = new (std::nothrow) glpiece
 	      (0, 0, value, color, i, j, side, -25 * 64);
 	  else
-	    glpieces[i][j] = new glpiece
+	    glpieces[i][j] = new (std::nothrow) glpiece
 	      (0, 0, value, color, i, j, side, 25 * 64);
+
+	  if(!glpieces[i][j])
+	    {
+	      qDebug() << "Memory failure.";
+	      continue;
+	    }
 
 	  if(getViewMode() == VIEW3D)
 	    {
