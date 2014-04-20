@@ -1,4 +1,4 @@
-1.02 (04/11/2014)
+1.02 (04/20/2014)
 
 1.  Absorb memory failures.
 2.  Replaced O3 with Os, that is, optimize for size.
