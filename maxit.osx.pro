@@ -8,7 +8,9 @@ TEMPLATE	= app
 
 QMAKE_CLEAN	+= Maxit
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE += -Os -Wall -Werror -Wextra -Wstack-protector \
+QMAKE_CXXFLAGS_RELEASE += -Os -Wall -Werror -Wextra \
+			  -Wpointer-arith -Wstack-protector \
+			  -Wstrict-overflow=3 \
 			  -fPIE -fstack-protector-all -pie
 QMAKE_EXTRA_TARGETS = purge
 

@@ -9,7 +9,9 @@ TEMPLATE	= app
 
 QMAKE_CLEAN	+= Maxit
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE += -Os -Wall -Werror -Wextra -pie
+QMAKE_CXXFLAGS_RELEASE += -Os -Wall -Werror -Wextra \
+			  -Wpointer-arith \
+			  -Wstrict-overflow=3 -pie
 QMAKE_EXTRA_TARGETS = purge
 
 INCLUDEPATH	+= include.d

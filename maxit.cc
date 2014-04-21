@@ -1,6 +1,6 @@
 #include "maxit.h"
 
-maxit::maxit(void):QMainWindow(),size(4)
+maxit::maxit(void):QMainWindow()
 {
   QActionGroup *ag1 = 0;
   QActionGroup *ag2 = 0;
