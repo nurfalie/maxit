@@ -1,4 +1,5 @@
 1.02 (04/30/2014)
 
 1.  Absorb memory failures.
-2.  Replaced O3 with Os, that is, optimize for size.
+2.  Qt has been upgraded to version 5.2.1.
+3.  Replaced O3 with Os, that is, optimize for size.
