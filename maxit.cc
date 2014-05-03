@@ -2,13 +2,14 @@
 
 maxit::maxit(void):QMainWindow()
 {
+  size = 4;
+
   QActionGroup *ag1 = 0;
   QActionGroup *ag2 = 0;
   QActionGroup *ag3 = 0;
   int suitableH =
     size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
 
-  size = 4;
   setupUi(this);
 #ifdef Q_OS_WIN
   themepath = QDir::current().path() + "\\images.d\\ubuntu.d\\";
@@ -213,7 +214,7 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<html>Maxit Version 1.02.<br>"
+  mb.setText(tr("<html>Maxit Version 1.03.<br>"
 		"Copyright (c) Time 2007 - Eternity.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
