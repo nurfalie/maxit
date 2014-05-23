@@ -1,3 +1,7 @@
+1.04 (05/30/2014)
+
+1.  Review pointers before accessing contents.
+
 1.03 (05/03/2014)
 
 1.  Must initialize the size variable in maxit.cc.
