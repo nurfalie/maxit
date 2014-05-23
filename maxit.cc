@@ -2,6 +2,7 @@
 
 maxit::maxit(void):QMainWindow()
 {
+  computerlastpiece = 0;
   size = 4;
 
   QActionGroup *ag1 = 0;
@@ -195,7 +196,8 @@ void maxit::prepareBoard(const bool createPieces)
 
   for(i = 0; i < size; i++)
     for(j = 0; j < size; j++)
-      glpieces[i][j]->setClickable(true);
+      if(glpieces[i][j])
+	glpieces[i][j]->setClickable(true);
 
   map.clear();
   Global::qapp->restoreOverrideCursor();
@@ -214,8 +216,8 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<html>Maxit Version 1.03.<br>"
-		"Copyright (c) Time 2007 - Eternity.<br><br>"
+  mb.setText(tr("<html>Maxit Version 1.04.<br>"
+		"Copyright (c) 2007 - eternity, Time.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
 		"http://maxit.sourceforge.net</a> for "
@@ -299,46 +301,74 @@ void maxit::pieceSelected(glpiece *piece)
   int board[Global::NROWS][Global::NCOLS];
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
-  playerscore->setText(QString::number(playerscore->text().toInt() +
-				       piece->value()));
+
+  if(piece)
+    playerscore->setText(QString::number(playerscore->text().toInt() +
+					 piece->value()));
+  else
+    playerscore->setText("0");
+
   Global::qapp->processEvents();
-  piece->setValue(0);
+
+  if(piece)
+    piece->setValue(0);
+
   statusBar()->showMessage(tr("Analyzing..."));
 
   for(int i = 0; i < size; i++)
     for(int j = 0; j < size; j++)
-      {
-	glpieces[i][j]->setEnabled(false);
-	board[i][j] = glpieces[i][j]->value();
-      }
+      if(glpieces[i][j])
+	{
+	  glpieces[i][j]->setEnabled(false);
+	  board[i][j] = glpieces[i][j]->value();
+	}
+      else
+	board[i][j] = 0;
 
   computer cmptr(board, size, playerscore->text().toInt(),
 		 opponentscore->text().toInt());
-  move = cmptr.getMove(piece->row(), piece->col());
+
+  if(piece)
+    move = cmptr.getMove(piece->row(), piece->col());
+  else
+    move["row"] = move["col"] = -1;
+
   statusBar()->clearMessage();
 
   if(move["row"] > -1 && move["row"] < size &&
      move["col"] > -1 && move["col"] < size)
     {
       computerlastpiece = glpieces[move["row"]][move["col"]];
-      opponentscore->setText
-	(QString::number(opponentscore->text().toInt() +
-			 computerlastpiece->value()));
+
+      if(computerlastpiece)
+	opponentscore->setText
+	  (QString::number(opponentscore->text().toInt() +
+			   computerlastpiece->value()));
+      else
+	opponentscore->setText("0");
+
       Global::qapp->processEvents();
-      computerlastpiece->select();
-      computerlastpiece->setValue(0);
+
+      if(computerlastpiece)
+	{
+	  computerlastpiece->select();
+	  computerlastpiece->setValue(0);
+	}
 
       for(int i = 0; i < size; i++)
 	for(int j = 0; j < size; j++)
-	  if(i == move["row"] || j == move["col"])
+	  if(glpieces[i][j])
 	    {
-	      if(glpieces[i][j]->value() > 0)
-		gameover = false;
+	      if(i == move["row"] || j == move["col"])
+		{
+		  if(glpieces[i][j]->value() > 0)
+		    gameover = false;
 
-	      glpieces[i][j]->setEnabled(true);
+		  glpieces[i][j]->setEnabled(true);
+		}
+	      else
+		glpieces[i][j]->setEnabled(false);
 	    }
-	  else
-	    glpieces[i][j]->setEnabled(false);
     }
 
   move.clear();
@@ -348,7 +378,8 @@ void maxit::pieceSelected(glpiece *piece)
     {
       for(int i = 0; i < size; i++)
 	for(int j = 0; j < size; j++)
-	  glpieces[i][j]->setEnabled(false);
+	  if(glpieces[i][j])
+	    glpieces[i][j]->setEnabled(false);
 
       if(playerscore->text().toInt() > opponentscore->text().toInt())
 	QMessageBox::information(this, tr("Maxit: Game Over"),
@@ -385,7 +416,8 @@ void maxit::slotChangeTheme(void)
 
       for(int i = 0; i < size; i++)
 	for(int j = 0; j < size; j++)
-	  glpieces[i][j]->updateGL();
+	  if(glpieces[i][j])
+	    glpieces[i][j]->updateGL();
 
       Global::qapp->restoreOverrideCursor();
     }
@@ -432,7 +464,7 @@ void maxit::slotChangeDifficulty(void)
 
   for(int i = 0; i < size; i++)
     for(int j = 0; j < size; j++)
-      if(glpieces[i][j]->value() > 0)
+      if(glpieces[i][j] && glpieces[i][j]->value() > 0)
 	{
 	  value = qrand() % qMax(1, size * size);
 
@@ -460,6 +492,10 @@ void maxit::slotShowHint(void)
 
   Global::qapp->setOverrideCursor(Qt::WaitCursor);
 
+  for(int i = 0; i < Global::NROWS; i++)
+    for(int j = 0; j < Global::NCOLS; j++)
+      board[i][j] = 0;
+
   if(playerscore->text() == "0")
     {
       int max = 0;
@@ -470,26 +506,32 @@ void maxit::slotShowHint(void)
 
       for(int i = 0; i < size; i++)
 	for(int j = 0; j < size; j++)
-	  {
-	    glpieces[i][j]->resetBackground();
+	  if(glpieces[i][j])
+	    {
+	      glpieces[i][j]->resetBackground();
 
-	    if(glpieces[i][j]->value() > max)
-	      {
-		I = i;
-		J = j;
-		max = glpieces[i][j]->value();
-	      }
-	  }
+	      if(glpieces[i][j]->value() > max)
+		{
+		  I = i;
+		  J = j;
+		  max = glpieces[i][j]->value();
+		}
+	    }
     }
   else
     {
       for(int i = 0; i < size; i++)
 	for(int j = 0; j < size; j++)
-	  board[i][j] = glpieces[i][j]->value();
+	  if(glpieces[i][j])
+	    board[i][j] = glpieces[i][j]->value();
 
       computer hint(board, size, playerscore->text().toInt(),
 		    opponentscore->text().toInt());
-      move = hint.getMove(computerlastpiece->row(), computerlastpiece->col());
+
+      if(computerlastpiece)
+	move = hint.getMove(computerlastpiece->row(), computerlastpiece->col());
+      else
+	move["row"] = move["col"] = -1;
 
       if(move["row"] > -1)
 	{
@@ -501,7 +543,8 @@ void maxit::slotShowHint(void)
     }
 
   if(I > -1 && I < size && J > -1 && J < size)
-    glpieces[I][J]->hintMe();
+    if(glpieces[I][J])
+      glpieces[I][J]->hintMe();
 
   Global::qapp->restoreOverrideCursor();
 }

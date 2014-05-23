@@ -1,5 +1,5 @@
 /*
-** Copyright (c) 2007 - Eternity Alexis Megas
+** Copyright (c) 2007 - eternity, Alexis Megas.
 ** All rights reserved.
 **
 ** Redistribution and use in source and binary forms, with or without
@@ -65,5 +65,5 @@ int main(int argc, char *argv[])
     }
 
   Global::qapp->exec();
-  return 0;
+  return EXIT_SUCCESS;
 }
