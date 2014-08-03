@@ -1,7 +1,8 @@
-1.04 (08/01/2014)
+1.04 (09/01/2014)
 
 1.  Implemented alpha-beta pruning.
 2.  Review pointers before accessing contents.
+3.  Upgraded Qt to version 5.3.1 on Windows.
 
 1.03 (05/03/2014)
 
