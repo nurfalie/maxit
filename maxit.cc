@@ -217,7 +217,7 @@ void maxit::slotAbout(void)
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
   mb.setText(tr("<html>Maxit Version 1.04.<br>"
-		"Copyright (c) 2007 - eternity, Time.<br><br>"
+		"Copyright (c) 2007 - eternity.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"
 		"http://maxit.sourceforge.net</a> for "
@@ -430,12 +430,16 @@ QString maxit::themedir(void)
 
 void maxit::slotInstructions(void)
 {
-  QMessageBox mb(this);
+  QMessageBox *mb = findChild<QMessageBox *> ("instructions");
 
-  mb.setWindowTitle(tr("Maxit: Instructions"));
-  mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<ul>"
-		"<li>The first player must initiate the game.</li>"
+  if(!mb)
+    mb = new QMessageBox(this);
+
+  mb->setObjectName("instructions");
+  mb->setWindowModality(Qt::NonModal);
+  mb->setWindowTitle(tr("Maxit: Instructions"));
+  mb->setTextFormat(Qt::RichText);
+  mb->setText(tr("<ul>"
 		"<li>A player may only select a piece that is located "
 		"in the same column or row as the previously-selected "
 		"piece.</li>"
@@ -444,8 +448,8 @@ void maxit::slotInstructions(void)
 		"and row are exhausted.</li>"
 		"<li>The player with the highest score wins.</li>"
 		"</ul>"));
-  mb.setStandardButtons(QMessageBox::Ok);
-  mb.exec();
+  mb->setStandardButtons(QMessageBox::Ok);
+  mb->show();
 }
 
 void maxit::slotChangeDifficulty(void)
