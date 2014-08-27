@@ -1,8 +1,9 @@
 1.04 (10/01/2014)
 
 1.  Implemented alpha-beta pruning.
-2.  Review pointers before accessing contents.
-3.  Upgraded Qt to version 5.3.1 on Windows.
+2.  Removed maxit.sh.
+3.  Review pointers before accessing contents.
+4.  Upgraded Qt to version 5.3.1 on Windows.
 
 1.03 (05/03/2014)
 
