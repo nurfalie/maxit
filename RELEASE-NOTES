@@ -14,3 +14,7 @@
 1.  Absorb memory failures.
 2.  Qt has been upgraded to version 4.8.6 on OS X and 5.2.1 on Windows.
 3.  Replaced O3 with Os, that is, optimize for size.
+
+1.00 (12/03/2007)
+
+1.  First release.
