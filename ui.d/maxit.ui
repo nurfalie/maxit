@@ -214,7 +214,7 @@ R
      <x>0</x>
      <y>0</y>
      <width>570</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -310,10 +310,10 @@ R
   </action>
   <action name="action_Show_Hint">
    <property name="text">
-    <string>Show &amp;Hint</string>
+    <string>Sho&amp;w Hint</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+H</string>
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>

@@ -3,7 +3,7 @@
 1.  Removed maxit.sh.
 2.  Reset the side member variable in glpiece::reset().
 3.  Review pointers before accessing contents.
-4.  Upgraded Qt to version 5.3.1 on Windows.
+4.  Upgraded Qt to version 5.3.1 on OS X and Windows.
 
 1.03 (05/03/2014)
 

@@ -9,13 +9,14 @@ maxit::maxit(void):QMainWindow()
   QActionGroup *ag2 = 0;
   QActionGroup *ag3 = 0;
   int suitableH =
-    size * (static_cast<int> (glpiece::CUBE_SIZE - 0.25 * glpiece::CUBE_SIZE));
+    size * (static_cast<int> (glpiece::CUBE_SIZE -
+			      0.25 * glpiece::CUBE_SIZE));
 
   setupUi(this);
 #ifdef Q_OS_WIN
-  themepath = QDir::current().path() + "\\images.d\\ubuntu.d\\";
+  themepath = QDir::currentPath() + "\\images.d\\ubuntu.d\\";
 #else
-  themepath = QDir::current().path() + "/images.d/ubuntu.d/";
+  themepath = QDir::currentPath() + "/images.d/ubuntu.d/";
 #endif
   ag1 = new QActionGroup(this);
   ag2 = new QActionGroup(this);
