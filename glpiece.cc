@@ -56,6 +56,7 @@ void glpiece::reset(const int valueArg)
 	  rotateBy(15 * 10, -25 * 10, 15 * 10);
       }
 
+  side = CUBE_SIZE;
   makeCurrent();
   resizeGL(width(), height());
   updateGL();

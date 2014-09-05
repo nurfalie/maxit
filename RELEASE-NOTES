@@ -1,7 +1,7 @@
-1.04 (10/01/2014)
+1.04 (09/05/2014)
 
-1.  Implemented alpha-beta pruning.
-2.  Removed maxit.sh.
+1.  Removed maxit.sh.
+2.  Reset the side member variable in glpiece::reset().
 3.  Review pointers before accessing contents.
 4.  Upgraded Qt to version 5.3.1 on Windows.
 
