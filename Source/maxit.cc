@@ -14,9 +14,9 @@ maxit::maxit(void):QMainWindow()
 
   setupUi(this);
 #ifdef Q_OS_WIN
-  themepath = QDir::currentPath() + "\\images.d\\ubuntu.d\\";
+  themepath = QDir::currentPath() + "\\Images\\ubuntu.d\\";
 #else
-  themepath = QDir::currentPath() + "/images.d/ubuntu.d/";
+  themepath = QDir::currentPath() + "/Images/ubuntu.d/";
 #endif
   ag1 = new QActionGroup(this);
   ag2 = new QActionGroup(this);
@@ -102,7 +102,7 @@ maxit::maxit(void):QMainWindow()
   boardframe->setLayout(qgl);
   boardframe->setMinimumSize(suitableH, suitableH);
   resize(boardframe->minimumSize());
-  setWindowIcon(QIcon("images.d/maxit.png"));
+  setWindowIcon(QIcon("Images/maxit.png"));
   show();
   update();
 }
@@ -401,9 +401,9 @@ void maxit::slotChangeTheme(void)
   QString tmpstr("");
 
 #ifdef Q_OS_WIN
-  startpath = "\\images.d\\";
+  startpath = "\\Images\\";
 #else
-  startpath = "/images.d/";
+  startpath = "/Images/";
 #endif
 
   if(!(tmpstr = QFileDialog::getExistingDirectory

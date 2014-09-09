@@ -14,7 +14,7 @@ section
 setOutPath $INSTDIR
 
 # Specify files to go in output path.
-file /r release\images.d
+file /r release\Images
 file release\*.dll
 file release\Maxit.exe
 file THEMES

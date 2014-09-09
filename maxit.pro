@@ -1,4 +1,4 @@
-purge.commands = rm -f *~ && rm -f include.d/*~ && rm -f ui.d/*~
+purge.commands = rm -f *~ && rm -f Include/*~ && rm -f UI/*~
 
 CONFIG		+= qt release thread warn_on
 LANGUAGE	= C++
@@ -13,18 +13,18 @@ QMAKE_CXXFLAGS_RELEASE += -Os -Wall -Werror -Wextra \
 			  -fPIE -fstack-protector-all -pie
 QMAKE_EXTRA_TARGETS = purge
 
-INCLUDEPATH	+= include.d
+INCLUDEPATH	+= Include
 
-FORMS           = ui.d/maxit.ui
+FORMS           = UI/maxit.ui
 
-HEADERS		= include.d/computer.h \
-		  include.d/glpiece.h \
-		  include.d/maxit.h
+HEADERS		= Include/computer.h \
+		  Include/glpiece.h \
+		  Include/maxit.h
 
-SOURCES		= computer.cc \
-		  glpiece.cc \
-		  maxit.cc \
-		  maxit_main.cc
+SOURCES		= Source/computer.cc \
+		  Source/glpiece.cc \
+                  Source/maxit.cc \
+                  Source/maxit_main.cc
 
 PROJECTNAME	= Maxit
 TARGET		= Maxit
