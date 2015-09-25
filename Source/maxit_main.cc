@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
       Global::qapp = new QApplication(argc, argv);
       Global::maxitptr = new maxit();
     }
-  catch(std::bad_alloc &exception)
+  catch(const std::bad_alloc &exception)
     {
       std::cerr << QObject::tr("Memory allocation error at line ").
 	toStdString()

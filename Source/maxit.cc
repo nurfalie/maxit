@@ -217,7 +217,7 @@ void maxit::slotAbout(void)
 
   mb.setWindowTitle(tr("Maxit: About"));
   mb.setTextFormat(Qt::RichText);
-  mb.setText(tr("<html>Maxit Version 1.04.<br>"
+  mb.setText(tr("<html>Maxit Version 1.05.<br>"
 		"Copyright (c) 2007 - present.<br><br>"
 		"Please visit "
 		"<a href=\"http://maxit.sourceforge.net\">"

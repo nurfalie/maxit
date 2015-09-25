@@ -1,3 +1,8 @@
+1.05 (10/01/2015)
+
+1.  Immutable catch() parameters.
+2.  Upgraded Qt to version 4.8.7 on OS X and 5.5.0 on Windows.
+
 1.04 (09/05/2014)
 
 1.  Removed maxit.sh.
