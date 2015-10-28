@@ -63,26 +63,18 @@ void computer::chooseMove(int &bestRow, int &bestCol, const int row,
   */
 
   for(int i = 0; i < threads.size();)
-    {
-      if(threads.at(i)->isRunning())
-	{
-	  /*
-	  ** Thread i hasn't completed. Wait and test the next thread.
-	  */
-
-	  threads.at(i)->wait(50);
-	  continue;
-	}
-
-      if(threads.at(i)->value() > total)
-	{
-	  total = threads.at(i)->value();
-	  bestCol = threads.at(i)->col();
-	  bestRow = threads.at(i)->row();
-	}
-
+    if(threads.at(i)->isRunning())
+      threads.at(i)->wait(25);
+    else
       i += 1;
-    }
+
+  for(int i = 0; i < threads.size(); i++)
+    if(threads.at(i)->value() > total)
+      {
+	total = threads.at(i)->value();
+	bestCol = threads.at(i)->col();
+	bestRow = threads.at(i)->row();
+      }
 
   while(!threads.isEmpty())
     threads.takeFirst()->deleteLater();

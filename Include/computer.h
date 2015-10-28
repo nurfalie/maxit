@@ -124,7 +124,7 @@ class computer
  private:
   enum
   {
-    COMPUTER,
+    COMPUTER = 0,
     COMPUTER_WIN,
     DRAW,
     HUMAN,
