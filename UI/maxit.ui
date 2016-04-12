@@ -214,7 +214,7 @@ R
      <x>0</x>
      <y>0</y>
      <width>570</width>
-     <height>22</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -278,12 +278,12 @@ R
   </action>
   <action name="action_About">
    <property name="text">
-    <string>&amp;About</string>
+    <string>&amp;About...</string>
    </property>
   </action>
   <action name="action_Instructions">
    <property name="text">
-    <string>&amp;Instructions</string>
+    <string>&amp;Instructions...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
@@ -302,7 +302,7 @@ R
   </action>
   <action name="action_Select_Theme">
    <property name="text">
-    <string>Select &amp;Theme</string>
+    <string>Select &amp;Theme...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+T</string>
