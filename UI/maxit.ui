@@ -277,6 +277,10 @@ R
    </property>
   </action>
   <action name="action_About">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Images/maxit.png</normaloff>../Images/maxit.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;About...</string>
    </property>
