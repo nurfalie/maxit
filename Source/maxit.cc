@@ -99,6 +99,7 @@ maxit::maxit(void):QMainWindow()
       glpieces[i][j] = 0;
 
   prepareBoard();
+  delete boardframe->layout();
   boardframe->setLayout(qgl);
   boardframe->setMinimumSize(suitableH, suitableH);
   resize(boardframe->minimumSize());

@@ -10,7 +10,8 @@ QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS_RELEASE += -Os -Wall -Werror -Wextra \
 			  -Wpointer-arith -Wstack-protector \
 			  -Wstrict-overflow=3 \
-			  -fPIE -fstack-protector-all -pie
+			  -fPIE -fstack-protector-all -pedantic -pie \
+			  -std=c++11
 QMAKE_EXTRA_TARGETS = purge
 
 INCLUDEPATH	+= Include
